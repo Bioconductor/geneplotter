@@ -5,6 +5,6 @@ Author: R. Gentleman
 Description: Some basic functions for plotting genetic data
 Maintainer: Jeff Gentry <jgentry@jimmy.harvard.edu>
 Depends: annotate, Biobase
-Suggests: Rgraphviz, hgu95av2, fibroEset
+Suggests: Rgraphviz, hgu95av2, fibroEset, hu6800
 Uses: hgu133a
 License: LGPL 

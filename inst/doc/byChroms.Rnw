@@ -43,8 +43,8 @@ data package. In this example we will consider using the
 
 <<loaddata>>=
 
- library(annotate)
- library(hu6800)
+ library("annotate")
+ library("hu6800")
  affy <- ls(env=hu6800CHR)
 
  chrs <- multiget(affy, env=hu6800CHR)
