@@ -8,3 +8,5 @@ Depends: R (>= 1.9.0), annotate, Biobase
 Suggests: Rgraphviz, hgu95av2, fibroEset, hu6800
 Uses: hgu133a
 License: LGPL 
+ReleaseLevel: devel
+
