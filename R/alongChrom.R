@@ -67,7 +67,7 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
 
     ## If image plot was requested, split off here
     switch(plotFormat,
-           "image" = return(doACImagePlot(dataEnv, labEnv, 10)),
+           "image" = return(doACImagePlot(dataEnv, labEnv, colors)),
            "local" = return(doACLocalPlot(dataEnv, labEnv, colors)),
            "cumulative" = return(doACCumPlot(dataEnv, labEnv,
                            usedGenes, xloc, colors, lty, type, ...))
@@ -86,7 +86,10 @@ doACImagePlot <- function(dataEnv, labEnv, nCols) {
     nsamp <- ncol(chromExprs)
 
     ## Get the colour mapping
-    d <- dChip.colors(nCols)
+    if( is.numeric(nCols) )
+        d <- dChip.colors(nCols)
+    else
+        d <- nCols
     w <- sort(chromExprs)
     b <- quantile(w,probs=seq(0,1,(1/length(d))))
 
