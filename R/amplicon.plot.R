@@ -34,14 +34,20 @@ amplicon.plot <- function(ESET, FUN, genome ) {
 
     whichChrom <- unlist(multiget(gnames, env=hgu95Chrom))
     ##split these by chromosome
-    byChr.pv <- split(igenes.pvals, whichChrom)
-    byChr.stat <- split(igenes.stats, whichChrom)
+    byChr.pv <- split(tests.pvals, whichChrom)
+    byChr.stat <- split(tests.stats, whichChrom)
 
     byChr.pv$"NA" <- NULL
     byChr.stat$"NA" <- NULL
 
     chromOrd <- make.chromOrd(genome)
     nchrom <- length(chromOrd)
+
+    geneOrd <- c(1:22,"X","Y")
+    chromOrd <- chromOrd[geneOrd]
+    byChr.pv <- byChr.pv[geneOrd]
+    byChr.stat <- byChr.stat[geneOrd]
+
     print("patience.....")
     chrlens <- sapply(chromOrd, length)
 
@@ -64,6 +70,6 @@ amplicon.plot <- function(ESET, FUN, genome ) {
     z<- as.matrix(z)
     image(z, col=c("blue","white", "red"), xlab="Gene location",
           ylab="Chromosome", axes=FALSE )
-    axis(2, at = (0:(nchrom-1)/nchrom, labels=names(byChr.pv))
+    axis(2, at = (0:(nchrom-1))/nchrom, labels=names(byChr.pv))
 }
 
