@@ -3,9 +3,8 @@
 
 #Cheng Li's Red/Blue color scheme
 
-RGB <- function(x,y,z) rgb(x/255,y/255,z/255)
-
 GetColor <- function(value, GreenRed=FALSE, DisplayRange=3) {
+    RGB <- function(x,y,z) rgb(x/255,y/255,z/255)
     missing <- is.na(value)
     good <- value[!missing]
     ans <- value
