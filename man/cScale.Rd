@@ -8,7 +8,7 @@
   factors for each chromosome.
 }
 \usage{
-cScale(points, cLengths, method=c("relative","max"), chrom)
+cScale(points, cLengths, method=c("max", "relative"), chrom)
 }
 \arguments{
   \item{points}{The number of points to scale the chromosome length to.}

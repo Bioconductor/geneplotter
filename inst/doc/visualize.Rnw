@@ -5,7 +5,7 @@
 
 
 % \VignetteIndexEntry{Visualization of Microarray Data}
-% \VignetteDepends{geneplotter, ctest, hgu95av2}
+% \VignetteDepends{geneplotter, stats, hgu95av2}
 % \VignetteKeywords{Expression Analysis}
 %\VignettePackage{geneplotter}
 \documentclass{article}
@@ -67,7 +67,7 @@ We will use the example data in \Robject{eset} to show how this function
 might be used.
 
 <<>>=
-library(ctest)
+library(stats)
 data(eset)
 mytt <- function(y) {
       ys <- split( y, cov2 )

@@ -1,8 +1,8 @@
 Package: geneplotter
 Title: Geneplotter: plot microarray data
-Version: 1.3.1
+Version: 1.3.2
 Author: R. Gentleman
 Description: Some basic functions for plotting genetic data
 Maintainer: Jeff Gentry <jgentry@jimmy.harvard.edu>
-Depends: annotate, Biobase, ctest
+Depends: annotate, Biobase, stats
 License: LGPL 
