@@ -2,7 +2,7 @@
 \alias{alongChrom}
 \title{A function for plotting expression data from an exprset for a
   given chromosome. }
-\description {
+\description{
   Given a particular exprset object, a chromLocation object, and a
   chromosome name - will plot the cumulative sum of the data for all
   the genes from the desired chromosome for each patient in the

@@ -1,7 +1,7 @@
 \name{cColor}
 \alias{cColor}
 \title{A function for marking specific genes on a cPlot. }
-\description {
+\description{
   Given a set of genes, will highlight them in the color desired on
   a plot which has already been created via the function cPlot().
 }

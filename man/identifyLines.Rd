@@ -2,7 +2,7 @@
 \alias{identifyLines}
 \title{A function for identifying sample lines on an alongChrom()
   plot. }
-\description {
+\description{
   Given an environment returned from alongChrom(), will call identify()
   on the alongChrom() plot.
 }

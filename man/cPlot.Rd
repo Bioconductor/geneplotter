@@ -1,7 +1,7 @@
 \name{cPlot}
 \alias{cPlot}
 \title{A plotting function for chromosomes. }
-\description {
+\description{
   Given a chromLocation object, will plot all the gene locations from
   that object.
 }
