@@ -5,82 +5,44 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
                                "zrobustscale")[1],
                        lty=1, colors="red", ...) {
 
-    ## !!!!!! TODO
-    ## - Give a warning if requested genes are snipped out
-    ## - If the resultant length of usedGEnes from snipping is 1, just
-    ##   plot it striahgt up
-    ## - "physical" locations do not work with image plotting
-    ## currently, only equispaced
-
-
-    ## !!! Most likely should rework alongChrom at some point, as it
-    ## !!! been cobbled together over time due to feature creep
-
     ## Will plot a set of exprset samples by genes of a chromosome
     ## according to their expression levels.
+
     ## Get the genes to display
     usedGenes <- usedChromGenes(eSet, chrom, specChrom)
 
-    ## Limit the x plotting region by the xlim argument, wehther it be
-    ## a numerical range, or a vector of gene names.
+    ## Limit genes to requested range
     if (!missing(xlim)) {
-        if (length(xlim) == 2) {
-            if (is.character(xlim)) {
-                ## If a pair of gene names are provided, get hteir
-                ## locations, and then use them as the xlim values.
-                xlim[1] <- as.numeric(usedGenes[xlim[1]])
-                xlim[2] <- as.numeric(usedGenes[xlim[2]])
-                if ((is.na(xlim[1]))|(is.na(xlim[2]))) {
-                    print("Error: Bad xlim parameters provided.")
-                    xlim[1] = 0
-                    xlim[2] = 0
-                    usedGenes <- NULL
-                }
-                ## Place them in proper numerical order
-                xlim <- xlim[order(xlim)]
-            }
-
-            ## At this point, we're dealing with a pair of numerical
-            ## values to denote the location range (in base pairs).
-            ## Ensure that the max is > than the min, then pick out
-            ## the remaining genes
-            if (xlim[2] > xlim[1]) {
-                usedGenes <-
-                    usedGenes[(usedGenes>=xlim[1])&(usedGenes<=xlim[2])]
-            }
-            else {
-                print("Error: Bad xlim parameters provided.")
-                usedGenes <- NULL
-            }
-        }
-        else {
-            print("Error: Bad xlim parameters provided.")
-            usedGenes <- NULL
-        }
+        usedGenes <- .limitXRange(xlim)
     }
 
-    ## If provided, select out only the genes specified by the
-    ## whichGenes argument
+    geneNames <- names(usedGenes)
+
+    ## Select out requested genes
     if (!missing(whichGenes)) {
-        usedGenes <- usedGenes[names(usedGenes) %in% whichGenes]
+        nameLocs <- geneNames %in% whichGenes
+        if (!all(nameLocs)) {
+            print("Warning: Not all requested genes are displayed.")
+        }
+        usedGenes <- usedGenes[nameLocs]
+        geneNames <- names(usedGenes)
     }
 
+    nGenes <- length(usedGenes)
+    if (nGenes == 0) {
+        .emptyACPlot(chrom)
+        return()
+    }
+    else if (nGenes == 1) {
+        ## !!!! TODO: Plot the single value as is
+        paste("Only gene to be plotted: ",
+              geneNames,":",as.numeric(abs(usedGenes)),sep="")
+    }
 
     ## Get the expression data, cumulative or otherwise
     chromExprs <- .getExprs(eSet, usedGenes, plotFormat,scale)
 
-    ## If an image plot was requested, the function becomes vastly
-    ## different from this point on - pass the relevant data to
-    ## .doImagePlot(), and return
-    if (plotFormat == "image") {
-        return(.doImagePlot(chromExprs, chrom, names(usedGenes),
-                            scale, 10))
-    }
-
-    ## Create the labels for the plots
-
-    ## The Y axis label varies according to if we're taking
-    ## cumulative sums or not
+    ## Create labels for plotting
     if (plotFormat == "cumulative") {
         ylab <- "Cumulative expression levels"
     }
@@ -88,44 +50,23 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
         ylab <- "Expression levels"
     }
     xlab <- "Representative Genes"
+    main <- .buildMainLabel(ylab, chrom, xloc, scale)
 
-    ## Plot data
+    ## If image plot was requested, split off here
+    if (plotFormat == "image") {
+        return(.doImagePlot(chromExprs, chrom, geneNames, scale, main,
+                            xlab, 10))
+    }
+
+    ## Define the points for the x axis
     if (xloc == "equispaced") {
-        if (length(usedGenes) != 0) {
-            xPoints <- length(names(usedGenes)) - 1
-            xPoints <- 0:xPoints
-        }
-
-        ## Build main label
-        main <- paste(ylab,"by genes in chromosome",chrom)
-        main <- paste(main,"\nscaling method:",sep="")
-        main <- paste(main,scale,"\n")
+        xPoints <- length(geneNames) - 1
+        xPoints <- 0:xPoints
     }
-    else {
-        if (length(usedGenes) != 0) {
-            xPoints <- as.numeric(abs(usedGenes)) + 1
-        }
-
-        ## Build main label
-        main <- paste(ylab,"in chromosome",chrom,
-                      "by relative position\nscaling method:",scale,"\n")
+    else if (xloc == "relative") {
+        xPoints <- as.numeric(abs(usedGenes)) + 1
     }
-
-    if (length(usedGenes) == 0) {
-        plot.new()
-        axis(1,labels=rep("NA",6))
-        axis(2, labels=rep("NA",6))
-        main <- paste("Plot empty, no genes from chromosome",chrom,
-                      "in exprSet provided.\n")
-
-        title(main = main)
-        return()
-    }
-
-
-    ## In the case of local expression graphs, the labels are
-    ## shifted over by half a point, so we need to create a fake X
-    ## point on the end
+    ## Local plots are shifted over, so create a faxe xPoint on the end
     if (plotFormat == "local") {
         chromExprs <- rbind(chromExprs,chromExprs[length(xPoints),])
         xPoints <- c(xPoints,xPoints[length(xPoints)]+1)
@@ -138,21 +79,9 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
     ## Plot the graph
     opar <- par(mar=c(6,5,4,1),mgp=c(4,1,0))
     on.exit(par(opar))
-
     matplot(xPoints, chromExprs, type="S", lty=lty, col=colors,
             xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,...)
-
-    ## Make sure that xPoints isn't exceeding our visual maximum.
-    ## If so, reduce the number of poitns to actually be displayed.
-    dispXPoints <- .cullXPoints(xPool)
-    dispPointLocs <- match(dispXPoints,xPoints)
-
-    if (plotFormat == "local") {
-        dispXPoints <- dispXPoints+0.5
-    }
-
-    axis(1, at=dispXPoints, labels = names(usedGenes)[dispPointLocs], las=2,
-         cex.axis=0.7,)
+    .dispXAxis(xPoints, xPool, geneNames, plotFormat)
 
     ## Create an environment that contains the necessary X & Y points
     ## for use with identify()
@@ -178,18 +107,26 @@ identifyLines <- function(identEnvir, ...) {
     return(x)
 }
 
-.doImagePlot <- function(exprs,chrom, geneNames, scale, nCols) {
+.dispXAxis <- function(xPoints, xPool, geneNames, plotFormat) {
+
+    ## Make sure that xPoints isn't exceeding our visual maximum.
+    ## If so, reduce the number of poitns to actually be displayed.
+    dispXPoints <- .cullXPoints(xPool)
+    dispPointLocs <- match(dispXPoints,xPoints)
+
+    if (plotFormat == "local") {
+        dispXPoints <- dispXPoints+0.5
+    }
+
+    axis(1, at=dispXPoints, labels = geneNames[dispPointLocs], las=2,
+         cex.axis=0.7,)
+}
+
+.doImagePlot <- function(exprs,chrom, geneNames, scale, main, xlab, nCols) {
     ## Passed in the expression matrix, the names of the
     ## used genes, the name of the chromosome, the scaling method & the number
     ## of colours to utilize in the plot, will generate
     ## an image plot
-
-    ## !!! Currently not meshed well w/ alongChrom.  There are a few
-    ## !!! blocks of redundant code shared between them.
-
-    ## !!! Most likely should rework alongChrom at some point, as it
-    ## !!! been cobbled together over time due to feature creep
-
     ngenes <- nrow(exprs)
     nsamp <- ncol(exprs)
 
@@ -199,9 +136,8 @@ identifyLines <- function(identEnvir, ...) {
     b <- quantile(w,probs=seq(0,1,(1/length(d))))
 
     ## Build the labels
-    main <- paste("Expression levels for chromosome",chrom,"by gene location")
-    main <- paste(main,"\nscaling method:",scale)
-    xlab="Gene Locations"
+    main <- main
+    xlab <- xlab
     ylab="Samples"
 
     ## Build the plot
@@ -211,11 +147,7 @@ identifyLines <- function(identEnvir, ...) {
           xlab=xlab, ylab=ylab, main=main, axes=FALSE)
     axis(2, at=1:nsamp, labels=colnames(exprs))
 
-    dispXPoints <- .cullXPoints(xPoints)
-    dispPointLocs <- match(dispXPoints, xPoints)
-
-    axis(1, at=dispXPoints, labels=geneNames[dispPointLocs],
-    las=2, cex.axis=0.7)
+    .dispXAxis(xPoints, xPoints, geneNames, "image")
 
     ## Create an environment that contains the necessary X & Y points
     ## for use with identify()
@@ -224,6 +156,46 @@ identifyLines <- function(identEnvir, ...) {
     ##    identEnv <- new.env()
     ##    multiassign(c("X","Y"),list(xPoints,exprs),envir=identEnv)
     ##    return(identEnv)
+}
+
+.limitXRange <- function(xlim) {
+
+    if (!missing(xlim)) {
+        if (length(xlim) == 2) {
+            if (is.character(xlim)) {
+                ## If a pair of gene names are provided, get hteir
+                ## locations, and then use them as the xlim values.
+                xlim[1] <- as.numeric(usedGenes[xlim[1]])
+                xlim[2] <- as.numeric(usedGenes[xlim[2]])
+                if ((is.na(xlim[1]))|(is.na(xlim[2]))) {
+                    print("Error: Bad xlim parameters provided.")
+                    xlim[1] = 0
+                    xlim[2] = 0
+                    usedGenes <- NULL
+                }
+                ## Place them in proper numerical order
+                xlim <- xlim[order(xlim)]
+            }
+            ## At this point, we're dealing with a pair of numerical
+            ## values to denote the location range (in base pairs).
+            ## Ensure that the max is > than the min, then pick out
+            ## the remaining genes
+            if (xlim[2] > xlim[1]) {
+                usedGenes <-
+                    usedGenes[(usedGenes>=xlim[1])&(usedGenes<=xlim[2])]
+            }
+            else {
+                print("Error: Bad xlim parameters provided.")
+                usedGenes <- NULL
+            }
+        }
+        else {
+            print("Error: Bad xlim parameters provided.")
+            usedGenes <- NULL
+        }
+    }
+
+    return(usedGenes)
 }
 
 .scaleData <-
@@ -283,6 +255,30 @@ identifyLines <- function(identEnvir, ...) {
     }
 
     return(xPoints)
+}
+
+.buildMainLabel <- function(ylab, chrom, xloc, scale) {
+    if (xloc == "relative") {
+        main <- paste(ylab, "in chromosome", chrom,
+                      "by relative position\n")
+    }
+    else {
+        main <- paste(ylab, "by genes in chromosome", chrom, "\n")
+    }
+
+    main <- paste(main,"scaling method:",scale,"\n")
+
+    return(main)
+}
+
+.emptyACPlot <- function(chrom) {
+    plot.new()
+    axis(1,labels=rep("NA",6))
+    axis(2, labels=rep("NA",6))
+    main <- paste("Plot empty, no genes from chromosome",chrom,
+                  "in exprSet provided.\n")
+
+    title(main = main)
 }
 
 .getExprs <- function(eSet, usedGenes,
