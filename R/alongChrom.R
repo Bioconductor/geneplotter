@@ -229,7 +229,7 @@ identifyLines <- function(identEnvir, ...) {
     chromExprs <- .scaleData(chromExprs,scale)
 
     if (plotFormat == "cumulative") {
-
+        chromExprs <- t(chromExprs)
         ## Fill the matrix with the cumulative sum of the expression
         chromExprs <- apply(chromExprs, 1, cumsum)
     }
