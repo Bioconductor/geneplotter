@@ -130,6 +130,7 @@ doACImagePlot <- function(dataEnv, labEnv, nCols) {
         axis(2, at=1:nsamp, labels=colnames(chromExprs))
         dispACXaxis(xPoints, dataEnv, "image")
     }
+    invisible(chromExprs)
 }
 
 doACMatPlot <- function(xPoints, dataEnv, xlim, ylim, type, lty, col,
@@ -195,6 +196,7 @@ doACLocalPlot <- function(dataEnv, labEnv, colors) {
                 ylab=ylab, main=main, cex.lab=0.9, xaxt="n")
         dispACXaxis(xPoints, dataEnv)
     }
+    invisible(envVals$chromExprs)
 }
 
 doACCumPlot <- function(dataEnv, labEnv, usedGenes, xloc, colors, lty, type,
