@@ -1,6 +1,5 @@
 .First.lib <- function(libname, pkgname, where)
  { require(methods)
-   require(mva)
   if(missing(where)) {
         where <- match(paste("package:", pkgname, sep=""), search())
         if(is.na(where)) {
@@ -10,5 +9,4 @@
         where <- pos.to.env(where)
     }
    .initClasses(where)
-   .initClasses2(where)
 }
