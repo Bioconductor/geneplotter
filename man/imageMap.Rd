@@ -68,26 +68,41 @@ the connection \code{con}.}
 \author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
 \keyword{manip}
 \examples{
-fhtml  <- tempfile()
-fpng   <- tempfile()
+f1  = paste(tempfile(), ".html", sep="")
+f2  = paste(tempfile(), ".html", sep="")
+fpng = tempfile()
 
 if(capabilities()["png"] && interactive()) {
-  width <- height <- 512
+  ## create the image
+  width  = 512
+  height = 80
   png(fpng, width=width, height=height)
   par(mai=rep(0,4))
-  plot(0, xlim=c(0, width-1), ylim=c(0, height-1), xaxs="i", yaxs="i",
-       type="n")
-  coord=cbind(c(100,360),c(400, 50),c(200,460),c(500,150))
-  rect(coord[,1], height-coord[,2], coord[,3], height-coord[,4], col=c("#1f77b4", "#b2df8a"))
+  plot(0, xlim=c(0,width-1),ylim=c(0,height-1),xaxs="i",yaxs="i",type="n",bty="n")
+  coord=cbind(c( 12,200,378),
+              c(  4, 28, 14),
+              c(126,300,506),
+              c( 56, 67, 47))
+  rect(coord[,1], height-coord[,2], coord[,3], height-coord[,4],
+       col=c("#1f77b4", "#b2df8a","#E41A1C"))
   dev.off()
 
-  con <- openHtmlPage(fhtml, "Hello world")
-  imageMap(con, fpng, coord=coord, 
-    url=paste("http://", c("link1", "link2"), sep=""),
-    tooltips=c("Blue box", "Green box"))
-  closeHtmlPage(con)
+  ## create the frame set
+  cat("<html><head><title>Hello world</title></head>\n",
+      "<frameset rows=\"120,*\" border=\"0\">\n",
+      "<frame name=\"banner\" src=\"file://", f2, "\">\n",
+      "<frame name=\"main\" scrolling=\"auto\">",
+      "</frameset>", sep="",file=f1)
 
-  cat("Now have a look at file ", fhtml, ".html with your browser.\n", sep="")
+  ## create the image map
+  con = file(f2, open="w")
+  imageMap(coord, con,
+    list(HREF=paste("http://", c("www.bioconductor.org", "www.r-project.org","www.ebi.ac.uk"), sep=""),
+         TITLE=c("Blue box", "Green box", "Red box"),
+         TARGET=c("main", "main","new")), fpng)
+  close(con)
+
+  cat("Now have a look at file ", f1, " with your browser.\n", sep="")
 }
 }
 
