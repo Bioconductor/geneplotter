@@ -13,7 +13,7 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
 
     ## Limit genes to requested range
     if (!missing(xlim)) {
-        usedGenes <- .limitXRange(xlim)
+        usedGenes <- .limitXRange(xlim, usedGenes)
     }
 
     geneNames <- names(usedGenes)
@@ -34,9 +34,10 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
         return()
     }
     else if (nGenes == 1) {
-        ## !!!! TODO: Plot the single value as is
-        paste("Only gene to be plotted: ",
-              geneNames,":",as.numeric(abs(usedGenes)),sep="")
+        ## !!!! TODO: Plot the single value as is instead of this
+        x <- paste("Only gene to be plotted: ",
+                   geneNames,":",as.numeric(abs(usedGenes)),sep="")
+        stop(x)
     }
 
     ## Get the expression data, cumulative or otherwise
@@ -63,7 +64,7 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
         xPoints <- length(geneNames) - 1
         xPoints <- 0:xPoints
     }
-    else if (xloc == "relative") {
+    else if (xloc == "physical") {
         xPoints <- as.numeric(abs(usedGenes)) + 1
     }
     ## Local plots are shifted over, so create a faxe xPoint on the end
@@ -158,7 +159,7 @@ identifyLines <- function(identEnvir, ...) {
     ##    return(identEnv)
 }
 
-.limitXRange <- function(xlim) {
+.limitXRange <- function(xlim, usedGenes) {
 
     if (!missing(xlim)) {
         if (length(xlim) == 2) {
