@@ -1,21 +1,5 @@
 .getCum <- function(eSet, chrom, specChrom) {
 
-    # Extract the gene names of the chromosome of interest
-    cLocs <- chromLocs(specChrom)
-    genes <- cLocs[[chrom]]
-
-    # Extract out of the expr set the genes that belong on this chrom
-    usedGenes <- genes[names(genes) %in% geneNames(eSet)]
-    chromExprs <- eSet@exprs[names(usedGenes),]
-
-    # Order the columns by the ordering (by location) of the genes
-    ord <- order(abs(usedGenes))
-    chromExprs <- t(chromExprs[ord,])
-
-    # Fill the matrix with the cumulative sum of the expression
-    chromExprs <- apply(chromExprs, 1, cumsum)
-
-    return(chromExprs)
 }
 
 
@@ -36,16 +20,10 @@ alongChrom <- function(eSet, chrom, specChrom, index=TRUE, cumul=TRUE,
         chromExprs <- t(chromExprs[ord,])
         ## Fill the matrix with the cumulative sum of the expression
         chromExprs <- apply(chromExprs, 1, cumsum)
-    }
-    else {
-        chromExprs <- chromExprs[ord,]
-    }
-
-    ## Create the Y label based on if this is cumulative or not
-    if (cumul == TRUE) {
         ylab <- "Cumulative expression levels"
     }
     else {
+        chromExprs <- chromExprs[ord,]
         ylab <- "Expression levels"
     }
 

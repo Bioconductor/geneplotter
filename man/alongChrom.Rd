@@ -1,5 +1,5 @@
-\name{cumChrom}
-\alias{cumChrom}
+\name{alongChrom}
+\alias{alongChrom}
 \title{A function for plotting cumulative expression data from an
   exprset for a given chromosome. }
 \description {
@@ -8,7 +8,7 @@
   the genes from the desired chromosome for each patient in the exprset.
 }
 \usage{
-cumChrom(eSet, chrom, specChrom, lTypes="1", colors="red")
+alongChrom(eSet, chrom, specChrom, lTypes="1", colors="red")
 }
 \arguments{
   \item{eSet}{The exprset object to be used.}
@@ -33,7 +33,7 @@ cumChrom(eSet, chrom, specChrom, lTypes="1", colors="red")
    data(hgChromClass)
    lty <- c(1, 2, 3, 4, 5)
    cols <- c("red", "green", "blue", "orange", "magenta", "black")
-   cumChrom(eset, "1", hgChromClass, lty, cols)
+   alongChrom(eset, "1", hgChromClass, lty, cols)
 }
 \keyword{utilities}
 

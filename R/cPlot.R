@@ -26,6 +26,8 @@ cColor <- function(genes, color, plotChroms) {
     # chromLocation class.  Will recolor the specific genes in the
     # cPlot created plot to match the specified color
 
+    xPoints <- 1000
+
     # Get the chromLocs listing from the chromLocation class
     locList <- chromLocs(plotChroms)
 
