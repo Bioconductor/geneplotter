@@ -36,7 +36,7 @@ amplicon.plot <- function(ESET, FUN, genome="hgu95A" ) {
     if( !exists(dname, mode="environment") )
         do.call("data", list(dname))
 
-    whichChrom <- unlist(multiget(geneNames(ESET), env=get(dname),
+    whichChrom <- unlist(mget(geneNames(ESET), env=get(dname),
                                   ifnotfound=NA))
     ##split these by chromosome
     byChr.pv <- split(tests.pvals, whichChrom)
