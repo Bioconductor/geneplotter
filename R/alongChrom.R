@@ -42,7 +42,8 @@
 }
 
 .scaleData <-
-    function(chromData, method=c("none","zscale","rangescale","madscale")[1])
+    function(chromData,
+    method=c("none","zscale","rangescale","madscale", "zscorescale")[1])
 {
     ## Will scale the data set to be plotted based on a variety of
     ## methods
@@ -58,9 +59,11 @@
                 curScale <- curRange[1] / (curRange[2] - curRange[1])
                 chromData[i,] <- x - curScale
             }
-            else if (method == "madscale")
-            {
+            else if (method == "madscale") {
                 chromData[i,] <- x/mad(x)
+            }
+            else if (method == "zscorescale") {
+                chromData[i,] <- (x - median(x))/mad(x)
             }
         }
     }
@@ -71,7 +74,8 @@
 alongChrom <- function(eSet, chrom, specChrom,
                        xloc=c("equispaced", "physical")[1],
                        plotFormat=c("cumulative", "local")[1],
-                       scale=c("none","zscale","madscale","rangescale")[1],
+                       scale=c("none","zscale","madscale","rangescale",
+                               "zscorescale")[1],
                        lTypes="1", colors="red", ...) {
 
     ## Will plot a set of exprset samples by genes of a chromosome

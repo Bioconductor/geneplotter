@@ -45,7 +45,7 @@ scale=c("none","zscale","madscale","rangescale")[1], lTypes="1", colors="red",..
    par(ask=T) # this gets you away from using the mouse to advance the plots
    for (xl in c("equispaced", "physical"))
     for (fo in c("cumulative", "local"))
-     for (sc in c("none","rangescale","madscale","zscale"))
+     for (sc in c("none","rangescale","madscale","zscale","zscorescale"))
      {
         alongChrom(eset, "1", hgu95ProbLocs, xloc=xl, plotFormat=fo,
                    scale=sc,lty, cols)
