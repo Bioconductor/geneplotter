@@ -100,6 +100,9 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
         mfPar <- par(mfrow = c(2,1))
         on.exit(par(mfPar))
 
+        ## Perhaps use an environment to store all these values (here
+        ## and the .doMatPlot calls, as the envs are passed by ref).
+        ## This is ugly
         posExprs <- chromExprs[which(strands=="+"),]
         negExprs <- chromExprs[which(strands=="-"),]
         posPoints <- xPoints[strands %in% "+"]
@@ -108,8 +111,10 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
         if (xloc == "physical") {
             pts <- which(xPoints %in% posPoints)
             nts <- which(xPoints %in% negPoints)
-            posDup <- posPoints[dup]
-            negDup <- negPoints[dup]
+            posDup <- posPoints[pts %in% dup]
+            posDup <- which(posPoints==posDup)
+            negDup <- negPoints[nts %in% dup]
+            negDup <- which(negPoints==negDup)
         }
         else {
             pts <- posPoints+1
@@ -183,18 +188,22 @@ identifyLines <- function(identEnvir, ...) {
                        xlab, ylab, xaxt, main, cex, dup,
                        plotFormat, geneNames, strands, xloc, ...) {
 
-    matplot(xPoints, chromExprs, xlim=xlim, type=type, lty=lty, col=col,
+    ylim <- range(chromExprs)
+    ylim[1] <- ylim[1]-0.1
+    matplot(xPoints, chromExprs, xlim=xlim, ylim=ylim,type=type, lty=lty, col=col,
             xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,...)
 
     .dispXAxis(xPoints, geneNames, plotFormat,strands)
 
+    y <- min(chromExprs)-0.1
+
     dup <- dup[!is.na(dup)]
     if (any(dup)) {
         if (xloc == "equispaced") {
-            segments(dup-2,1,dup-1,1,col="cyan",lwd=2)
+            segments(dup-2,y,dup-1,y,col="cyan",lwd=2)
         }
         else {
-            segments(xPoints[dup-1],1,xPoints[dup],1,col="cyan",lwd=2)
+            segments(xPoints[dup-1],y,xPoints[dup],y,col="cyan",lwd=2)
         }
     }
 }
