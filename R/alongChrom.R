@@ -40,10 +40,6 @@ alongChrom <- function(eSet, chrom, specChrom,
                       "by relative position\nscaling method:",scale,"\n")
     }
 
-    ## Make sure that xPoints isn't exceeding our visual maximum.
-    ## If so, reduce the number of poitns to actually be displayed.
-    dispXPoints <- .cullXPoints(xPoints)
-    dispPointLocs <- match(dispXPoints,xPoints)
 
     ## In the case of local expression graphs, the labels are
     ## shifted over by half a point, so we need to create a fake X
@@ -51,6 +47,10 @@ alongChrom <- function(eSet, chrom, specChrom,
     if (plotFormat == "local") {
         chromExprs <- rbind(chromExprs,chromExprs[length(xPoints),])
         xPoints <- c(xPoints,xPoints[length(xPoints)]+1)
+        xPool <- xPoints[1:length(xPoints)-1]
+    }
+    else {
+        xPool <- xPoints
     }
 
     ## Plot the graph
@@ -59,9 +59,16 @@ alongChrom <- function(eSet, chrom, specChrom,
 
     matplot(xPoints, chromExprs, type="S", lty=lTypes, col=colors,
             xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,...)
+
+    ## Make sure that xPoints isn't exceeding our visual maximum.
+    ## If so, reduce the number of poitns to actually be displayed.
+    dispXPoints <- .cullXPoints(xPool)
+    dispPointLocs <- match(dispXPoints,xPoints)
+
     if (plotFormat == "local") {
         dispXPoints <- dispXPoints+0.5
     }
+
     axis(1, at=dispXPoints, labels = names(usedGenes)[dispPointLocs], las=2,
          cex.axis=0.7,)
 
