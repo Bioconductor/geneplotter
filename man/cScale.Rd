@@ -8,7 +8,7 @@
   factors for each chromosome.
 }
 \usage{
-cScale(points, cLengths, method=c("max","relative"), chrom)
+cScale(points, cLengths, method=c("relative","max"), chrom)
 }
 \arguments{
   \item{points}{The number of points to scale the chromosome length to.}
@@ -18,20 +18,20 @@ cScale(points, cLengths, method=c("max","relative"), chrom)
   \item{chrom}{Which chrom to determine the scale for}
 }
 \details{
-  The scale factor is calculated in a manner based on the "method"
-  argument.  If method is "max", the factor is derived by dividing the
+  The scale factor is calculated in a manner based on the \code{method}
+  argument.  If method is \code{max}, the factor is derived by dividing the
   points argument by each chromosome's length (in base pairs).  If the
-  method chosen is "relative", then the scale is determined by dividing
+  method chosen is \code{relative}, then the scale is determined by dividing
   the points argument by the maximum chromsome length, and applying that
   value to each chromosome.
 }
 \author{Jeff Gentry}
 \seealso{\code{\link{cPlot}}}
 \examples{
-     data(hgCLengths)
+     z <- buildChromLocation("hgu95av2")
 
      for (sc in c("max","relative"))
-       scale <- cScale(1000, hgCLengths,sc,"Y")
+       scale <- cScale(1000, chromLengths(z),sc,"Y")
 }
 \keyword{utilities}
 

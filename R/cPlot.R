@@ -1,10 +1,6 @@
 ## cPlot.R
-## Will read in a tab deliminated file of genome information
-## and proceed to generate a visual representation of the
-## chromosomes.
-
 .plotData <- function(chromNum, locs, xPoints, chromLens, fg,
-                      scale = c("max","relative"),glen=0.4)
+                      scale = c("relative","max"),glen=0.4)
 {
     ## Get the scaling factor
     scale <- match.arg(scale)
@@ -14,17 +10,22 @@
     nlocs <- length(locs)
 
     ## APply the scaling factor to the x positions
-    locs <- locs*scaledX
-
-    ## Determine the direction of the Y plot (+ or -)
     cNum <- match(chromNum, names(chromLens))
-    ypos <- rep(cNum, nlocs)
-    ytop <- ifelse(locs>0, ypos+glen, ypos-glen)
+    locs <- locs*scaledX
+    if (length(locs) == 0) {
+        if (scale == "relative")
+            return()
+    }
+    else {
+        ## Determine the direction of the Y plot (+ or -)
+        ypos <- rep(cNum, nlocs)
+        ytop <- ifelse(locs>0, ypos+glen, ypos-glen)
 
-    ## Plot
-    segments(abs(locs), ypos, abs(locs), ytop, col=fg)
+        ## Plot
+        segments(abs(locs), ypos, abs(locs), ytop, col=fg)
 
-    ## Drawn last to ensure that that the lines are actually displayed
+        ## Drawn last to ensure that that the lines are actually displayed
+    }
     if (scale == "max") {
         lines(c(1,xPoints-1),c(cNum,cNum),col="blue")
     }
@@ -33,26 +34,25 @@
     }
 }
 
-cColor <- function(genes, color, plotChroms,
-                   scale=c("max","relative"), glen=0.4) {
-    ## Passed a vector of gene names, a color and an instance of a
-    ## chromLocation class.  Will recolor the specific genes in the
+cColor <- function(probes, color, plotChroms,
+                   scale=c("relative","max"), glen=0.4) {
+    ## Passed a vector of probe names, a color and an instance of a
+    ## chromLocation class.  Will recolor the specific probes in the
     ## cPlot created plot to match the specified color.  Scale should
     ## be the same as the scale from cPlot
     scale <- match.arg(scale)
     xPoints <- 1000
 
-    gcO <- multiget(genes,env=geneToChrom(plotChroms))
-    gc <- sapply(gcO, function(x) {if( class(x) == "chromLoc") return(chrom(x))
-            return(NA)} )
+    gc <- unlist(multiget(probes,env=probesToChrom(plotChroms)))
     gchr <- split(names(gc),gc)
+
     gchr[["NA"]] <- NULL
 
-    ## Look up the locations of these genes in each chromosome,
+    ## Look up the locations of these probes in each chromosome,
     ## plotting any results.
     locList <- chromLocs(plotChroms)
-
     lens <- chromLengths(plotChroms)
+    names(lens) <- chromNames(plotChroms)
 
     for (cName in names(gchr)) {
         locs <- locList[[cName]][gchr[[cName]]]
@@ -62,12 +62,11 @@ cColor <- function(genes, color, plotChroms,
                       color, scale, glen)
         }
     }
-  }
-
+}
 
 
 cPlot <- function(plotChroms, useChroms=chromNames(plotChroms),
-                  scale=c("max","relative"), fg="white",
+                  scale=c("relative", "max"), fg="white",
                   bg="lightgrey", glen=0.4) {
     ## Passed an instance of a chromLocation class, and the number of
     ## points to represent on the X axis, will utilize that data
@@ -80,20 +79,24 @@ cPlot <- function(plotChroms, useChroms=chromNames(plotChroms),
     labs <- chromNames[chromNames %in% useChroms]
 
     lens <- chromLengths(plotChroms)
-    lens <- lens[chromNames %in% labs]
+    whichLabs <- chromNames %in% labs
+    lens <- lens[whichLabs]
+    names(lens) <- chromNames[whichLabs]
 
     ## Build the initial plot structure
     op <- par(bg=bg)
     plot(c(1, xPoints), c(1-glen,length(labs)+glen), type="n", xlab="",
-         ylab="Chromosomes", axes=FALSE)
+         ylab="Chromosomes", axes=FALSE, las=2, main=organism(plotChroms))
     par(op)
 
-    axis(2, c(1:length(labs)), labs)
+    axis(2, c(1:length(labs)), labs, las=2)
 
-    byChroms <- chromLocs(plotChroms)[labs]
+    chromLocs <- chromLocs(plotChroms)
+    byChroms <- chromLocs[labs]
 
     for (cName in labs) {
-        .plotData(cName,byChroms[[cName]], xPoints, lens, fg, scale,glen);
+        .plotData(cName,byChroms[[cName]], xPoints,
+                  lens, fg, scale,glen);
     }
 }
 

@@ -59,13 +59,13 @@
 }
 \details{
   The genes on the chromosome of interest are extracted from the
-  chromLocation object passed in, which are then intersected with the
+  \code{chromLocation} object passed in, which are then intersected with the
   genes listed in the exprset.  These remaining genes will then be
-  plotted according to the 'plotFormat' argument.  If "image" is
+  plotted according to the \code{plotFormat} argument.  If \code{image} is
   specified, an image plot is created showing the expression levels of
   the samples by gene, using a colour map to denote the levels.  If
-  "cumulative" is chosen, the cumulative expression level is plotted
-  against the genes for each sample.  Likewise, if "local" is used, the
+  \code{cumulative} is chosen, the cumulative expression level is plotted
+  against the genes for each sample.  Likewise, if \code{local} is used, the
   raw data is plotted for each sample against the genes using a boxplot format.
 
   Not all parameters are honored for all plotformats.  \code{xloc},
@@ -75,44 +75,47 @@
 \author{Jeff Gentry}
 \examples{
    data(eset)
-   data(hgu95AProbLocs)
-   lty <- c(1, 2, 3, 4, 5)
-   cols <- c("red", "green", "blue", "orange", "magenta", "black")
-   cols <- cols[eset$cov3]
-   if (interactive()) {
-      par(ask=TRUE)
-   }
+   if (require(hgu95av2)) {
+      z <- buildChromLocation("hgu95av2")
+      lty <- c(1, 2, 3, 4, 5)
+      cols <- c("red", "green", "blue", "orange", "magenta", "black")
+      cols <- cols[eset$cov3]
+      if (interactive()) {
+         par(ask=TRUE)
+      }
 
-   ## Here we're using xlim to denote a physical region to display
-   xlim <- c(87511280,127717880)
-   for (xl in c("equispaced", "physical"))
-     for (sc in c("none","rangescale"))
-     {
-        alongChrom(eset, "1", hgu95AProbLocs, xlim=xlim, xloc=xl,
-           plotFormat="cumulative", scale=sc,lty=lty, col=cols)
-     }
+      ## Here we're using xlim to denote a physical region to display
+      xlim <- c(87511280,127717880)
+      for (xl in c("equispaced", "physical"))
+        for (sc in c("none","rangescale"))
+        {
+           alongChrom(eset, "1", z, xlim=xlim, xloc=xl,
+              plotFormat="cumulative", scale=sc,lty=lty, col=cols)
+        }
 
-  ## Here we're looking for specific genes
-  which <- c("31540_at","31583_at", "31508_at", "31529_at", "31439_f_at",
-            "31729_at")
-  ## Gene "31529_at" does not exist in the current set of genes,
-  ## here it demonstrates ohw genes not available are dropped.
-   for (xl in c("equispaced", "physical"))
-     for (sc in c("none","rangescale"))
-     {
-        alongChrom(eset, "1", hgu95AProbLocs, which=which, xloc=xl,
-           plotFormat="cumulative", scale=sc,lty=lty, col=cols)
-     }
+     ## Here we're looking for specific genes
+     which <- c("31540_at","31583_at", "31508_at", "31529_at", "31439_f_at",
+               "31729_at")
+     ## Gene "31529_at" does not exist in the current set of genes,
+     ## here it demonstrates ohw genes not available are dropped.
+      for (xl in c("equispaced", "physical"))
+        for (sc in c("none","rangescale"))
+        {
+            alongChrom(eset, "1", z, which=which, xloc=xl,
+               plotFormat="cumulative", scale=sc,lty=lty, col=cols)
+         }
 
-  ## Do an image plot
-  for (bs in c(TRUE,FALSE))
-     alongChrom(eset, "1", hgu95AProbLocs, xlim=xlim, plotFormat="image",
-               scale="zscale", byStrand=bs)
+      ## Do an image plot
+      for (bs in c(TRUE,FALSE))
+         alongChrom(eset, "1",z, xlim=xlim, plotFormat="image",
+                   scale="zscale", byStrand=bs)
 
-  ## A boxplot
-  for (st in c(TRUE,FALSE))
-     alongChrom(eset, "1", hgu95AProbLocs, plotFormat="local",
-                colors=cols, byStrand=st)
+      ## A boxplot
+      for (st in c(TRUE,FALSE))
+         alongChrom(eset, "1", z, plotFormat="local",
+                    colors=cols, byStrand=st)
+    } else print("Example can not be run without the hgu95av2 data package")
 }
+  
 \keyword{utilities}
 

@@ -27,7 +27,7 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
     }
     geneNames <- names(usedGenes)
     if (geneSymbols == TRUE) {
-        geneNames <- getACGeneSyms(geneNames)
+        geneNames <- getACGeneSyms(geneNames, specChrom)
     }
     ## Select out requested genes
     if (!missing(whichGenes)) {
@@ -505,9 +505,8 @@ limitACXRange <- function(xlim, usedGenes) {
     return(usedGenes)
 }
 
-getACGeneSyms <- function(affys) {
-    data(hgu95Asym)
-    syms <- multiget(affys, env=hgu95Asym)
+getACGeneSyms <- function(affys, chrObj) {
+    syms <- multiget(affys, env=geneSymbols(chrObj))
     syms[is.na(syms)] <- affys[is.na(syms)]
     return(as.character(syms))
 }

@@ -7,7 +7,7 @@
 }
 \usage{
 cPlot(plotChroms, useChroms=chromNames(plotChroms),
-      scale=c("max","relative"), fg="white", bg="lightgrey", glen=0.4)
+      scale=c("relative","max"), fg="white", bg="lightgrey", glen=0.4)
 }
 \arguments{
   \item{plotChroms}{An object of type chromLocation which contains all
@@ -26,21 +26,22 @@ cPlot(plotChroms, useChroms=chromNames(plotChroms),
 \details{
   This function will first use the lengths of the chromosomes, stored in
   the object to create scaling factors for the X axis.  Once the
-  scaling factors are determined, the chromLocation object which is
+  scaling factors are determined, the \code{chromLocation} object which is
   passed in is used to determine all the gene locations/strand
   information/etc, which is then plotted for the user.
 }
 \author{Jeff Gentry}
-\seealso{\code{\link{cScale}}}
+\seealso{\code{\link{cScale}}, \code{\link{cColor}},
+  \code{\link{chromLocation-class}}}
 \examples{
-     data(hgu95AProbLocs)
+    z <- buildChromLocation("hgu95av2")
 
      if (interactive()) {
        par(ask=TRUE)
      }
 
      for (sc in c("max","relative"))
-       cPlot(hgu95AProbLocs,c("1","5","10","X","Y"),sc)
+       cPlot(z,c("1","5","10","X","Y"),sc)
 }
 \keyword{utilities}
 
