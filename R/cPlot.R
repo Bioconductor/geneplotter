@@ -1,7 +1,8 @@
 ## cPlot.R
 ## Will read in a tab deliminated file of genome information
 ## and proceed to generate a visual representation of the
-## chromosomes.
+#<<
+                                        # chromosomes.
 
 .plotData <- function(chromNum, locs, xPoints, chromLens, color,
                       scale = c("max","relative")[1])
