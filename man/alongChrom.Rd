@@ -5,7 +5,10 @@
 \description {
   Given a particular exprset object, a chromLocation object, and a
   chromosome name - will plot the cumulative sum of the data for all
-  the genes from the desired chromosome for each patient in the exprset.
+  the genes from the desired chromosome for each patient in the
+  exprset.  This function returns an environment which contains
+  information that can be used by the function identifyLines(), which
+  will apply an identify() on the plot.
 }
 \usage{
 alongChrom(eSet, chrom, specChrom,  xloc=c("equispaced", "physical")[1],
@@ -34,7 +37,7 @@ scale=c("none","zscale","rankscale","rangescale","zrobustscale")[1], lTypes="1",
   chromLocation object passed in, which are then intersected with the
   genes listed in the exprset.  These remaining genes will then have
   either their raw expression values or the cumulative sums of these
-  values plotted.
+  values plotted.  
 }
 \author{Jeff Gentry}
 \examples{
@@ -42,15 +45,16 @@ scale=c("none","zscale","rankscale","rangescale","zrobustscale")[1], lTypes="1",
    data(hgu95ProbLocs)
    lty <- c(1, 2, 3, 4, 5)
    cols <- c("red", "green", "blue", "orange", "magenta", "black")
-   par(ask=T) # this gets you away from using the mouse to advance the plots
+   if (interactive()) {
+      par(ask=T) # this gets you away from using the mouse to advance the plots
+   }
    for (xl in c("equispaced", "physical"))
     for (fo in c("cumulative", "local"))
      for (sc in c("none","rangescale","rankscale","zscale","zrobustscale"))
      {
         alongChrom(eset, "1", hgu95ProbLocs, xloc=xl, plotFormat=fo,
                    scale=sc,lty, cols)
-      }
-
+     }
 }
 \keyword{utilities}
 

@@ -22,6 +22,9 @@ cColor(genes, color, plotChroms)
   highlight the desired locations.
 }
 \author{Jeff Gentry}
+\seealso{
+  \code{\link{cPlot}}
+}
 \examples{
      data(hgu95ProbLocs)
      cPlot(hgu95ProbLocs)

@@ -33,12 +33,20 @@
    return(chromExprs)
 }
 
-.identifyLines <- function(xPoints, yPoints) {
+identifyLines <- function(identEnvir, ...) {
     ## Will call identify() on teh alongChrom() plot to detail which
     ## lines map tow which samples
 
-    identify(rep(xPoints,ncol(yPoints)), yPoints,
-             labels=rep(colnames(yPoints), rep(nrow(yPoints),ncol(yPoints))))
+    points <- multiget(c("X","Y"), envir=identEnvir)
+
+    xPoints <- points$X
+    yPoints <- points$Y
+
+    x <- identify(rep(xPoints,ncol(yPoints)), yPoints,
+                  labels=rep(colnames(yPoints),
+                  rep(nrow(yPoints),ncol(yPoints))), ...)
+
+    return(x)
 }
 
 .scaleData <-
@@ -68,6 +76,29 @@
     }
 
     return(chromData)
+}
+
+.cullXPoints <- function(xPoints) {
+    ## Will reduce the xPoints vector to a visibly manageable size
+    ## Currently if the size > 40, will leave every Nth point where
+    ## xPoints/40 = N.
+
+    maxSize <- 40
+
+    if (length(xPoints) > maxSize) {
+        ## Calculate N, and then get the maxSize elements from every
+        ## Nth element.  Problem: Sometiems will generate a few extra
+        ## due to integer division on N.
+        N <- length(xPoints) %/% maxSize
+
+        ## Start from 2 for now as a hack to keep from getting 0th
+        ## entity, which throws off the labeling.
+        keep <- seq(2,length(xPoints),N)
+
+        xPoints <- xPoints[keep]
+    }
+
+    return(xPoints)
 }
 
 alongChrom <- function(eSet, chrom, specChrom,
@@ -116,13 +147,22 @@ alongChrom <- function(eSet, chrom, specChrom,
         main <- paste(main,scale)
     }
 
+    ## Make sure that xPoints isn't exceeding our visual maximum.
+    ## If so, reduce the number of poitns to actually be displayed.
+    dispXPoints <- .cullXPoints(xPoints)
+
     ## Plot the graph
     matplot(xPoints, chromExprs, type="S", lty=lTypes, col=colors,
             xlab="",ylab=ylab, xaxt="n", main=main, cex.lab=0.9, ...)
-    axis(1, at=xPoints, labels = names(usedGenes), las=2,
+    axis(1, at=dispXPoints, labels = names(usedGenes)[dispXPoints], las=2,
          cex.axis=0.7,)
 
-    ## Call identify() on the plot
-##    .identifyLines(xPoints, chromExprs)
+    ## Create an environment that contains the necessary X & Y points
+    ## for use with identify()
+    identEnv <- new.env()
+##    multiassign(c("X","Y"),c(xPoints,chromExprs),envir=identEnv)
+    assign("X", xPoints, envir=identEnv)
+    assign("Y", chromExprs, envir=identEnv)
+    return(identEnv)
 }
 
