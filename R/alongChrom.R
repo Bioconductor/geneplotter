@@ -75,7 +75,7 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
         xPoints <- 0:xPoints
     }
     else if (xloc == "physical") {
-        xPoints <- as.numeric(abs(usedGenes)) + 1
+        xPoints <- abs(as.numeric(usedGenes)) + 1
     }
     ## Local plots are shifted over, so create a faxe xPoint on the end
     if (plotFormat == "local") {
@@ -195,8 +195,18 @@ identifyLines <- function(identEnvir, ...) {
             ## Ensure that the max is > than the min, then pick out
             ## the remaining genes
             if (xlim[2] > xlim[1]) {
-                usedGenes <-
-                    usedGenes[(usedGenes>=xlim[1])&(usedGenes<=xlim[2])]
+                lowLim <- match(xlim[1],usedGenes)
+                if (is.na(lowLim)) {
+                    lowLim <- .getClosestPos(xlim[1],usedGenes)
+                }
+
+                hiLim <- match(xlim[2], usedGenes)
+                if (is.na(hiLim)) {
+                    hiLim <- .getClosestPos(xlim[2],usedGenes)
+                }
+
+                subs <- seq(lowLim,hiLim)
+                usedGenes <- usedGenes[subs]
             }
             else {
                 print("Error: Bad xlim parameters provided.")
@@ -210,6 +220,15 @@ identifyLines <- function(identEnvir, ...) {
     }
 
     return(usedGenes)
+}
+
+.getClosestPos <- function(val, usedGenes) {
+    ## Given a value, finds the closest value in usedGenes to the
+    ## passed value and returns its location in the usedGenes vector
+
+    dists <- abs(val-abs(as.numeric(usedGenes)))
+    closest <- match(min(dists), dists)
+    return(closest)
 }
 
 .scaleData <-
