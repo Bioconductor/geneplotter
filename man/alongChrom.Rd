@@ -11,15 +11,22 @@
   will apply an identify() on the plot.
 }
 \usage{
-alongChrom(eSet, chrom, specChrom,  xlim, xloc=c("equispaced", "physical")[1], plotFormat=c("cumulative", "local")[1],
-scale=c("none","zscale","rankscale","rangescale","zrobustscale")[1],
-lty=1, colors="red",...)
-}
+   alongChrom(eSet, chrom, specChrom,  xlim, whichGenes, 
+   xloc=c("equispaced", "physical")[1], 
+   plotFormat=c("cumulative", "local")[1], 
+   scale=c("none","zscale","rankscale","rangescale","zrobustscale")[1], 
+   lty=1, colors="red",...)}
 \arguments{
   \item{eSet}{The exprset object to be used.}
   \item{chrom}{The desired chromosome.}
   \item{specChrom}{An object of type chromLocation for the species being
     represented.}
+  \item{xlim}{A pair of values - either character or integer, which will
+    denote the range of genes to display (based on base pair: either directly
+    in the case of integers, or using the locations of the named genes if
+    character).  If not supplied, the entire chromosome is used.}
+  \item{whichGenes}{If supplied, will limit the displayed genes to the ones
+    provided in this vector.}
   \item{xloc}{Determines whether the X axis points (gene names) will be
     displayed according to their relative position on the chromosome
     (physical), or spaced evenly (equispaced).  Default is equispaced.}
@@ -55,18 +62,18 @@ lty=1, colors="red",...)
    for (xl in c("equispaced", "physical"))
      for (sc in c("none","rangescale"))
      {
-        alongChrom(eset, "1", hgu95ProbLocs, xlim, xloc=xl,
-           plotFormat="cumulative", scale=sc,lty, cols)
+        alongChrom(eset, "1", hgu95ProbLocs, xlim=xlim, xloc=xl,
+           plotFormat="cumulative", scale=sc,lty=lty, col=cols)
      }
 
   ## Here we're looking for specific genes
-  xlim <- c("31540_at","31583_at", "31508_at", "31529_at", "31439_f_at",
+  which <- c("31540_at","31583_at", "31508_at", "31529_at", "31439_f_at",
             "31729_at")
    for (xl in c("equispaced", "physical"))
      for (sc in c("none","rangescale"))
      {
-        alongChrom(eset, "1", hgu95ProbLocs, xlim, xloc=xl,
-           plotFormat="cumulative", scale=sc,lty, cols)
+        alongChrom(eset, "1", hgu95ProbLocs, which=which, xloc=xl,
+           plotFormat="cumulative", scale=sc,lty=lty, col=cols)
      }
 }
 \keyword{utilities}

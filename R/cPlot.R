@@ -4,7 +4,7 @@
 ## chromosomes.
 
 .plotData <- function(chromNum, locs, xPoints, chromLens, fg,
-                      scale = c("max","relative")[1],glen)
+                      scale = c("max","relative")[1],glen=0.4)
 {
     ## Get the scaling factor
     scale <- cScale(xPoints, chromLens, scale)
