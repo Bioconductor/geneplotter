@@ -1,7 +1,7 @@
 \name{cScale}
 \alias{cScale}
 \title{A function for mapping chromosome length to a number of points. }
-\description {
+\description{
   Given a number of points (generally representing the number of points
   on a plot's axis), and a vector of chromosome lengths - will generate
   a vector of the same length as the one passed in containing scaling
