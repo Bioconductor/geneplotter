@@ -38,11 +38,12 @@
   \item{byStrand}{Determines whether to show the entire plot at once, or
     a split plot by strands.  Default is a singular plot}
   \item{lty}{A vector of line types, which will be cycled. }
+  \item{type}{Plot type, from par.  Defaults to "S".}
   \item{colors}{A vector of colors for the plots, which will be cycled.}
   \item{...}{Any remaining graphics commands may be passed along as per plot()}
 }
 \details{
-  The genes on the chromosome of interst are extracted from the
+  The genes on the chromosome of interest are extracted from the
   chromLocation object passed in, which are then intersected with the
   genes listed in the exprset.  These remaining genes will then be
   plotted according to the 'plotFormat' argument.  If "image" is
