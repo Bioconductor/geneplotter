@@ -4,8 +4,9 @@
 %
 
 
-% \VignetteIndexEntry{Chromosomal Locations}
-% \Vpacks{Biobase, annotate, geneplotter}
+% \VignetteIndexEntry{Visualization of Microarray Data}
+% \VignetteDepends{geneplotter}
+% \VignetteKeywords{Expression Analysis}
 \documentclass{article}
 
 \usepackage{hyperref}
