@@ -1,21 +1,36 @@
 \name{alongChrom}
 \alias{alongChrom}
+\alias{buildACMainLabel}
+\alias{doACImagePlot}
+\alias{fixACPhysPoints}
+\alias{getACGeneSyms}
+\alias{limitACXRange}
+\alias{cullACXPoints}
+\alias{doACLocalPlot}
+\alias{getACClosestPos}
+\alias{getACPlotLabs}
+\alias{scaleACData}
+\alias{dispACXaxis}
+\alias{doACMatPlot}
+\alias{getACDataEnv}
+\alias{getACStrandVals}
+\alias{doACCumPlot}
+\alias{emptyACPlot}
+\alias{getACExprs}
+\alias{highlightACDups}
 \title{A function for plotting expression data from an exprset for a
   given chromosome. }
 \description{
   Given a particular exprset object, a chromLocation object, and a
-  chromosome name - will plot the cumulative sum of the data for all
-  the genes from the desired chromosome for each patient in the
-  exprset.  This function returns an environment which contains
-  information that can be used by the function identifyLines(), which
-  will apply an identify() on the plot.
+  chromosome name, will plot selected exprSet data using various methods.
 }
 \usage{
    alongChrom(eSet, chrom, specChrom,  xlim, whichGenes, 
+   plotFormat=c("cumulative", "local","image"),
    xloc=c("equispaced", "physical"), 
-   plotFormat=c("cumulative", "local","image"), 
    scale=c("none","zscale","rankscale","rangescale","zrobustscale"),
-   geneSymbols=FALSE, byStrand=FALSE, lty=1, type="S",colors="red",...)}
+   geneSymbols=FALSE, byStrand=FALSE, colors="red", lty=1, type="S",
+   ...)}
 \arguments{
   \item{eSet}{The exprset object to be used.}
   \item{chrom}{The desired chromosome.}
@@ -51,7 +66,11 @@
   the samples by gene, using a colour map to denote the levels.  If
   "cumulative" is chosen, the cumulative expression level is plotted
   against the genes for each sample.  Likewise, if "local" is used, the
-  raw data is plotted for each sample against the genes.
+  raw data is plotted for each sample against the genes using a boxplot format.
+
+  Not all parameters are honored for all plotformats.  \code{xloc},
+  \code{lty}, and \code{type} are only used with the \code{cumulative}
+  plotformat.
 }
 \author{Jeff Gentry}
 \examples{
@@ -89,6 +108,11 @@
   for (bs in c(TRUE,FALSE))
      alongChrom(eset, "1", hgu95AProbLocs, xlim=xlim, plotFormat="image",
                scale="zscale", byStrand=bs)
+
+  ## A boxplot
+  for (st in c(TRUE,FALSE))
+     alongChrom(eset, "1", hgu95AProbLocs, plotFormat="local",
+                colors=cols, byStrand=st)
 }
 \keyword{utilities}
 

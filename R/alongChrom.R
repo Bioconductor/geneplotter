@@ -1,36 +1,34 @@
 alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
-                       xloc=c("equispaced", "physical"),
                        plotFormat=c("cumulative", "local","image"),
+                       xloc=c("equispaced", "physical"),
                        scale=c("none","zscale","rankscale","rangescale",
                                "zrobustscale"),
                        geneSymbols=FALSE, byStrand=FALSE,
-                       lty=1, type="S", colors="red", ...) {
+                       colors="red",  lty=1, type="S", ...) {
 
     ## Will plot a set of exprset samples by genes of a chromosome
     ## according to their expression levels.
-
-    ## Get the genes to display
-    usedGenes <- usedChromGenes(eSet, chrom, specChrom)
-
-    ## Filter out any NA positioned genes
-    usedGenes <- usedGenes[!is.na(usedGenes)]
-
-    ## Limit genes to requested range
-    if (!missing(xlim)) {
-        usedGenes <- .limitXRange(xlim, usedGenes)
-    }
-
-    geneNames <- names(usedGenes)
-    if (geneSymbols == TRUE) {
-        geneNames <- .getGeneSyms(geneNames)
-    }
-
 
     ##make sure we get the full name for all args
     xloc <- match.arg(xloc)
     plotFormat <- match.arg(plotFormat)
     scale <- match.arg(scale)
 
+    ## Get plotting labels
+    labEnv <- getACPlotLabs(plotFormat, chrom, xloc, scale)
+
+    ## Get the genes to display
+    usedGenes <- usedChromGenes(eSet, chrom, specChrom)
+    ## Filter out any NA positioned genes
+    usedGenes <- usedGenes[!is.na(usedGenes)]
+    ## Limit genes to requested range
+    if (!missing(xlim)) {
+        usedGenes <- limitACXRange(xlim, usedGenes)
+    }
+    geneNames <- names(usedGenes)
+    if (geneSymbols == TRUE) {
+        geneNames <- getACGeneSyms(geneNames)
+    }
     ## Select out requested genes
     if (!missing(whichGenes)) {
         nameLocs <- geneNames %in% whichGenes
@@ -41,15 +39,10 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
         geneNames <- names(usedGenes)
     }
 
-    strands <- ifelse(usedGenes>0,"+","-")
-
-    ## Check for duplicated positions
-    dup <- duplicated(abs(as.numeric(usedGenes)))
-    dup <- which(dup)
-
+    ## Handle cases where we have filter out all but 0 or 1 gene.
     nGenes <- length(usedGenes)
     if (nGenes == 0) {
-        .emptyACPlot(chrom)
+        emptyACPlot(chrom)
         return()
     }
     else if (nGenes == 1) {
@@ -60,123 +53,390 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
     }
 
     ## Get the expression data, cumulative or otherwise
-    chromExprs <- .getExprs(eSet, usedGenes, plotFormat,scale)
+    chromExprs <- getACExprs(eSet, usedGenes, plotFormat,scale)
 
-    ## Create labels for plotting
-    if (plotFormat == "cumulative") {
-        ylab <- "Cumulative expression levels"
-    }
-    else {
-        ylab <- "Expression levels"
-    }
-    xlab <- "Representative Genes"
-    main <- .buildMainLabel(ylab, chrom, xloc, scale)
+    ## Figure out which strands each gene is on
+    strands <- ifelse(usedGenes>0,"+","-")
+
+    ## Check for duplicated positions
+    dup <- which(duplicated(abs(as.numeric(usedGenes))))
+    dup <- dup[!is.na(dup)]
+
+    dataEnv <- getACDataEnv(chromExprs, geneNames, strands,
+                            byStrand, dup)
 
     ## If image plot was requested, split off here
-    if (plotFormat == "image") {
-        return(.doImagePlot(chromExprs, chrom, geneNames, strands, scale, main,
-                            xlab, 10, byStrand))
-    }
+    switch(plotFormat,
+           "image" = return(doACImagePlot(dataEnv, labEnv, 10)),
+           "local" = return(doACLocalPlot(dataEnv, labEnv, colors)),
+           "cumulative" = return(doACCumPlot(dataEnv, labEnv,
+                           usedGenes, xloc, colors, lty, type, ...))
+           )
+}
 
-    ## Define the points for the x axis
-    if (xloc == "equispaced") {
-        xPoints <- length(geneNames) - 1
-        xPoints <- 0:xPoints
+doACImagePlot <- function(dataEnv, labEnv, nCols) {
+    ## Passed in the expression matrix, the names of the
+    ## used genes, the name of the chromosome, the scaling method & the number
+    ## of colours to utilize in the plot, will generate
+    ## an image plot
+    chromExprs <- get("chromExprs", envir=dataEnv)
+    byStrand <- get("byStrand", envir=dataEnv)
+
+    ngenes <- nrow(chromExprs)
+    nsamp <- ncol(chromExprs)
+
+    ## Get the colour mapping
+    d <- dChip.colors(nCols)
+    w <- sort(chromExprs)
+    b <- quantile(w,probs=seq(0,1,(1/length(d))))
+
+    ## retrieve the labels
+    xlab <- get("xlab",envir=labEnv)
+    ylab <- get("ylab", envir=labEnv)
+    main <- get("main", envir=labEnv)
+
+    ## Build the plot
+    xPoints <- 1:ngenes
+
+    if (byStrand==TRUE) {
+        strands <- get("strands", envir=dataEnv)
+
+        mfPar <- par(mfrow = c(2,1))
+        on.exit(par(mfPar))
+        midVal <- b[length(b)/2]
+        pos <- xPoints[which(strands == "+")]
+        neg <- xPoints[which(strands == "-")]
+        posExprs <- chromExprs
+        posExprs[neg,] <- midVal
+        negExprs <- chromExprs
+        negExprs[pos,] <- midVal
+
+        image(x=xPoints,y=1:(nsamp+1),z=posExprs, col=d, breaks=b,
+              xlab=xlab, ylab=ylab, main=main, axes=FALSE)
+        axis(2, at=1:nsamp, labels=colnames(posExprs))
+        dispACXaxis(xPoints, dataEnv, "image")
+        mtext("Plus",
+              side=3,line=0.35,outer=FALSE,at=mean(par("usr")[1:2]))
+        image(x=xPoints,y=1:(nsamp+1),z=negExprs, col=d, breaks=b,
+              xlab=xlab, ylab=ylab, axes=FALSE)
+        axis(2, at=1:nsamp, labels=colnames(chromExprs))
+       dispACXaxis(xPoints, dataEnv, "image")
+        mtext("Minus",
+              side=3,line=0.35,outer=FALSE,at=mean(par("usr")[1:2]))
     }
+    else {
+        image(x=xPoints,y=1:(nsamp+1),z=chromExprs, col=d, breaks=b,
+              xlab=xlab, ylab=ylab, main=main, axes=FALSE)
+        axis(2, at=1:nsamp, labels=colnames(chromExprs))
+        dispACXaxis(xPoints, dataEnv, "image")
+    }
+}
+
+doACMatPlot <- function(xPoints, dataEnv, xlim, ylim, type, lty, col,
+                       labEnv, xloc, ...) {
+    xlab <- get("xlab",envir=labEnv)
+    ylab <- get("ylab", envir=labEnv)
+    main <- get("main", envir=labEnv)
+
+    chromExprs <- get("chromExprs", dataEnv)
+
+    matplot(xPoints, chromExprs, xlim=xlim, ylim=ylim,type=type,
+            lty=lty, col=col, xlab=xlab,ylab=ylab, main=main,
+            xaxt="n", cex.lab=0.9,...)
+
+    dispACXaxis(xPoints, dataEnv, xloc, "cumulative")
+}
+
+doACLocalPlot <- function(dataEnv, labEnv, colors) {
+    ## retrieve the labels
+    xlab <- get("xlab",envir=labEnv)
+    ylab <- get("ylab", envir=labEnv)
+    main <- get("main", envir=labEnv)
+
+    envTitles <- c("chromExprs", "geneNames", "strands", "dup")
+    ## Retrieve data values
+    envVals <- multiget(c(envTitles,"byStrand"),envir=dataEnv)
+
+    xPoints <- 1:nrow(envVals$chromExprs)
+
+    if (envVals$byStrand == TRUE) {
+        mfPar <- par(mfrow = c(2,1))
+        on.exit(par(mfPar),add=TRUE)
+        strandVals <- getACStrandVals(envVals$chromExprs,
+                                      envVals$strands, xPoints,
+                                      envVals$dup, envVals$geneNames,
+                                      "local")
+        multiassign(envTitles,list(strandVals$posExprs,
+                                      strandVals$posGen,
+                                      strandVals$posStr,
+                                      strandVals$posDup),envir=dataEnv)
+        z <- boxplot(data.frame(t(strandVals$posExprs)), plot=FALSE)
+        z$stats[,strandVals$nts] <- NA
+        bxp(z,col=colors, xaxt="n", xlab=xlab, ylab=ylab, main=main,
+            cex.lab=0.9)
+        mtext("Plus", side=3,line=0.35,outer=FALSE,
+              at=mean(par("usr")[1:2]))
+        dispACXaxis(strandVals$posPoints, dataEnv)
+        ## Now do negative
+        multiassign(envTitles,list(strandVals$negExprs,
+                                      strandVals$negGen,
+                                      strandVals$negStr,
+                                      strandVals$negDup),envir=dataEnv)
+        z <- boxplot(data.frame(t(strandVals$negExprs)), plot=FALSE)
+        z$stats[,strandVals$pts] <- NA
+        bxp(z,col=colors, xaxt="n", xlab=xlab, ylab=ylab, main=main,
+            cex.lab=0.9)
+        mtext("Minus", side=3,line=0.35,outer=FALSE,
+              at=mean(par("usr")[1:2]))
+        dispACXaxis(strandVals$negPoints, dataEnv)
+    }
+    else {
+        boxplot(data.frame(t(envVals$chromExprs)), col=colors, xlab=xlab,
+                ylab=ylab, main=main, cex.lab=0.9, xaxt="n")
+        dispACXaxis(xPoints, dataEnv)
+    }
+}
+
+doACCumPlot <- function(dataEnv, labEnv, usedGenes, xloc, colors, lty, type,
+                         ...) {
+    envTitles <- c("chromExprs", "dup", "geneNames", "strands",
+                   "byStrand")
+    envVals <- multiget(envTitles, envir=dataEnv)
+
+    ## Create a fictitious start & end gene to help with plots
+    start <- abs(as.numeric(usedGenes[1])) * 0.8
+    end <- abs(as.numeric(usedGenes[length(usedGenes)])) * 1.2
+    usedGenes <- c(start,usedGenes,end)
+
+    geneNames <- envVals$geneNames <- c("",envVals$geneNames,"")
+    strands <- envVals$strands <- c("",envVals$strands,"")
+    ## Also need to give them data in the chromExprs matrix
+    ## just copy data from the one next to them.
+    chromExprs <- envVals$chromExprs
+    chromExprs <- envVals$chromExprs <- rbind(chromExprs[1,],chromExprs,
+                                              chromExprs[nrow(chromExprs),])
+    dup <- envVals$dup <- envVals$dup + 1
+
+    multiassign(envTitles, envVals, envir=dataEnv)
+
+    ## Define the points for the X axis
+    if (xloc == "equispaced")
+        xPoints <- 1:length(usedGenes)
     else if (xloc == "physical") {
         xPoints <- abs(as.numeric(usedGenes)) + 1
-        if (any(dup)) {
-            xPoints[dup] <- xPoints[dup] +
-                (0.5 * (xPoints[dup+1]-xPoints[dup]))
-        }
+        xPoints <- fixACPhysPoints(xPoints, dup)
     }
-    xlim <- range(xPoints)
 
+    ## Get x & y ranges
+    xlim <- range(xPoints)
     ylim <- range(chromExprs)
     ylim[1] <- ylim[1]-0.1
 
     ## Plot the graph
     opar <- par(mar=c(6,5,4,1),mgp=c(4,1,0))
-    on.exit(par(opar))
+    on.exit(par(opar),add=TRUE)
 
-    if (byStrand == TRUE) {
+    if (envVals$byStrand == TRUE) {
         mfPar <- par(mfrow = c(2,1))
-        on.exit(par(mfPar))
+        on.exit(par(mfPar),add=TRUE)
 
-        ## Perhaps use an environment to store all these values (here
-        ## and the .doMatPlot calls, as the envs are passed by ref).
-        ## This is ugly
-        posExprs <- chromExprs[which(strands=="+"),]
-        negExprs <- chromExprs[which(strands=="-"),]
-        posPoints <- xPoints[strands %in% "+"]
-        negPoints <- xPoints[strands %in% "-"]
+        strandVals <- getACStrandVals(chromExprs, strands, xPoints, dup,
+                                    geneNames, "cumulative", xloc)
 
-        if (xloc == "physical") {
-            pts <- which(xPoints %in% posPoints)
-            nts <- which(xPoints %in% negPoints)
-            posDup <- posPoints[pts %in% dup]
-            posDup <- which(posPoints==posDup)
-            negDup <- negPoints[nts %in% dup]
-            negDup <- which(negPoints==negDup)
-        }
-        else {
-            pts <- posPoints+1
-            nts <- negPoints+1
-            posDup <- dup[dup %in% pts]
-            negDup <- dup[dup %in% nts]
-        }
-        posGen <- geneNames[pts]
-        posStr <- strands[pts]
-        negGen <- geneNames[nts]
-        negStr <- strands[nts]
+        strandTitles <- c("chromExprs", "geneNames","strands", "dup")
+        multiassign(strandTitles,list(strandVals$posExprs,
+                                      strandVals$posGen,
+                                      strandVals$posStr,
+                                      strandVals$posDup),envir=dataEnv)
+        doACMatPlot(strandVals$posPoints, dataEnv, xlim=xlim, ylim=ylim,
+                   type=type, lty=lty, col=colors,
+                   labEnv=labEnv, xloc=xloc, ...)
+        mtext("Plus", side=3,line=0.35,outer=FALSE,
+              at=mean(par("usr")[1:2]))
 
-        ## Local plots are shifted over, so create a faxe xPoint on the end
-        if ((plotFormat == "local")&&((type=="S")||(type=="s"))) {
-            posExprs <- rbind(posExprs,posExprs[length(posPoints),])
-            posPoints <- c(posPoints,posPoints[length(posPoints)]+1)
-
-            negExprs <- rbind(negExprs,negExprs[length(negPoints),])
-            negPoints <- c(negPoints,negPoints[length(negPoints)]+1)
-        }
-
-
-        .doMatPlot(posPoints, posExprs, xlim=xlim, ylim=ylim, type=type, lty=lty, col=colors,
-                   xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,
-                   dup=posDup, plotFormat=plotFormat,
-                   geneNames=posGen, strands=posStr,  xloc=xloc,
-                   byStrand=byStrand, ...)
-        mtext("Plus",
-              side=3,line=0.35,outer=FALSE,at=mean(par("usr")[1:2]))
-
-        .doMatPlot(negPoints, negExprs, xlim=xlim, ylim=ylim, type=type, lty=lty, col=colors,
-                   xlab=xlab,ylab=ylab, xaxt="n", main=NULL, cex.lab=0.9,
-                   dup=negDup, plotFormat=plotFormat,
-                   geneNames=negGen, strands=negStr,  xloc=xloc,
-                   byStrand=byStrand, ...)
-        mtext("Minus",
-              side=3,line=0.35,outer=FALSE,at=mean(par("usr")[1:2]))
+        multiassign(strandTitles,list(strandVals$negExprs,
+                                      strandVals$negGen,
+                                      strandVals$negStr,
+                                      strandVals$negDup),envir=dataEnv)
+        doACMatPlot(strandVals$negPoints, dataEnv, xlim=xlim, ylim=ylim,
+                   type=type, lty=lty, col=colors, labEnv=labEnv,
+                   xloc=xloc, ...)
+        mtext("Minus", side=3,line=0.35,outer=FALSE,
+              at=mean(par("usr")[1:2]))
     }
     else {
-            ## Local plots are shifted over, so create a faxe xPoint on the end
-        if ((plotFormat == "local")&&((type=="S")||(type=="s"))) {
-            chromExprs <- rbind(chromExprs,chromExprs[length(xPoints),])
-            xPoints <- c(xPoints,xPoints[length(xPoints)]+1)
-        }
-
-        .doMatPlot(xPoints, chromExprs, xlim=xlim, ylim=ylim,
-                   type=type, lty=lty, col=colors,
-                   xlab=xlab,ylab=ylab,
-                   xaxt="n", main=main, cex.lab=0.9, dup=dup,
-                   plotFormat=plotFormat, geneNames=geneNames,
-                   strands=strands,  xloc=xloc, byStrand=byStrand, ...)
+        doACMatPlot(xPoints, dataEnv, xlim=xlim, ylim=ylim,
+                   type=type, lty=lty, col=colors, labEnv=labEnv,
+                  xloc=xloc,  ...)
     }
-
     ## Create an environment that contains the necessary X & Y points
     ## for use with identify()
     identEnv <- new.env()
     multiassign(c("X","Y"),list(xPoints,chromExprs),envir=identEnv)
 
     return(identEnv)
+}
+
+getACStrandVals <- function(chromExprs, strands, xPoints, dup,
+                           geneNames, plotFormat, xloc="equispaced") {
+    ## Determine which points are on the + and which on the -
+    ## strand
+    posPoints <- xPoints[strands %in% "+"]
+    negPoints <- xPoints[strands %in% "-"]
+
+    if (plotFormat == "cumulative") {
+        posExprs <- chromExprs[which(strands=="+"),]
+        negExprs <- chromExprs[which(strands=="-"),]
+    }
+    else {
+        posExprs <- negExprs <- chromExprs
+        posExprs[negPoints,] <- 0
+        negExprs[posPoints,] <- 0
+    }
+
+    if (xloc == "physical") {
+        pts <- which(xPoints %in% posPoints)
+        nts <- which(xPoints %in% negPoints)
+        posDup <- posPoints[pts %in% dup]
+        posDup <- match(posDup,posPoints)
+        negDup <- negPoints[nts %in% dup]
+        negDup <- match(negDup,negPoints)
+    }
+    else {
+        pts <- posPoints
+        nts <- negPoints
+        posDup <- dup[dup %in% pts]
+        negDup <- dup[dup %in% nts]
+    }
+
+    posGen <- geneNames[pts]
+    posStr <- strands[pts]
+    negGen <- geneNames[nts]
+    negStr <- strands[nts]
+
+    strandList <- list(posExprs=posExprs, negExprs=negExprs,
+                       posPoints=posPoints, negPoints=negPoints,
+                       pts=pts, nts=nts, posDup=posDup, negDup=negDup,
+                       posGen=posGen, posStr=posStr, negGen=negGen,
+                       negStr=negStr)
+    return(strandList)
+}
+
+dispACXaxis <- function(xPoints, dataEnv, xloc="equispaced",
+                        plotFormat="local") {
+    ## Retrieve values from dataEnv
+    chromExprs <- get("chromExprs", envir=dataEnv)
+    geneNames <- get("geneNames", envir=dataEnv)
+    strands <- get("strands", envir=dataEnv)
+    byStrand <- get("byStrand", envir=dataEnv)
+    dup <- get("dup", envir=dataEnv)
+
+    ## Make sure that xPoints isn't exceeding our visual maximum.
+    ## If so, reduce the number of poitns to actually be displayed.
+    dispXPoints <- cullACXPoints(xPoints)
+    dispPointLocs <- match(dispXPoints,xPoints)
+
+    if (any(dup))
+        highlightACDups(dispXPoints, chromExprs, dup, xloc)
+
+    if (plotFormat == "cumulative") {
+        ## Need to filter out the first and last tick
+        dispXPoints <- dispXPoints[2:(length(dispXPoints)-1)]
+        dispPointLocs <- dispPointLocs[2:(length(dispPointLocs)-1)]
+    }
+
+    axis(1, at=dispXPoints, labels = geneNames[dispPointLocs], las=2,
+         cex.axis=0.7,)
+    if (byStrand == FALSE) {
+        axis(3, at=dispXPoints, labels = strands[dispPointLocs],
+             cex.axis=0.8, tick=FALSE, mgp=c(0,0,0))
+    }
+}
+
+getACPlotLabs <- function(plotFormat, chrom, xloc, scale) {
+    labEnv <- new.env()
+
+    ylab <- switch(plotFormat,
+                   "cumulative"="Cumulative expression levels",
+                   "local"="Expression levels",
+                   "image"="Samples"
+                   )
+
+    xlab <- "Representative Genes"
+    main <- buildACMainLabel(ylab, chrom, xloc, plotFormat, scale)
+    multiassign(c("xlab","ylab","main"),c(xlab,ylab,main),envir=labEnv)
+    return(labEnv)
+}
+
+getACDataEnv <- function(chromExprs, geneNames, strands, byStrand,
+                         dup) {
+    dataEnv <- new.env()
+    titles <- c("chromExprs","geneNames","strands","byStrand","dup")
+    vals <- list(chromExprs, geneNames, strands, byStrand, dup)
+    multiassign(titles, vals, envir=dataEnv)
+    return(dataEnv)
+}
+
+highlightACDups <- function(xPoints, chromExprs, dup, xloc) {
+    y <- min(chromExprs)-0.2
+
+    for (i in seq(along=dup)) {
+        ## For each dup, see if both that point and the point
+        ## before it are still in the displayed set of points
+        cur <- dup[i]
+        prev <- dup[i] - 1
+        if (xloc == "equispaced") {
+            curPt <- match(cur, xPoints)
+            prevPt <- match(prev, xPoints)
+        }
+        else {
+            curPt <- cur
+            prevPt <- prev
+        }
+        if ((!is.na(curPt))&&(!is.na(prevPt))) {
+            segments(xPoints[curPt],y,xPoints[prevPt],y, col="cyan",lwd=2)
+        }
+    }
+}
+
+fixACPhysPoints <- function(xPoints, dup) {
+    ## !!!!!
+    ## !!! Currently doing this in a very inefficient manner.
+    ## !!! needs to be smarter
+    ## !!!!!!
+
+    if (any(dup)) {
+        dupDiff <- c(1,diff(dup),2)
+        tmpDup <- NULL
+        for (i in 1:(length(dup)+1)) {
+            if (dupDiff[i] != 1) {
+                ## At end of dup run
+                dist <- xPoints[tmpDup[length(tmpDup)]+1] - xPoints[tmpDup[1]]
+                spacing <- dist/(length(tmpDup)+1)
+                for (j in 1:length(tmpDup)) {
+                    pt <- dup[match(tmpDup[j],dup)]
+                    xPoints[pt] <- xPoints[pt] + (j*spacing)
+                }
+                tmpDup <- NULL
+            }
+            tmpDup <- c(tmpDup,dup[i])
+        }
+    }
+    return(xPoints)
+}
+
+buildACMainLabel <- function(ylab, chrom, xloc, plotFormat, scale) {
+    if ((xloc == "physical")&&(plotFormat=="cumulative")) {
+        main <- paste(ylab, "in chromosome", chrom,
+                      "by relative position\n")
+    }
+    else {
+        main <- paste(ylab, "by genes in chromosome", chrom, "\n")
+    }
+
+    main <- paste(main,"scaling method:",scale,"\n")
+
+    return(main)
 }
 
 identifyLines <- function(identEnvir, ...) {
@@ -195,112 +455,7 @@ identifyLines <- function(identEnvir, ...) {
     return(x)
 }
 
-.doMatPlot <- function(xPoints, chromExprs, xlim, ylim, type, lty, col,
-                       xlab, ylab, xaxt, main, cex, dup,
-                       plotFormat, geneNames, strands, xloc, byStrand,
-                       ...) {
-
-
-    matplot(xPoints, chromExprs, xlim=xlim, ylim=ylim,type=type, lty=lty, col=col,
-            xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,...)
-
-    .dispXAxis(xPoints, geneNames, plotFormat,strands, type, byStrand)
-
-    y <- min(chromExprs)-0.1
-
-    dup <- dup[!is.na(dup)]
-    if (any(dup)) {
-        if (xloc == "equispaced") {
-            segments(dup-2,y,dup-1,y,col="cyan",lwd=2)
-        }
-        else {
-            segments(xPoints[dup-1],y,xPoints[dup],y,col="cyan",lwd=2)
-        }
-    }
-}
-
-.dispXAxis <- function(xPoints, geneNames, plotFormat, strands, type,
-                       byStrand) {
-
-    ## Make sure that xPoints isn't exceeding our visual maximum.
-    ## If so, reduce the number of poitns to actually be displayed.
-    if (plotFormat == "local") {
-        xPoints <- xPoints[1:length(xPoints)-1]
-    }
-
-    dispXPoints <- .cullXPoints(xPoints)
-    dispPointLocs <- match(dispXPoints,xPoints)
-
-    if ((plotFormat == "local")&&((type=="S")||(type=="s"))) {
-        dispXPoints <- dispXPoints+0.5
-    }
-
-    axis(1, at=dispXPoints, labels = geneNames[dispPointLocs], las=2,
-         cex.axis=0.7,)
-    if (byStrand == FALSE) {
-        axis(3, at=dispXPoints, labels = strands[dispPointLocs],
-             cex.axis=0.8, tick=FALSE, mgp=c(0,0,0))
-    }
-}
-
-.doImagePlot <- function(exprs,chrom, geneNames, strands, scale, main,
-                         xlab, nCols, byStrand=FALSE) {
-    ## Passed in the expression matrix, the names of the
-    ## used genes, the name of the chromosome, the scaling method & the number
-    ## of colours to utilize in the plot, will generate
-    ## an image plot
-    ngenes <- nrow(exprs)
-    nsamp <- ncol(exprs)
-
-    ## Get the colour mapping
-    d <- dChip.colors(nCols)
-    w <- sort(exprs)
-    b <- quantile(w,probs=seq(0,1,(1/length(d))))
-
-    ## Build the labels
-    main <- main
-    xlab <- xlab
-    ylab="Samples"
-
-    ## Build the plot
-    xPoints <- 1:ngenes
-
-    if (byStrand==TRUE) {
-        mfPar <- par(mfrow = c(2,1))
-        on.exit(par(mfPar))
-        midVal <- b[length(b)/2]
-        pos <- xPoints[which(strands == "+")]
-        neg <- xPoints[which(strands == "-")]
-        posExprs <- exprs
-        posExprs[neg,] <- midVal
-        negExprs <- exprs
-        negExprs[pos,] <- midVal
-
-        image(x=xPoints,y=1:(nsamp+1),z=posExprs, col=d, breaks=b,
-              xlab=xlab, ylab=ylab, main=main, axes=FALSE)
-        axis(2, at=1:nsamp, labels=colnames(posExprs))
-        .dispXAxis(xPoints, geneNames, "image", strands,
-                   byStrand=byStrand)
-        mtext("Plus",
-              side=3,line=0.35,outer=FALSE,at=mean(par("usr")[1:2]))
-        image(x=xPoints,y=1:(nsamp+1),z=negExprs, col=d, breaks=b,
-              xlab=xlab, ylab=ylab, axes=FALSE)
-        axis(2, at=1:nsamp, labels=colnames(exprs))
-        .dispXAxis(xPoints, geneNames, "image", strands,
-                   byStrand=byStrand)
-        mtext("Minus",
-              side=3,line=0.35,outer=FALSE,at=mean(par("usr")[1:2]))
-    }
-    else {
-        image(x=xPoints,y=1:(nsamp+1),z=exprs, col=d, breaks=b,
-              xlab=xlab, ylab=ylab, main=main, axes=FALSE)
-        axis(2, at=1:nsamp, labels=colnames(exprs))
-        .dispXAxis(xPoints, geneNames, "image", strands,
-                   byStrand=byStrand)
-    }
-}
-
-.limitXRange <- function(xlim, usedGenes) {
+limitACXRange <- function(xlim, usedGenes) {
 
     if (!missing(xlim)) {
         if (length(xlim) == 2) {
@@ -325,12 +480,12 @@ identifyLines <- function(identEnvir, ...) {
             if (xlim[2] > xlim[1]) {
                 lowLim <- match(xlim[1],usedGenes)
                 if (is.na(lowLim)) {
-                    lowLim <- .getClosestPos(xlim[1],usedGenes)
+                    lowLim <- getACClosestPos(xlim[1],usedGenes)
                 }
 
                 hiLim <- match(xlim[2], usedGenes)
                 if (is.na(hiLim)) {
-                    hiLim <- .getClosestPos(xlim[2],usedGenes)
+                    hiLim <- getACClosestPos(xlim[2],usedGenes)
                 }
 
                 subs <- seq(lowLim,hiLim)
@@ -350,14 +505,14 @@ identifyLines <- function(identEnvir, ...) {
     return(usedGenes)
 }
 
-.getGeneSyms <- function(affys) {
+getACGeneSyms <- function(affys) {
     data(hgu95Asym)
     syms <- multiget(affys, env=hgu95Asym)
     syms[is.na(syms)] <- affys[is.na(syms)]
     return(as.character(syms))
 }
 
-.getClosestPos <- function(val, usedGenes) {
+getACClosestPos <- function(val, usedGenes) {
     ## Given a value, finds the closest value in usedGenes to the
     ## passed value and returns its location in the usedGenes vector
 
@@ -366,9 +521,9 @@ identifyLines <- function(identEnvir, ...) {
     return(closest)
 }
 
-.scaleData <-
-    function(chromData,
-    method=c("none","zscale","rangescale","rankscale", "zrobustscale"))
+scaleACData <- function(chromData,
+                        method=c("none","zscale","rangescale","rankscale",
+                        "zrobustscale"))
 {
     ## Will scale the data set to be plotted based on a variety of
     ## methods
@@ -400,7 +555,7 @@ identifyLines <- function(identEnvir, ...) {
     return(chromData)
 }
 
-.cullXPoints <- function(xPoints) {
+cullACXPoints <- function(xPoints) {
     ## Will reduce the xPoints vector to a visibly manageable size
     ## Currently if the size > 40, will leave every Nth point where
     ## xPoints/maxSize = N.  Maximum number of points is determined
@@ -430,21 +585,7 @@ identifyLines <- function(identEnvir, ...) {
     return(xPoints)
 }
 
-.buildMainLabel <- function(ylab, chrom, xloc, scale) {
-    if (xloc == "relative") {
-        main <- paste(ylab, "in chromosome", chrom,
-                      "by relative position\n")
-    }
-    else {
-        main <- paste(ylab, "by genes in chromosome", chrom, "\n")
-    }
-
-    main <- paste(main,"scaling method:",scale,"\n")
-
-    return(main)
-}
-
-.emptyACPlot <- function(chrom) {
+emptyACPlot <- function(chrom) {
     plot.new()
     axis(1,labels=rep("NA",6))
     axis(2, labels=rep("NA",6))
@@ -454,7 +595,7 @@ identifyLines <- function(identEnvir, ...) {
     title(main = main)
 }
 
-.getExprs <- function(eSet, usedGenes,
+getACExprs <- function(eSet, usedGenes,
                       plotFormat=c("cumulative","local", "image"),
                       scale=c("none","zscale","rangescale","rankscale", "zrobustscale"))
 {
@@ -468,7 +609,7 @@ identifyLines <- function(identEnvir, ...) {
 
     chromExprs <- eSet@exprs[names(usedGenes),]
 
-    chromExprs <- .scaleData(chromExprs,scale)
+    chromExprs <- scaleACData(chromExprs,scale)
 
     if (plotFormat == "cumulative") {
         chromExprs <- t(chromExprs)
