@@ -8,6 +8,9 @@
     ## Extract out of the expr set the genes that belong on this chrom
     usedGenes <- genes[names(genes) %in% geneNames(eSet)]
 
+    ## Order the genes by location
+    usedGenes <- sort(abs(usedGenes))
+
     return(usedGenes)
 }
 
@@ -19,16 +22,10 @@
     ## Split out only the genes on the desired chrom from the exprset
     chromExprs <- eSet@exprs[names(usedGenes),]
 
-    # Order the columns by the ordering (by location) of the genes
-    ord <- order(abs(usedGenes))
-
-   if (cumul == TRUE) {
-       chromExprs <- t(chromExprs[ord,])
-        ## Fill the matrix with the cumulative sum of the expression
-        chromExprs <- apply(chromExprs, 1, cumsum)
-   }
-   else {
-       chromExprs <- chromExprs[ord,]
+    if (cumul == TRUE) {
+       chromExprs <- t(chromExprs)
+       ## Fill the matrix with the cumulative sum of the expression
+       chromExprs <- apply(chromExprs, 1, cumsum)
    }
 
    return(chromExprs)
@@ -67,14 +64,12 @@ alongChrom <- function(eSet, chrom, specChrom, index=TRUE, cumul=TRUE,
     if (index == TRUE) {
         xPoints <- length(names(usedGenes)) - 1
         xPoints <- 0:xPoints
-        xlim <- xPoints
 
         ## Build main label
         main <- paste(ylab,"by genes in chromosome")
         main <- paste(main,chrom)
     }
     else {
-        xlim <- c(0, chromLengths(specChrom)[as.numeric(chrom)])
         xPoints <- as.numeric(abs(usedGenes)) + 1
         ## Build main label
         main <- paste(ylab,"in chromosome")
