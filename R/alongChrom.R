@@ -8,7 +8,7 @@ alongChrom <- function(eSet, chrom, specChrom,
     ## Will plot a set of exprset samples by genes of a chromosome
     ## according to their expression levels.
     ## Get the genes to display
-    usedGenes <- .getGenes(eSet, chrom, specChrom)
+    usedGenes <- usedChromGenes(eSet, chrom, specChrom)
     usedGenes <- NULL
     ## The Y axis label varies according to if we're taking
     ## cummulative sums or not
@@ -169,22 +169,6 @@ identifyLines <- function(identEnvir, ...) {
     }
 
     return(xPoints)
-}
-
-.getGenes <- function(eSet, chrom, specChrom) {
-    ## Will acquire the set of genes used in alongChrom
-
-    ## Extract the gene names of the chromosome of interest
-    cLocs <- chromLocs(specChrom)
-    genes <- cLocs[[chrom]]
-
-    ## Extract out of the expr set the genes that belong on this chrom
-    usedGenes <- genes[names(genes) %in% geneNames(eSet)]
-
-    ## Order the genes by location
-    usedGenes <- sort(abs(usedGenes))
-
-    return(usedGenes)
 }
 
 .getExprs <- function(eSet, usedGenes,
