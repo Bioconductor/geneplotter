@@ -49,8 +49,6 @@ plotChr <- function(chrN, senseObj,
 		names(repGx) <- probes
 		xlims <- c(1, length(repGx))
     }
-    pn <- rep(c("+","-"), c(length(at.px),
-	length(at.nx)))[uX][order(X[uX])][ind.seq]
     # probe density:
     if (xloc=="equispaced") {
 	at.px <- approx(sort(X[uX])[ind.seq],repGx, xout=at.px)$y
@@ -77,7 +75,6 @@ plotChr <- function(chrN, senseObj,
     if(geneSymbols) labs <- unlist(multiget(labs,
 	env=get(paste(senseObj$lib,"SYMBOL",sep=""))))
     axis(1, at=repGx, labels=labs,las=3, cex.axis=.7)
-    axis(3, at=repGx, labels=pn,tick=FALSE, line=-1,cex.axis=.7)
     for(i in 1:length(ans2))
         linesStrand(ans2[[i]][[chrN]], cols[i], log, smX=smX)
     if (!is.null(lines.at)) {
