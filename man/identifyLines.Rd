@@ -7,10 +7,11 @@
   on the alongChrom() plot.
 }
 \usage{
-identifyLines(identEnvir)
+identifyLines(identEnvir,...)
 }
 \arguments{
   \item{identEnvir}{An environment created by alongChrom.}
+  \item{...}{Any extra arguments are passed on to identify().}
 }
 \details{
   The environment contains two vectors of points - "X" and "Y" are their
