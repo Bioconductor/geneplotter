@@ -1,0 +1,120 @@
+%
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+% \VignetteIndexEntry{byChroms HowTo}
+% \VignetteAuthor{R. Gentleman}
+%\VignetteDepends{annotate, hu6800}
+%\VignetteKeywords{chromosomes}
+\documentclass[12pt]{article}
+
+\usepackage{amsmath,pstricks}
+\usepackage[authoryear,round]{natbib}
+\usepackage{hyperref}
+
+
+\textwidth=6.2in
+\textheight=8.5in
+%\parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+\newcommand{\scscst}{\scriptscriptstyle}
+\newcommand{\scst}{\scriptstyle}
+
+\bibliographystyle{plainnat}
+
+\begin{document}
+
+\section*{How to Assemble a chromLocation Object}
+
+
+In order to use the various \texttt{geneplotter} functions you will
+need to assemble an object of class \texttt{chromLocation}.
+This is relatively straightforward if you have access to a Bioconductor
+data package. In this example we will consider using the
+\texttt{hu6800} data package to construct our object.
+
+<<<loaddata>>=
+
+ library(annotate)
+ library(hu6800)
+ affy <- ls(env=hu6800CHR)
+
+ chrs <- multiget(affy, env=hu6800CHR)
+
+ ##check to see if these are well behaved
+ lens<-sapply(chrs,length)
+ table(lens)
+ chrs[lens==2]
+
+@
+So somehow ten of the genes are mapped to two different chromosomes.
+We really should sort that out, but for now we can just put them all
+on the X chromosome (they are all X,Y).
+Based on OMIM the these genes
+are localized to the so called \textit{pseudoautosomal region} where
+the X and Y cromosomes are similar and there is actual recombination going on
+between them.
+
+<<fixdata>>=
+chrs2 <- sapply(chrs, function(x) x[1])
+chrs2 <- factor(chrs2)
+length(chrs2)
+ table(unlist(chrs2))
+@
+
+Now we are ready to obtain the chromosome location data and orientation.
+The chromosome location data tells us the (approximate) location of
+the gene on the chromosome with distance taken from the
+%%FIXME:
+%which end is it now)?
+Chromosomes are double stranded and the gene is encoded on only one of
+those two strands. The strands are labeled plus and minus (sense and
+                                                           antisense).
+We use both the location and the orientation when making plots.
+%%FIXME:
+%Someone needs to check to see if the distance is from the same end
+%for both strands
+
+<<strandloc>>=
+
+ strand <- multiget(affy, env=hu6800CHRLOC)
+ gstr <- sapply(strand, function(x) x[1])
+
+ orient <- multiget(affy, env=hu6800CHRORI)
+ gorient <- sapply(orient, function(x) x[1])
+
+ gx<-ifelse(gorient=="-", -gstr, gstr)
+
+ splits <- split(gx, chrs2)
+ length(splits)
+ names(splits)
+
+@
+
+Now we have processed the data and are ready to construct a new
+\texttt{chromLocation} object.
+
+<<chrloc>>=
+
+ data(hgCLengths)
+
+ newChrClass <- buildChromClass("Human", "Hu6800 Bioconductor",
+     splits, hgCLengths)
+
+
+@
+
+And finally we can test it by calling \texttt{cPlot}.
+
+<<cPlot>>=
+
+  library(geneplotter)
+
+  cPlot(newChrClass)
+
+@
+
+\end{document}
