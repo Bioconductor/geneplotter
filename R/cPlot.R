@@ -1,15 +1,11 @@
 ## cPlot.R
 ## Will read in a tab deliminated file of genome information
 ## and proceed to generate a visual representation of the
-#<<
-                                        # chromosomes.
+## chromosomes.
 
-.plotData <- function(chromNum, locs, xPoints, chromLens, color,
-                      scale = c("max","relative")[1])
+.plotData <- function(chromNum, locs, xPoints, chromLens, fg,
+                      scale = c("max","relative")[1],glen)
 {
-    ## Invert the chromosome number (since plot is "upside down")
-    chromNum <- 24-chromNum+1
-
     ## Get the scaling factor
     scale <- cScale(xPoints, chromLens, scale)
 
@@ -20,7 +16,7 @@
 
     ## Determine the direction of the Y plot (+ or -)
     ypos <- rep(chromNum, nlocs)
-    ytop <- ifelse(locs>0, ypos+0.4, ypos-0.4)
+    ytop <- ifelse(locs>0, ypos+glen, ypos-glen)
 
     if (scale == "max") {
         lines(c(1,xPoints-1),c(chromNum,chromNum),col="blue")
@@ -30,7 +26,7 @@
     }
 
     ## Plot
-    segments(abs(locs), ypos, abs(locs), ytop, col=color)
+    segments(abs(locs), ypos, abs(locs), ytop, col=fg)
 }
 
 cColor <- function(genes, color, plotChroms) {
@@ -54,26 +50,33 @@ cColor <- function(genes, color, plotChroms) {
     }
 }
 
-cPlot <- function(plotChroms, scale=c("max","relative")[1], ccol="white") {
+cPlot <- function(plotChroms, useChroms=chromNames(plotChroms),
+                  scale=c("max","relative")[1], fg="white",
+                  bg="lightgrey", glen=0.4) {
     ## Passed an instance of a chromLocation class, and the number of
     ## points to represent on the X axis, will utilize that data
     ## to plot a set of genes on their proper chromosome locations.
 
     xPoints <- 1000
+    glen <- glen
+
+    chromNames <- chromNames(plotChroms)
+    labs <- rev(chromNames[chromNames %in% useChroms])
+    lens <- chromLengths(plotChroms)
+    lens <- rev(lens[chromNames %in% labs])
 
     ## Build the initial plot structure
-    op <- par(bg="lightgrey")
-    plot(c(1, xPoints), c(1,24), type="n", xlab="", ylab="Chromosomes",
-    axes=FALSE,)
+    op <- par(bg=bg)
+    plot(c(1, xPoints), c(1-glen,length(labs)+glen), type="n", xlab="",
+         ylab="Chromosomes", axes=FALSE)
     par(op)
-    labs <- rev(chromNames(plotChroms))
-    axis(2, c(1:nChrom(plotChroms)), labs)
+
+    axis(2, c(1:length(labs)), labs)
 
     byChroms <- chromLocs(plotChroms)
 
-    for (i in 1:nChrom(plotChroms)) {
-        .plotData(i,byChroms[[i]], xPoints, chromLengths(plotChroms),
-        ccol, scale);
+    for (i in 1:length(labs)) {
+        .plotData(i,byChroms[[labs[i]]], xPoints, lens, fg, scale,glen);
     }
 }
 

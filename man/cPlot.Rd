@@ -6,14 +6,22 @@
   that object.
 }
 \usage{
-cPlot(plotChroms, scale=c("max","relative")[1], ccol="lightgrey")
+cPlot(plotChroms, useChroms=chromNames(plotChroms),
+      scale=c("max","relative")[1], fg="white", bg="lightgrey", glen=0.4)
 }
 \arguments{
   \item{plotChroms}{An object of type chromLocation which contains all
     the gene information to be plotted. }
+  \item{useChroms}{A vector of chromosome names to be used in the plot.
+  Default is to use all the chromosomes from the plotChroms object.}
   \item{scale}{Passed on to cScale as it's scale argument.  Determines
     whether the graph is scaled on a relative or absolute basis.}
-  \item{ccol}{The colour to be used for the genes.  Default is lightgrey.}
+  \item{fg}{The colour to be used for the genes.  Default is white.}
+  \item{bg}{The colour to be used for the background of the plot.
+    Defaults to lightgrey/}
+  \item{glen}{A scaling factor applied to the plotted length of each
+    gene.  Defaults to 0.4 - it is recommended that this not be set
+    larger then 0.5 as it will cause overlap between chromosomes.}
 }
 \details{
   This function will first use the lengths of the chromosomes, stored in
@@ -32,7 +40,7 @@ cPlot(plotChroms, scale=c("max","relative")[1], ccol="lightgrey")
      }
 
      for (sc in c("max","relative"))
-       cPlot(hgu95ProbLocs,sc,"lightgrey")
+       cPlot(hgu95ProbLocs,c("1","5","10","X","Y"),sc)
 }
 \keyword{utilities}
 
