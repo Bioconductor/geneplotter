@@ -21,8 +21,8 @@ cPlot(plotChroms)
 }
 \author{Jeff Gentry}
 \examples{
-     data(hgu95AffyProbeData)
-     cPlot(hgu95AffyProbeData)
+     data(hgu95ProbLocs)
+     cPlot(hgu95ProbLocs)
 }
 \keyword{utilities}
 

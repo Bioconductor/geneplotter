@@ -34,13 +34,13 @@ alongChrom(eSet, chrom, specChrom, index=TRUE, cumul=TRUE, lTypes="1", colors="r
 \author{Jeff Gentry}
 \examples{
    data(eset)
-   data(hgu95AffyProbeData)
+   data(hgu95ProbLocs)
    lty <- c(1, 2, 3, 4, 5)
    cols <- c("red", "green", "blue", "orange", "magenta", "black")
-   alongChrom(eset, "1", hgu95AffyProbeData, TRUE, TRUE, lty, cols)
-   alongChrom(eset, "1", hgu95AffyProbeData, TRUE, FALSE, lty, cols)
-   alongChrom(eset, "1", hgu95AffyProbeData, FALSE, TRUE, lty, cols)
-   alongChrom(eset, "1", hgu95AffyProbeData, FALSE, FALSE, lty, cols)
+   alongChrom(eset, "1", hgu95ProbLocs, TRUE, TRUE, lty, cols)
+   alongChrom(eset, "1", hgu95ProbLocs, TRUE, FALSE, lty, cols)
+   alongChrom(eset, "1", hgu95ProbLocs, FALSE, TRUE, lty, cols)
+   alongChrom(eset, "1", hgu95ProbLocs, FALSE, FALSE, lty, cols)
 }
 \keyword{utilities}
 
