@@ -79,8 +79,8 @@ doACImagePlot <- function(dataEnv, labEnv, nCols) {
     ## used genes, the name of the chromosome, the scaling method & the number
     ## of colours to utilize in the plot, will generate
     ## an image plot
-    chromExprs <- get("chromExprs", envir=dataEnv)
-    byStrand <- get("byStrand", envir=dataEnv)
+    chromExprs <- dataEnv$chromExprs
+    byStrand <- dataEnv$byStrand
 
     ngenes <- nrow(chromExprs)
     nsamp <- ncol(chromExprs)
@@ -91,15 +91,15 @@ doACImagePlot <- function(dataEnv, labEnv, nCols) {
     b <- quantile(w,probs=seq(0,1,(1/length(d))))
 
     ## retrieve the labels
-    xlab <- get("xlab",envir=labEnv)
-    ylab <- get("ylab", envir=labEnv)
-    main <- get("main", envir=labEnv)
+    xlab <- labEnv$xlab
+    ylab <- labEnv$ylab
+    main <- labEnv$main
 
     ## Build the plot
     xPoints <- 1:ngenes
 
     if (byStrand==TRUE) {
-        strands <- get("strands", envir=dataEnv)
+        strands <- dataEnv$strands
 
         mfPar <- par(mfrow = c(2,1))
         on.exit(par(mfPar))
@@ -134,11 +134,11 @@ doACImagePlot <- function(dataEnv, labEnv, nCols) {
 
 doACMatPlot <- function(xPoints, dataEnv, xlim, ylim, type, lty, col,
                        labEnv, xloc, ...) {
-    xlab <- get("xlab",envir=labEnv)
-    ylab <- get("ylab", envir=labEnv)
-    main <- get("main", envir=labEnv)
+    xlab <- labEnv$xlab
+    ylab <- labEnv$ylab
+    main <- labEnv$main
 
-    chromExprs <- get("chromExprs", dataEnv)
+    chromExprs <- dataEnv$chromExprs
 
     matplot(xPoints, chromExprs, xlim=xlim, ylim=ylim,type=type,
             lty=lty, col=col, xlab=xlab,ylab=ylab, main=main,
@@ -149,9 +149,9 @@ doACMatPlot <- function(xPoints, dataEnv, xlim, ylim, type, lty, col,
 
 doACLocalPlot <- function(dataEnv, labEnv, colors) {
     ## retrieve the labels
-    xlab <- get("xlab",envir=labEnv)
-    ylab <- get("ylab", envir=labEnv)
-    main <- get("main", envir=labEnv)
+    xlab <- labEnv$xlab
+    ylab <- labEnv$ylab
+    main <- labEnv$main
 
     envTitles <- c("chromExprs", "geneNames", "strands", "dup")
     ## Retrieve data values
@@ -325,11 +325,11 @@ getACStrandVals <- function(chromExprs, strands, xPoints, dup,
 dispACXaxis <- function(xPoints, dataEnv, xloc="equispaced",
                         plotFormat="local") {
     ## Retrieve values from dataEnv
-    chromExprs <- get("chromExprs", envir=dataEnv)
-    geneNames <- get("geneNames", envir=dataEnv)
-    strands <- get("strands", envir=dataEnv)
-    byStrand <- get("byStrand", envir=dataEnv)
-    dup <- get("dup", envir=dataEnv)
+    chromExprs <- dataEnv$chromExprs
+    geneNames <- dataEnv$geneNames
+    strands <- dataEnv$strands
+    byStrand <- dataEnv$byStrand
+    dup <- dataEnv$dup
 
     ## Make sure that xPoints isn't exceeding our visual maximum.
     ## If so, reduce the number of poitns to actually be displayed.
