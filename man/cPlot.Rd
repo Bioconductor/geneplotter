@@ -21,10 +21,10 @@ cPlot(xPoints, plotChroms)
   information/etc, which is then plotted for the user.
 }
 \author{Jeff Gentry}
-\examples {
+\examples{
      data(hgByChroms)
      data(cLengths)
-     plotChroms <- buildChromClass("Human", "Chen Li's HG data",
+     plotChroms <- buildChromClass("Human", "Cheng Li's HG data",
 byChroms, cLengths)
      cPlot(1000,plotChroms)
 }
