@@ -1,6 +1,7 @@
 \name{GetColor}
 \alias{GetColor}
 \alias{dChip.colors}
+\alias{greenred.colors}
 \title{ A function to get the Red-Blue color scheme used by dChip }
 \description{
  A simple, vectorized function that computes a Red/Blue color for
@@ -9,6 +10,7 @@
 \usage{
 GetColor(value, GreenRed=FALSE, DisplayRange=3)
 dChip.colors(n)
+greenred.colors(n)
 }
 
 \arguments{
@@ -24,7 +26,7 @@ dChip.colors(n)
   Li.
   \code{dChip.colors} provides functionality similar to that of
   \code{\link{topo.colors}} for the red--blue colors used for genome
-  plots. 
+  plots. \code{greenred.colors} does the same for the green-black-red gradient. 
 }
 \value{
  A vector of RGB colors suitable for plotting in R.

@@ -5,6 +5,8 @@
 
 dChip.colors <- function(n) GetColor(seq(-3,3,6/n))
 
+greenred.colors <- function(n) GetColor(seq(-3,3,6/n), GreenRed=TRUE)
+
 GetColor <- function(value, GreenRed=FALSE, DisplayRange=3) {
     RGB <- function(x,y,z) rgb(x/255,y/255,z/255)
     missing <- is.na(value)
@@ -19,7 +21,7 @@ GetColor <- function(value, GreenRed=FALSE, DisplayRange=3) {
 
     #classical: red and green on black background
     if (GreenRed)
-        tone <- ifelse(good > 0, RGB(tone, 0, 0), RGB(0, 255-tone, 0))
+        tone <- ifelse(good > 0, RGB(tone, 0, 0), RGB(0, tone, 0))
     else
         tone <- ifelse(good > 0, RGB(255, 255 - tone, 255 - tone),
                        RGB(255 - tone, 255 - tone, 255) )
