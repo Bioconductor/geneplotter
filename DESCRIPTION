@@ -4,4 +4,5 @@ Version: 0.1
 Author: R. Gentleman
 Description: Some basic functions for plotting genetic data
 Maintainer: R. Gentleman <rgentlem@hsph.harvard.edu>
+Dependencies: annotate, Biobase
 License: GPL2.0
