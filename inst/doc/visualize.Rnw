@@ -139,10 +139,10 @@ Laboratory.
 
 \begin{center}
 <<fig=TRUE, echo=FALSE>>=
- 
+ par(mfrow=c(1,1)) 
  mycols <- c("red", "darkgreen", "blue")[eset$cov3]
  alongChrom(eset, "1", hgu95AProbLocs, plotFormat="cumulative", 
-	col=mycols)
+        col=mycols)
 @
 \end{center}
 
