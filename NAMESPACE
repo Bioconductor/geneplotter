@@ -1,6 +1,6 @@
 export(alongChrom, cColor, cPlot, cScale, dChip.colors,
 greenred.colors, GetColor, plotChr, plotExpressionGraph, savepng,
-savepdf, saveeps, savetiff, colorRampPalette, colorRamp, make.chromOrd,
+savepdf, saveeps, savetiff, make.chromOrd,
 openHtmlPage, closeHtmlPage)
 
 exportMethods("Makesense", "imageMap")
