@@ -87,16 +87,7 @@ We use both the location and the orientation when making plots.
 
  strand <- multiget(affy, env=hu6800CHRLOC)
 
- gstr <- sapply(strand, function(x) as.numeric(x[1]))
- names(gstr) <- names(strand)
-
- orient <- multiget(affy, env=hu6800CHRORI)
- gorient <- sapply(orient, function(x) x[1])
- names(gorient) <- names(orient)
-
- gx<-ifelse(gorient=="-", -gstr, gstr)
-
- splits <- split(gx, chrs2)
+ splits <- split(strand, chrs2)
  length(splits)
  names(splits)
 
