@@ -67,7 +67,7 @@ plotExpressionGraph(graph, nodeLLmap, exprs, LOCUSIDenvir, mapFun, log = FALSE, 
 \seealso{\code{\link{plot.graph}}, \code{integrinMediatedCellAdhesion}}
 \examples{
    if ((require("Rgraphviz")) && (require("hgu95av2")) &&
-        (require("fibroEset"))) {     
+        (require("fibroEset")) && (interactive())) {     
             data(integrinMediatedCellAdhesion)
             data(fibroEset)
             attrs=getDefaultAttrs()
