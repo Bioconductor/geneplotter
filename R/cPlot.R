@@ -42,9 +42,9 @@ cColor <- function(genes, color, plotChroms,
     scale <- match.arg(scale)
     xPoints <- 1000
 
-    if (!exists("hgu95Achrom", mode="environment"))
-        data(hgu95Achrom)
-    gc <- unlist(multiget(genes,env=hgu95Achrom))
+    gcO <- multiget(genes,env=geneToChrom(plotChroms))
+    gc <- sapply(gcO, function(x) {if( class(x) == "chromLoc") return(chrom(x))
+            return(NA)} )
     gchr <- split(names(gc),gc)
     gchr[["NA"]] <- NULL
 
@@ -52,10 +52,7 @@ cColor <- function(genes, color, plotChroms,
     ## plotting any results.
     locList <- chromLocs(plotChroms)
 
-    if (!exists("hgCLengths", mode="environment"))
-        data(hgCLengths)
-
-    lens <- hgCLengths
+    lens <- chromLengths(plotChroms)
 
     for (cName in names(gchr)) {
         locs <- locList[[cName]][gchr[[cName]]]
@@ -66,6 +63,7 @@ cColor <- function(genes, color, plotChroms,
         }
     }
   }
+
 
 
 cPlot <- function(plotChroms, useChroms=chromNames(plotChroms),
@@ -81,10 +79,7 @@ cPlot <- function(plotChroms, useChroms=chromNames(plotChroms),
     chromNames <- chromNames(plotChroms)
     labs <- chromNames[chromNames %in% useChroms]
 
-    if (!exists("hgCLengths", mode="environment"))
-        data(hgCLengths)
-
-    lens <- hgCLengths
+    lens <- chromLengths(plotChroms)
     lens <- lens[chromNames %in% labs]
 
     ## Build the initial plot structure
