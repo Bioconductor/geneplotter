@@ -26,10 +26,10 @@ identifyLines(identEnvir,...)
 }
 \examples{
    data(eset)
-   data(hgu95ProbLocs)
+   data(hgu95AProbLocs)
    lty <- c(1, 2, 3, 4, 5)
    cols <- c("red", "green", "blue", "orange", "magenta", "black")
-   identEnv <- alongChrom(eset,"1", hgu95ProbLocs, xloc="equispaced",
+   identEnv <- alongChrom(eset,"1", hgu95AProbLocs, xloc="equispaced",
                           plotFormat="cumulative", scale="none",
                           lty,cols)
    if (interactive()) {

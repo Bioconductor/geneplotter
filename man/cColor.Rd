@@ -26,12 +26,12 @@ cColor(genes, color, plotChroms)
   \code{\link{cPlot}}
 }
 \examples{
-     data(hgu95ProbLocs)
-     cPlot(hgu95ProbLocs)
+     data(hgu95AProbLocs)
+     cPlot(hgu95AProbLocs)
      genes <- c("266_s_at", "31411_at", "610_at", "failExample")
-     cColor(genes, "red", hgu95ProbLocs)
+     cColor(genes, "red", hgu95AProbLocs)
      genes2 <- c("960_g_at", "41807_at", "931_at", "39032_at")
-     cColor(genes2, "blue", hgu95ProbLocs)
+     cColor(genes2, "blue", hgu95AProbLocs)
 }
 \keyword{utilities}
 

@@ -3,6 +3,7 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
                        plotFormat=c("cumulative", "local","image"),
                        scale=c("none","zscale","rankscale","rangescale",
                                "zrobustscale"),
+                       geneSymbols=FALSE,
                        lty=1, colors="red", ...) {
 
     ## Will plot a set of exprset samples by genes of a chromosome
@@ -20,6 +21,10 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
     }
 
     geneNames <- names(usedGenes)
+    if (geneSymbols == TRUE) {
+        geneNames <- .getGeneSyms(geneNames)
+    }
+
 
     ##make sure we get the full name for all args
     xloc <- match.arg(xloc)
@@ -220,6 +225,13 @@ identifyLines <- function(identEnvir, ...) {
     }
 
     return(usedGenes)
+}
+
+.getGeneSyms <- function(affys) {
+    data(hgu95Asym)
+    syms <- multiget(affys, env=hgu95Asym)
+    syms[is.na(syms)] <- affys[is.na(syms)]
+    return(as.character(syms))
 }
 
 .getClosestPos <- function(val, usedGenes) {

@@ -33,14 +33,14 @@ cPlot(plotChroms, useChroms=chromNames(plotChroms),
 \author{Jeff Gentry}
 \seealso{\code{\link{cScale}}}
 \examples{
-     data(hgu95ProbLocs)
+     data(hgu95AProbLocs)
 
      if (interactive()) {
        par(ask=TRUE)
      }
 
      for (sc in c("max","relative"))
-       cPlot(hgu95ProbLocs,c("1","5","10","X","Y"),sc)
+       cPlot(hgu95AProbLocs,c("1","5","10","X","Y"),sc)
 }
 \keyword{utilities}
 

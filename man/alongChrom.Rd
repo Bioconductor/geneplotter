@@ -51,7 +51,7 @@
 \author{Jeff Gentry}
 \examples{
    data(eset)
-   data(hgu95ProbLocs)
+   data(hgu95AProbLocs)
    lty <- c(1, 2, 3, 4, 5)
    cols <- c("red", "green", "blue", "orange", "magenta", "black")
    cols <- cols[eset$cov3]
@@ -64,7 +64,7 @@
    for (xl in c("equispaced", "physical"))
      for (sc in c("none","rangescale"))
      {
-        alongChrom(eset, "1", hgu95ProbLocs, xlim=xlim, xloc=xl,
+        alongChrom(eset, "1", hgu95AProbLocs, xlim=xlim, xloc=xl,
            plotFormat="cumulative", scale=sc,lty=lty, col=cols)
      }
 
@@ -76,12 +76,12 @@
    for (xl in c("equispaced", "physical"))
      for (sc in c("none","rangescale"))
      {
-        alongChrom(eset, "1", hgu95ProbLocs, which=which, xloc=xl,
+        alongChrom(eset, "1", hgu95AProbLocs, which=which, xloc=xl,
            plotFormat="cumulative", scale=sc,lty=lty, col=cols)
      }
 
   ## Do an image plot
-  alongChrom(eset, "1", hgu95ProbLocs, xlim=xlim, plotFormat="image",
+  alongChrom(eset, "1", hgu95AProbLocs, xlim=xlim, plotFormat="image",
              scale="zscale")
 }
 \keyword{utilities}
