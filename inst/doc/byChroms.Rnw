@@ -37,7 +37,7 @@ This is relatively straightforward if you have access to a Bioconductor
 data package. In this example we will consider using the
 \texttt{hu6800} data package to construct our object.
 
-<<<loaddata>>=
+<<loaddata>>=
 
  library(annotate)
  library(hu6800)
