@@ -46,7 +46,8 @@ scale=c("none","zscale","rankscale","rangescale","zrobustscale")[1], lTypes="1",
    lty <- c(1, 2, 3, 4, 5)
    cols <- c("red", "green", "blue", "orange", "magenta", "black")
    if (interactive()) {
-      par(ask=T) # this gets you away from using the mouse to advance the plots
+      opar <- par(ask=T)
+      on.exit(par(opar))
    }
    for (xl in c("equispaced", "physical"))
     for (fo in c("cumulative", "local"))
