@@ -3,6 +3,8 @@
 
 #Cheng Li's Red/Blue color scheme
 
+dChip.colors <- function(n) GetColor(seq(-3,3,6/n))
+
 GetColor <- function(value, GreenRed=FALSE, DisplayRange=3) {
     RGB <- function(x,y,z) rgb(x/255,y/255,z/255)
     missing <- is.na(value)
