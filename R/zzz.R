@@ -1,5 +1,6 @@
 .First.lib <- function(libname, pkgname, where)
- { require(methods)
+ { 
+  require(annotate) 
   if(missing(where)) {
         where <- match(paste("package:", pkgname, sep=""), search())
         if(is.na(where)) {
