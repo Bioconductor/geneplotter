@@ -1,6 +1,7 @@
 Package: geneplotter
-Title: Geneplotter: plot microarray data
-Version: 1.4.2
+Title: Grapics related functions for Bioconductor
+Version: 1.4.3
+Date: 26 Oct 2004
 Author: R. Gentleman
 Description: Some basic functions for plotting genetic data
 Maintainer: Jeff Gentry <jgentry@jimmy.harvard.edu>
