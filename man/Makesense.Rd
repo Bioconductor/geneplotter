@@ -51,7 +51,7 @@ positive and negative strands of a chromosome, each of which isan object returne
 
 \seealso{ \code{\link{plotChr}}}
 \examples{
-if (!is.installed("hgu133a"))
+require("hgu133a") ||
 stop("\nThis example requires the hgu133a package which is not installed.",
      "\nPlease install the package (perhaps using: ",
      "install.packages2(\"hgu133a\")) and try again")
