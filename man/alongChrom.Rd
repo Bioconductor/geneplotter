@@ -45,6 +45,7 @@ scale=c("none","zscale","rankscale","rangescale","zrobustscale")[1], lTypes="1",
    data(hgu95ProbLocs)
    lty <- c(1, 2, 3, 4, 5)
    cols <- c("red", "green", "blue", "orange", "magenta", "black")
+   cols <- cols[eset$cov3]
    if (interactive()) {
       par(ask=TRUE)
    }
