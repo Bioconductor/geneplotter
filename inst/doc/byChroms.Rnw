@@ -55,7 +55,7 @@ data package. In this example we will consider using the
  chrs[lens==2]
 
 @
-So somehow ten of the genes are mapped to two different chromosomes.
+So somehow nine of the genes are mapped to two different chromosomes.
 We really should sort that out, but for now we can just put them all
 on the X chromosome (they are all X,Y).
 Based on OMIM the these genes
