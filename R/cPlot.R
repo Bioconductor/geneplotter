@@ -54,7 +54,7 @@ cColor <- function(genes, color, plotChroms) {
     }
 }
 
-cPlot <- function(plotChroms, scale=c("max","relative")[1], ccol="lightgrey") {
+cPlot <- function(plotChroms, scale=c("max","relative")[1], ccol="white") {
     ## Passed an instance of a chromLocation class, and the number of
     ## points to represent on the X axis, will utilize that data
     ## to plot a set of genes on their proper chromosome locations.
@@ -62,8 +62,10 @@ cPlot <- function(plotChroms, scale=c("max","relative")[1], ccol="lightgrey") {
     xPoints <- 1000
 
     ## Build the initial plot structure
+    op <- par(bg="lightgrey")
     plot(c(1, xPoints), c(1,24), type="n", xlab="", ylab="Chromosomes",
     axes=FALSE,)
+    par(op)
     labs <- rev(chromNames(plotChroms))
     axis(2, c(1:nChrom(plotChroms)), labs)
 
