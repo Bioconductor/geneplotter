@@ -3,7 +3,7 @@ plotExpressionGraph <- function(graph, nodeLLmap, exprs, LOCUSIDenvir,
     require("Rgraphviz") || stop("Requires Rgraphviz to continue")
 
     envll <- unlist(contents(LOCUSIDenvir))
-    graphLLs <- unlist(lapply(IMCALocusLink, function(x){x[1]}))
+    graphLLs <- unlist(lapply(nodeLLmap, function(x){x[1]}))
     graphAffys <- names(envll)[envll %in% graphLLs]
 
     if (missing(mapFun))
