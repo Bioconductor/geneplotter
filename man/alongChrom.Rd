@@ -13,7 +13,7 @@
 \usage{
 alongChrom(eSet, chrom, specChrom,  xloc=c("equispaced", "physical")[1],
 plotFormat=c("cumulative", "local")[1],
-scale=c("none","zscale","rankscale","rangescale","zrobustscale")[1], lTypes="1", colors="red",...)
+scale=c("none","zscale","rankscale","rangescale","zrobustscale")[1], lty=1, colors="red",...)
 }
 \arguments{
   \item{eSet}{The exprset object to be used.}
@@ -28,7 +28,7 @@ scale=c("none","zscale","rankscale","rangescale","zrobustscale")[1], lTypes="1",
     is cumulative.}
   \item{scale}{Determines what method of scaling will be applied to the
     data.  Default is none.}
-  \item{lTypes}{A vector of line types, which will be cycled. }
+  \item{lty}{A vector of line types, which will be cycled. }
   \item{colors}{A vector of colors for the plots, which will be cycled.}
   \item{...}{Any remaining graphics commands may be passed along as per plot()}
 }

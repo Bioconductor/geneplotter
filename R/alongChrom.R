@@ -3,7 +3,7 @@ alongChrom <- function(eSet, chrom, specChrom,
                        plotFormat=c("cumulative", "local")[1],
                        scale=c("none","zscale","rankscale","rangescale",
                                "zrobustscale")[1],
-                       lTypes="1", colors="red", ...) {
+                       lty=1, colors="red", ...) {
 
     ## Will plot a set of exprset samples by genes of a chromosome
     ## according to their expression levels.
@@ -72,7 +72,7 @@ alongChrom <- function(eSet, chrom, specChrom,
     opar <- par(mar=c(6,5,4,1),mgp=c(4,1,0))
     on.exit(par(opar))
 
-    matplot(xPoints, chromExprs, type="S", lty=lTypes, col=colors,
+    matplot(xPoints, chromExprs, type="S", lty=lty, col=colors,
             xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,...)
 
     ## Make sure that xPoints isn't exceeding our visual maximum.
