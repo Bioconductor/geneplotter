@@ -1,7 +1,7 @@
 \name{alongChrom}
 \alias{alongChrom}
-\title{A function for plotting cumulative expression data from an
-  exprset for a given chromosome. }
+\title{A function for plotting expression data from an exprset for a
+  given chromosome. }
 \description {
   Given a particular exprset object, a chromLocation object, and a
   chromosome name - will plot the cumulative sum of the data for all
@@ -13,7 +13,7 @@
 \usage{
    alongChrom(eSet, chrom, specChrom,  xlim, whichGenes, 
    xloc=c("equispaced", "physical")[1], 
-   plotFormat=c("cumulative", "local")[1], 
+   plotFormat=c("cumulative", "local","image")[1], 
    scale=c("none","zscale","rankscale","rangescale","zrobustscale")[1], 
    lty=1, colors="red",...)}
 \arguments{
@@ -30,9 +30,7 @@
   \item{xloc}{Determines whether the X axis points (gene names) will be
     displayed according to their relative position on the chromosome
     (physical), or spaced evenly (equispaced).  Default is equispaced.}
-  \item{plotFormat}{Determines whether the cumulative sum is to be
-    generated from the expression data, or just the raw data.  Default
-    is cumulative.}
+  \item{plotFormat}{Determines the method which to plot the data.}
   \item{scale}{Determines what method of scaling will be applied to the
     data.  Default is none.}
   \item{lty}{A vector of line types, which will be cycled. }
@@ -42,9 +40,13 @@
 \details{
   The genes on the chromosome of interst are extracted from the
   chromLocation object passed in, which are then intersected with the
-  genes listed in the exprset.  These remaining genes will then have
-  either their raw expression values or the cumulative sums of these
-  values plotted.  
+  genes listed in the exprset.  These remaining genes will then be
+  plotted according to the 'plotFormat' argument.  If "image" is
+  specified, an image plot is created showing the expression levels of
+  the samples by gene, using a colour map to denote the levels.  If
+  "cumulative" is chosen, the cumulative expression level is plotted
+  against the genes for each sample.  Likewise, if "local" is used, the
+  raw data is plotted for each sample against the genes.
 }
 \author{Jeff Gentry}
 \examples{
@@ -75,6 +77,10 @@
         alongChrom(eset, "1", hgu95ProbLocs, which=which, xloc=xl,
            plotFormat="cumulative", scale=sc,lty=lty, col=cols)
      }
+
+  ## Do an image plot
+  alongChrom(eset, "1", hgu95ProbLocs, xlim=xlim, plotFormat="image",
+             scale="zscale")
 }
 \keyword{utilities}
 

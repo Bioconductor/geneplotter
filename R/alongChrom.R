@@ -1,6 +1,6 @@
 alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
                        xloc=c("equispaced", "physical")[1],
-                       plotFormat=c("cumulative", "local")[1],
+                       plotFormat=c("cumulative", "local","image")[1],
                        scale=c("none","zscale","rankscale","rangescale",
                                "zrobustscale")[1],
                        lty=1, colors="red", ...) {
@@ -9,7 +9,12 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
     ## - Give a warning if requested genes are snipped out
     ## - If the resultant length of usedGEnes from snipping is 1, just
     ##   plot it striahgt up
-    ## - image plot
+    ## - "physical" locations do not work with image plotting
+    ## currently, only equispaced
+
+
+    ## !!! Most likely should rework alongChrom at some point, as it
+    ## !!! been cobbled together over time due to feature creep
 
     ## Will plot a set of exprset samples by genes of a chromosome
     ## according to their expression levels.
@@ -60,6 +65,20 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
         usedGenes <- usedGenes[names(usedGenes) %in% whichGenes]
     }
 
+
+    ## Get the expression data, cumulative or otherwise
+    chromExprs <- .getExprs(eSet, usedGenes, plotFormat,scale)
+
+    ## If an image plot was requested, the function becomes vastly
+    ## different from this point on - pass the relevant data to
+    ## .doImagePlot(), and return
+    if (plotFormat == "image") {
+        return(.doImagePlot(chromExprs, chrom, names(usedGenes),
+                            scale, 10))
+    }
+
+    ## Create the labels for the plots
+
     ## The Y axis label varies according to if we're taking
     ## cumulative sums or not
     if (plotFormat == "cumulative") {
@@ -102,9 +121,6 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
         title(main = main)
         return()
     }
-
-    ## Get the expression data, cumulative or otherwise
-    chromExprs <- .getExprs(eSet, usedGenes, plotFormat,scale)
 
 
     ## In the case of local expression graphs, the labels are
@@ -160,6 +176,54 @@ identifyLines <- function(identEnvir, ...) {
                   rep(nrow(yPoints),ncol(yPoints))), ...)
 
     return(x)
+}
+
+.doImagePlot <- function(exprs,chrom, geneNames, scale, nCols) {
+    ## Passed in the expression matrix, the names of the
+    ## used genes, the name of the chromosome, the scaling method & the number
+    ## of colours to utilize in the plot, will generate
+    ## an image plot
+
+    ## !!! Currently not meshed well w/ alongChrom.  There are a few
+    ## !!! blocks of redundant code shared between them.
+
+    ## !!! Most likely should rework alongChrom at some point, as it
+    ## !!! been cobbled together over time due to feature creep
+
+    ngenes <- nrow(exprs)
+    nsamp <- ncol(exprs)
+
+    ## Get the colour mapping
+    d <- dChip.colors(nCols)
+    w <- sort(exprs)
+    b <- quantile(w,probs=seq(0,1,(1/length(d))))
+
+    ## Build the labels
+    main <- paste("Expression levels for chromosome",chrom,"by gene location")
+    main <- paste(main,"\nscaling method:",scale)
+    xlab="Gene Locations"
+    ylab="Samples"
+
+    ## Build the plot
+    xPoints <- 1:ngenes
+
+    image(x=xPoints,y=1:(nsamp+1),z=exprs, col=d, breaks=b,
+          xlab=xlab, ylab=ylab, main=main, axes=FALSE)
+    axis(2, at=1:nsamp, labels=colnames(exprs))
+
+    dispXPoints <- .cullXPoints(xPoints)
+    dispPointLocs <- match(dispXPoints, xPoints)
+
+    axis(1, at=dispXPoints, labels=geneNames[dispPointLocs],
+    las=2, cex.axis=0.7)
+
+    ## Create an environment that contains the necessary X & Y points
+    ## for use with identify()
+
+    ## !!! As is, does not return the proper data
+    ##    identEnv <- new.env()
+    ##    multiassign(c("X","Y"),list(xPoints,exprs),envir=identEnv)
+    ##    return(identEnv)
 }
 
 .scaleData <-
