@@ -9,7 +9,8 @@
 }
 \usage{
 alongChrom(eSet, chrom, specChrom,  xloc=c("equispaced", "physical")[1],
-plotFormat=c("cumulative", "local")[1], lTypes="1", colors="red",...)
+plotFormat=c("cumulative", "local")[1],
+scale=c("none","zscale","madscale","rangescale")[1], lTypes="1", colors="red",...)
 }
 \arguments{
   \item{eSet}{The exprset object to be used.}
@@ -22,6 +23,8 @@ plotFormat=c("cumulative", "local")[1], lTypes="1", colors="red",...)
   \item{plotFormat}{Determines whether the cumulative sum is to be
     generated from the expression data, or just the raw data.  Default
     is cumulative.}
+  \item{scale}{Determines what method of scaling will be applied to the
+    data.  Default is none.}
   \item{lTypes}{A vector of line types, which will be cycled. }
   \item{colors}{A vector of colors for the plots, which will be cycled.}
   \item{...}{Any remaining graphics commands may be passed along as per plot()}
@@ -42,10 +45,11 @@ plotFormat=c("cumulative", "local")[1], lTypes="1", colors="red",...)
    par(ask=T) # this gets you away from using the mouse to advance the plots
    for (xl in c("equispaced", "physical"))
     for (fo in c("cumulative", "local"))
-    {
-      alongChrom(eset, "1", hgu95ProbLocs, xloc=xl, plotFormat=fo,
-                 lty, cols)
-    }
+     for (sc in c("none","rangescale","madscale","zscale"))
+     {
+        alongChrom(eset, "1", hgu95ProbLocs, xloc=xl, plotFormat=fo,
+                   scale=sc,lty, cols)
+      }
 
 }
 \keyword{utilities}

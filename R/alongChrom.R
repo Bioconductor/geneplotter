@@ -47,26 +47,31 @@
     ## Will scale the data set to be plotted based on a variety of
     ## methods
 
-    if (method == "none") {
-        return(chromData)
+    if (method != "none") {
+        for (i in 1:nrow(chromData)) {
+            x <- chromData[i,]
+            if (method == "zscale") {
+                chromData[i,] <- x - (mean(x)/sd(x))
+            }
+            else if (method == "rangescale") {
+                curRange <- range(x)
+                curScale <- curRange[1] / (curRange[2] - curRange[1])
+                chromData[i,] <- x - curScale
+            }
+            else if (method == "madscale")
+            {
+                chromData[i,] <- x/mad(x)
+            }
+        }
     }
-    else if (method == "zscale") {
-        return((chromData - (mean(chromData) / sd(chromData))))
-    }
-    else if (method == "rangescale") {
-        curRange <- range(chromData)
-        curScale <- curRange[1] / (curRange[2] - curRange[1])
-        return(chromData - curScale)
-    }
-    else if (method == "madscale")
-    {
-        return((chromData / mad(chromData)))
-    }
+
+    return(chromData)
 }
 
 alongChrom <- function(eSet, chrom, specChrom,
                        xloc=c("equispaced", "physical")[1],
                        plotFormat=c("cumulative", "local")[1],
+                       scale=c("none","zscale","madscale","rangescale")[1],
                        lTypes="1", colors="red", ...) {
 
     ## Will plot a set of exprset samples by genes of a chromosome
@@ -86,7 +91,7 @@ alongChrom <- function(eSet, chrom, specChrom,
         ylab <- "Expression levels"
     }
 
-    chromExprs <- .scaleData(chromExprs,"rangescale")
+    chromExprs <- .scaleData(chromExprs,scale)
 
     ## Plot data
     if (xloc == "equispaced") {
@@ -96,13 +101,16 @@ alongChrom <- function(eSet, chrom, specChrom,
         ## Build main label
         main <- paste(ylab,"by genes in chromosome")
         main <- paste(main,chrom)
+        main <- paste(main,", scaling method:",sep="")
+        main <- paste(main,scale)
     }
     else {
         xPoints <- as.numeric(abs(usedGenes)) + 1
         ## Build main label
         main <- paste(ylab,"in chromosome")
         main <- paste(main,chrom)
-        main <- paste(main,"by relative position.")
+        main <- paste(main,"by relative position, scaling method:")
+        main <- paste(main,scale)
     }
 
     ## Plot the graph
