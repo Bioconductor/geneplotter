@@ -122,8 +122,8 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
         else {
             pts <- posPoints+1
             nts <- negPoints+1
-            posDup <- dup[pts]
-            negDup <- dup[nts]
+            posDup <- dup[dup %in% pts]
+            negDup <- dup[dup %in% nts]
         }
         posGen <- geneNames[pts]
         posStr <- strands[pts]
