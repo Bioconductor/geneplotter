@@ -1,20 +1,20 @@
 if (is.null(getGeneric("Makesense")))
-    setGeneric("Makesense", function(object, lib, f)
+    setGeneric("Makesense", function(expr, lib, f)
                standardGeneric("Makesense"))
 
-setMethod("Makesense", "exprSet", function(object, lib, f) {
+setMethod("Makesense", "exprSet", function(expr, lib, f) {
     if (missing(lib))
-        lib <- annotation(object)
+        lib <- annotation(expr)
 
     if (length(lib) == 0)
         stop("No annotation library supplied")
 
     if (missing(f))
         f <- 1/10
-    Makesense(exprs(object), lib, f)
+    Makesense(exprs(expr), lib, f)
 })
 
-setMethod("Makesense", "matrix", function(object, lib, f) {
+setMethod("Makesense", "matrix", function(expr, lib, f) {
     if(!require(lib, character.only=TRUE))
         stop("data library ",lib," not avaiable")
 
@@ -38,7 +38,7 @@ setMethod("Makesense", "matrix", function(object, lib, f) {
 
     cP <- split(chrPos, chrName)
 
-    gE <- object[names(oneC&oneL)[oneC&oneL],]
+    gE <- expr[names(oneC&oneL)[oneC&oneL],]
     ans2 <- vector("list", length=ncol(gE))
     libCHRLENGTHS <- get(paste(lib,"CHRLENGTHS",sep=""))
 
