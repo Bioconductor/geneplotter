@@ -23,12 +23,12 @@ cColor(genes, color, plotChroms)
 }
 \author{Jeff Gentry}
 \examples{
-     data(hgChromClass)
-     cPlot(hgChromClass)
+     data(hgu95AffyProbeData)
+     cPlot(hgu95AffyProbeData)
      genes <- c("266_s_at", "31411_at", "610_at", "failExample")
-     cColor(genes, "red", hgChromClass)
+     cColor(genes, "red", hgu95AffyProbeData)
      genes2 <- c("960_g_at", "41807_at", "931_at", "39032_at")
-     cColor(genes2, "blue", hgChromClass)
+     cColor(genes2, "blue", hgu95AffyProbeData)
 }
 \keyword{utilities}
 
