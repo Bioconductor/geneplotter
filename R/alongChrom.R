@@ -11,6 +11,9 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
     ## Get the genes to display
     usedGenes <- usedChromGenes(eSet, chrom, specChrom)
 
+    ## Filter out any NA positioned genes
+    usedGenes <- usedGenes[!is.na(usedGenes)]
+
     ## Limit genes to requested range
     if (!missing(xlim)) {
         usedGenes <- .limitXRange(xlim, usedGenes)
@@ -32,6 +35,8 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
         usedGenes <- usedGenes[nameLocs]
         geneNames <- names(usedGenes)
     }
+
+    strands <- ifelse(usedGenes>0,"+","-")
 
     nGenes <- length(usedGenes)
     if (nGenes == 0) {
@@ -60,7 +65,7 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
 
     ## If image plot was requested, split off here
     if (plotFormat == "image") {
-        return(.doImagePlot(chromExprs, chrom, geneNames, scale, main,
+        return(.doImagePlot(chromExprs, chrom, geneNames, strands, scale, main,
                             xlab, 10))
     }
 
@@ -87,7 +92,7 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
     on.exit(par(opar))
     matplot(xPoints, chromExprs, type="S", lty=lty, col=colors,
             xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,...)
-    .dispXAxis(xPoints, xPool, geneNames, plotFormat)
+    .dispXAxis(xPoints, xPool, geneNames, plotFormat,strands)
 
     ## Create an environment that contains the necessary X & Y points
     ## for use with identify()
@@ -113,7 +118,7 @@ identifyLines <- function(identEnvir, ...) {
     return(x)
 }
 
-.dispXAxis <- function(xPoints, xPool, geneNames, plotFormat) {
+.dispXAxis <- function(xPoints, xPool, geneNames, plotFormat, strands) {
 
     ## Make sure that xPoints isn't exceeding our visual maximum.
     ## If so, reduce the number of poitns to actually be displayed.
@@ -126,9 +131,12 @@ identifyLines <- function(identEnvir, ...) {
 
     axis(1, at=dispXPoints, labels = geneNames[dispPointLocs], las=2,
          cex.axis=0.7,)
+
+    axis(3, at=dispXPoints, labels = strands[dispPointLocs], cex.axis=0.8)
 }
 
-.doImagePlot <- function(exprs,chrom, geneNames, scale, main, xlab, nCols) {
+.doImagePlot <- function(exprs,chrom, geneNames, strands, scale, main,
+                         xlab, nCols) {
     ## Passed in the expression matrix, the names of the
     ## used genes, the name of the chromosome, the scaling method & the number
     ## of colours to utilize in the plot, will generate
@@ -153,7 +161,7 @@ identifyLines <- function(identEnvir, ...) {
           xlab=xlab, ylab=ylab, main=main, axes=FALSE)
     axis(2, at=1:nsamp, labels=colnames(exprs))
 
-    .dispXAxis(xPoints, xPoints, geneNames, "image")
+    .dispXAxis(xPoints, xPoints, geneNames, "image", strands)
 
     ## Create an environment that contains the necessary X & Y points
     ## for use with identify()
