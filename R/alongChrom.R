@@ -1,8 +1,8 @@
 alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
-                       xloc=c("equispaced", "physical")[1],
-                       plotFormat=c("cumulative", "local","image")[1],
+                       xloc=c("equispaced", "physical"),
+                       plotFormat=c("cumulative", "local","image"),
                        scale=c("none","zscale","rankscale","rangescale",
-                               "zrobustscale")[1],
+                               "zrobustscale"),
                        lty=1, colors="red", ...) {
 
     ## Will plot a set of exprset samples by genes of a chromosome
@@ -17,6 +17,11 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
     }
 
     geneNames <- names(usedGenes)
+
+    ##make sure we get the full name for all args
+    xloc <- match.arg(xloc)
+    plotFormat <- match.arg(plotFormat)
+    scale <- match.arg(scale)
 
     ## Select out requested genes
     if (!missing(whichGenes)) {
@@ -201,11 +206,12 @@ identifyLines <- function(identEnvir, ...) {
 
 .scaleData <-
     function(chromData,
-    method=c("none","zscale","rangescale","rankscale", "zrobustscale")[1])
+    method=c("none","zscale","rangescale","rankscale", "zrobustscale"))
 {
     ## Will scale the data set to be plotted based on a variety of
     ## methods
 
+    method <- match.arg(method)
     if (method != "none") {
         for (i in 1:nrow(chromData)) {
             x <- chromData[i,]
@@ -221,6 +227,10 @@ identifyLines <- function(identEnvir, ...) {
             }
             else if (method == "zrobustscale") {
                 chromData[i,] <- (x - median(x))/mad(x)
+            }
+            else {
+                stmt <- paste("method:", method, ", is not implemented yet")
+                stop(stmt)
             }
         }
     }
@@ -283,14 +293,17 @@ identifyLines <- function(identEnvir, ...) {
 }
 
 .getExprs <- function(eSet, usedGenes,
-                      plotFormat=c("cumulative","local")[1],
-                      scale=c("none","zscale","rangescale","rankscale", "zrobustscale")[1])
+                      plotFormat=c("cumulative","local", "image"),
+                      scale=c("none","zscale","rangescale","rankscale", "zrobustscale"))
 {
     ## Will get the expression data for the given genes out of the
     ## expr set.  If plotFormat is set to cumulative, will generate the
     ## cumulative sum of this data across the genes.
 
     ## Split out only the genes on the desired chrom from the exprset
+    plotFormat <- match.arg(plotFormat)
+    scale <- match.arg(scale)
+
     chromExprs <- eSet@exprs[names(usedGenes),]
 
     chromExprs <- .scaleData(chromExprs,scale)
