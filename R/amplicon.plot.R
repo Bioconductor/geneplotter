@@ -5,17 +5,20 @@ make.chromOrd <- function(genome, gnames) {
         stop("need a character vector indicating the genome")
     require("annotate") || stop("need the annotate package")
 
-    hgu95cloc <- read.annotation(paste(genome,"chroloc", sep=""))
-    allGcrloc <- multiget(gnames, env=hgu95cloc)
+    clname <- paste(genome, "chrloc", sep="")
+    data(clname)
+    allGcrloc <- multiget(gnames, env=get(clname))
     myfun <- function(x) min(as.numeric(x))
     allGcloc <- sapply(allGcrloc, myfun)
 
-    if( !exists("hgu95Chrom", mode="environment") )
-        hgu95Chrom <- read.annotation(paste(genome,"chrom", sep=""))
-    whichChrom <- unlist(multiget(gnames, env=hgu95Chrom))
+    dname <- paste(genome, "chrom", sep="")
+    if( !exists(dname, mode="environment") )
+        data(dname)
+    whichChrom <- unlist(multiget(gnames, env=get(dname)))
     byChr.cloc <- split(allGcloc, whichChrom)
-    byChr.ord <- vector("list", length=25)
-    for(i in 1:25 ) byChr.ord[[i]] <- order(byChr.cloc[[i]])
+    nchrom <- length(byChr.cloc)
+    byChr.ord <- vector("list", length=nchrom)
+    for(i in 1:nchrom ) byChr.ord[[i]] <- order(byChr.cloc[[i]])
     names(byChr.ord) <- names(byChr.cloc)
     byChr.ord$"NA" <- NULL
     byChr.ord
@@ -23,16 +26,17 @@ make.chromOrd <- function(genome, gnames) {
 
 ##actually do the amplicon plotting
 
-amplicon.plot <- function(ESET, FUN, genome ) {
+amplicon.plot <- function(ESET, FUN, genome="hgu95A" ) {
     print("this will take a few seconds")
     tests <- esApply(ESET, 1, FUN)
     tests.pvals <- sapply(tests, function(x) x$p.value)
     tests.stats <- sapply(tests, function(x) x$statistic)
 
-    if( !exists("hgu95Chrom", mode="environment") )
-        hgu95Chrom <- read.annotation(paste(genome,"chrom", sep=""))
+    dname <- paste(genome, "chrom", sep="")
+    if( !exists(dname, mode="environment") )
+        data(dname)
 
-    whichChrom <- unlist(multiget(geneNames(ESET), env=hgu95Chrom))
+    whichChrom <- unlist(multiget(geneNames(ESET), env=get(dname)))
     ##split these by chromosome
     byChr.pv <- split(tests.pvals, whichChrom)
     byChr.stat <- split(tests.stats, whichChrom)
