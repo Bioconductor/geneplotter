@@ -7,14 +7,14 @@ make.chromOrd <- function(genome, gnames) {
 
     clname <- paste(genome, "chroloc", sep="")
     do.call("data", list(clname))
-    allGcrloc <- multiget(gnames, env=get(clname))
+    allGcrloc <- mget(gnames, env=get(clname), ifnotfound=NA)
     myfun <- function(x) min(as.numeric(x))
     allGcloc <- sapply(allGcrloc, myfun)
 
     dname <- paste(genome, "chrom", sep="")
     if( !exists(dname, mode="environment") )
         do.call("data", list(dname))
-    whichChrom <- unlist(multiget(gnames, env=get(dname)))
+    whichChrom <- unlist(mget(gnames, env=get(dname), ifnotfound=NA))
     byChr.cloc <- split(allGcloc, whichChrom)
     nchrom <- length(byChr.cloc)
     byChr.ord <- vector("list", length=nchrom)
@@ -36,7 +36,8 @@ amplicon.plot <- function(ESET, FUN, genome="hgu95A" ) {
     if( !exists(dname, mode="environment") )
         do.call("data", list(dname))
 
-    whichChrom <- unlist(multiget(geneNames(ESET), env=get(dname)))
+    whichChrom <- unlist(multiget(geneNames(ESET), env=get(dname),
+                                  ifnotfound=NA))
     ##split these by chromosome
     byChr.pv <- split(tests.pvals, whichChrom)
     byChr.stat <- split(tests.stats, whichChrom)

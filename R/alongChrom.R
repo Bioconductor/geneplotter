@@ -155,7 +155,7 @@ doACLocalPlot <- function(dataEnv, labEnv, colors) {
 
     envTitles <- c("chromExprs", "geneNames", "strands", "dup")
     ## Retrieve data values
-    envVals <- multiget(c(envTitles,"byStrand"),envir=dataEnv)
+    envVals <- mget(c(envTitles,"byStrand"),envir=dataEnv, ifnotfound=NA)
 
     xPoints <- 1:nrow(envVals$chromExprs)
 
@@ -201,7 +201,7 @@ doACCumPlot <- function(dataEnv, labEnv, usedGenes, xloc, colors, lty, type,
                          ...) {
     envTitles <- c("chromExprs", "dup", "geneNames", "strands",
                    "byStrand")
-    envVals <- multiget(envTitles, envir=dataEnv)
+    envVals <- mget(envTitles, envir=dataEnv, ifnotfound=NA)
 
     ## Create a fictitious start & end gene to help with plots
     start <- abs(as.numeric(usedGenes[1])) * 0.8
@@ -443,7 +443,7 @@ identifyLines <- function(identEnvir, ...) {
     ## Will call identify() on teh alongChrom() plot to detail which
     ## lines map tow which samples
 
-    points <- multiget(c("X","Y"), envir=identEnvir)
+    points <- mget(c("X","Y"), envir=identEnvir, ifnotfound=NA)
 
     xPoints <- points$X
     yPoints <- points$Y
@@ -506,7 +506,7 @@ limitACXRange <- function(xlim, usedGenes) {
 }
 
 getACGeneSyms <- function(affys, chrObj) {
-    syms <- multiget(affys, env=geneSymbols(chrObj))
+    syms <- mget(affys, env=geneSymbols(chrObj), ifnotfound=NA)
     syms[is.na(syms)] <- affys[is.na(syms)]
     return(as.character(syms))
 }
