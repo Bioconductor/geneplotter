@@ -81,10 +81,13 @@ We use both the location and the orientation when making plots.
 <<strandloc>>=
 
  strand <- multiget(affy, env=hu6800CHRLOC)
+
  gstr <- sapply(strand, function(x) x[1])
+ names(gstr) <- names(strand)
 
  orient <- multiget(affy, env=hu6800CHRORI)
  gorient <- sapply(orient, function(x) x[1])
+ names(gorient) <- names(orient)
 
  gx<-ifelse(gorient=="-", -gstr, gstr)
 
