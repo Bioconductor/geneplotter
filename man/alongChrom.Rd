@@ -78,7 +78,7 @@
    ## A bit of a hack to not have a package dependency on hgu95av2
    ## but need to fiddle w/ the warn level to not fail the example anyways.
    curWarn <- options(warn=0)
-   on.exit(options(warn=curWarn), add=TRUE)
+   on.exit(options(warn=curWarn$warn), add=TRUE)
    if (require(hgu95av2)) {
       z <- buildChromLocation("hgu95av2")
       lty <- c(1, 2, 3, 4, 5)

@@ -349,7 +349,7 @@ dispACXaxis <- function(xPoints, dataEnv, xloc="equispaced",
          cex.axis=0.7,)
     if (byStrand == FALSE) {
         axis(3, at=dispXPoints, labels = strands[dispPointLocs],
-             cex.axis=0.8, tick=FALSE, mgp=c(0,0,0))
+             cex.axis=0.7, tick=FALSE, mgp=c(0,0,0))
     }
 }
 
