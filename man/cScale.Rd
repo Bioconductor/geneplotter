@@ -8,21 +8,29 @@
   factors for each chromosome.
 }
 \usage{
-cScale(points, cLengths)
+cScale(points, cLengths, method=c("max","relative")[1])
 }
 \arguments{
   \item{points}{The number of points to scale the chromosome length to.}
   \item{cLengths}{A vector of chromosome lengths. }
+  \item{method}{Determines whether to use relative or absolute scaling.
+    Default is "max" (absolute).}
 }
 \details{
-  The scale factor is simply derived by dividing the cLength argument by
-  the length of a particular chromosome.  These factors are then
-  returned to the calling function.
+  The scale factor is calculated in a manner based on the "method"
+  argument.  If method is "max", the factor is derived by dividing the
+  points argument by each chromosome's length (in base pairs).  If the
+  method chosen is "relative", then the scale is determined by dividing
+  the points argument by the maximum chromsome length, and applying that
+  value to each chromosome.
 }
 \author{Jeff Gentry}
+\seealso{\code{\link{cPlot}}}
 \examples{
      data(hgCLengths)
-     scales <- cScale(1000, hgCLengths)
+
+     for (sc in c("max","relative"))
+       scales <- cScale(1000, hgCLengths,sc)
 }
 \keyword{utilities}
 
