@@ -39,53 +39,49 @@ In order to use the various \Rpackage{geneplotter} functions you will
 need to assemble an object of class \Robject{chromLocation}.
 This is relatively straightforward if you have access to a Bioconductor
 data package. In this example we will consider using the
-\Rpackage{hu6800} data package to construct our object.
+\Rpackage{hu6800} data package to construct our object. This vignette
+was built with version \Sexpr{packageDescription("hu6800")$Version} of
+the package.
 
 <<loaddata>>=
 
  library("annotate")
  library("hu6800")
- affy <- ls(env=hu6800CHR)
+ lens <- unlist(eapply(hu6800CHR, length))
 
- chrs <- mget(affy, env=hu6800CHR)
-
- ##check to see if these are well behaved
- lens<-sapply(chrs,length)
  table(lens)
- chrs[lens==2]
+ wh2 = mget(names(lens)[lens==2], env = hu6800CHR)
 
+ wh2[1]
 @
-So somehow nine of the genes are mapped to two different chromosomes.
-We really should sort that out, but for now we can just put them all
-on the X chromosome (they are all X,Y).
-Based on OMIM the these genes
-are localized to the so called \textit{pseudoautosomal region} where
-the X and Y cromosomes are similar and there is actual recombination going on
-between them.
+
+So somehow \Sexpr{length(wh2)} of the genes are mapped to two
+ different chromosomes.  Based on OMIM the these genes are localized
+ to the so called \textit{pseudoautosomal region} where the X and Y
+ cromosomes are similar and there is actual recombination going on
+ between them. So, we will take the expedient measure of assigning
+ each of them to just one chromosome.
 
 <<fixdata>>=
-chrs2 <- sapply(chrs, function(x) x[1])
+chrs2 <- unlist(eapply(hu6800CHR, function(x) x[1]))
 chrs2 <- factor(chrs2)
 length(chrs2)
  table(unlist(chrs2))
 @
 
-Now we are ready to obtain the chromosome location data and orientation.
-The chromosome location data tells us the (approximate) location of
-the gene on the chromosome with distance taken from the
-%%FIXME:
-%which end is it now)?
+Now we are ready to obtain the chromosome location data and
+orientation.  The chromosome location data tells us the (approximate)
+location of the gene on the chromosome.  The positions for both the
+sense and antisense strand are number of base pairs measured from the
+p (5' end of the sense strand) to q (3' end of the sense strand) arms.
 Chromosomes are double stranded and the gene is encoded on only one of
 those two strands. The strands are labeled plus and minus (sense and
-                                                           antisense).
-We use both the location and the orientation when making plots.
-%%FIXME:
-%Someone needs to check to see if the distance is from the same end
-%for both strands
+antisense).  We use both the location and the orientation when making
+plots.
 
 <<strandloc>>=
 
- strand <- mget(affy, env=hu6800CHRLOC)
+ strand <- as.list(hu6800CHRLOC)
 
  splits <- split(strand, chrs2)
  length(splits)
