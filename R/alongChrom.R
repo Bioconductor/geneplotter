@@ -3,7 +3,7 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
                        plotFormat=c("cumulative", "local","image"),
                        scale=c("none","zscale","rankscale","rangescale",
                                "zrobustscale"),
-                       geneSymbols=FALSE,
+                       geneSymbols=FALSE, byStrand=FALSE,
                        lty=1, type="S", colors="red", ...) {
 
     ## Will plot a set of exprset samples by genes of a chromosome
@@ -75,7 +75,7 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
     ## If image plot was requested, split off here
     if (plotFormat == "image") {
         return(.doImagePlot(chromExprs, chrom, geneNames, strands, scale, main,
-                            xlab, 10))
+                            xlab, 10, byStrand))
     }
 
     ## Define the points for the x axis
@@ -90,31 +90,69 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
                 (0.5 * (xPoints[dup+1]-xPoints[dup]))
         }
     }
-
-    ## Local plots are shifted over, so create a faxe xPoint on the end
-    if (plotFormat == "local") {
-        chromExprs <- rbind(chromExprs,chromExprs[length(xPoints),])
-        xPoints <- c(xPoints,xPoints[length(xPoints)]+1)
-        xPool <- xPoints[1:length(xPoints)-1]
-    }
-    else {
-        xPool <- xPoints
-    }
-
+    xlim <- range(xPoints)
 
     ## Plot the graph
     opar <- par(mar=c(6,5,4,1),mgp=c(4,1,0))
     on.exit(par(opar))
-    matplot(xPoints, chromExprs, type=type, lty=lty, col=colors,
-            xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,...)
-    .dispXAxis(xPoints, xPool, geneNames, plotFormat,strands)
-    if (any(dup)) {
-        if (xloc == "equispaced") {
-            segments(dup-2,1,dup-1,1,col="cyan",lwd=2)
+
+    if (byStrand == TRUE) {
+        mfPar <- par(mfrow = c(2,1))
+        on.exit(par(mfPar))
+
+        posExprs <- chromExprs[which(strands=="+"),]
+        negExprs <- chromExprs[which(strands=="-"),]
+        posPoints <- xPoints[strands %in% "+"]
+        negPoints <- xPoints[strands %in% "-"]
+
+        if (xloc == "physical") {
+            pts <- which(xPoints %in% posPoints)
+            nts <- which(xPoints %in% negPoints)
+            posDup <- posPoints[dup]
+            negDup <- negPoints[dup]
         }
         else {
-            segments(xPoints[dup-1],1,xPoints[dup],1,col="cyan",lwd=2)
+            pts <- posPoints+1
+            nts <- negPoints+1
+            posDup <- dup[pts]
+            negDup <- dup[nts]
         }
+        posGen <- geneNames[pts]
+        posStr <- strands[pts]
+        negGen <- geneNames[nts]
+        negStr <- strands[nts]
+
+        ## Local plots are shifted over, so create a faxe xPoint on the end
+        if (plotFormat == "local") {
+            posExprs <- rbind(posExprs,posExprs[length(posPoints),])
+            posPoints <- c(posPoints,posPoints[length(posPoints)]+1)
+
+            negExprs <- rbind(negExprs,negExprs[length(negPoints),])
+            negPoints <- c(negPoints,negPoints[length(negPoints)]+1)
+        }
+
+
+        .doMatPlot(posPoints, posExprs, xlim=xlim, type=type, lty=lty, col=colors,
+                   xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,
+                   dup=posDup, plotFormat=plotFormat,
+                   geneNames=posGen, strands=posStr,  xloc=xloc,...)
+        .doMatPlot(negPoints, negExprs, xlim=xlim, type=type, lty=lty, col=colors,
+                   xlab=xlab,ylab=ylab, xaxt="n", main=NULL, cex.lab=0.9,
+                   dup=negDup, plotFormat=plotFormat,
+                   geneNames=negGen, strands=negStr,  xloc=xloc, ...)
+
+    }
+    else {
+            ## Local plots are shifted over, so create a faxe xPoint on the end
+        if (plotFormat == "local") {
+            chromExprs <- rbind(chromExprs,chromExprs[length(xPoints),])
+            xPoints <- c(xPoints,xPoints[length(xPoints)]+1)
+        }
+
+        .doMatPlot(xPoints, chromExprs, xlim=xlim, type=type, lty=lty, col=colors,
+                   xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,
+                   dup=dup, plotFormat=plotFormat, geneNames=geneNames,
+                   strands=strands,  xloc=xloc, ...)
     }
 
     ## Create an environment that contains the necessary X & Y points
@@ -141,11 +179,35 @@ identifyLines <- function(identEnvir, ...) {
     return(x)
 }
 
-.dispXAxis <- function(xPoints, xPool, geneNames, plotFormat, strands) {
+.doMatPlot <- function(xPoints, chromExprs, xlim, type, lty, col,
+                       xlab, ylab, xaxt, main, cex, dup,
+                       plotFormat, geneNames, strands, xloc, ...) {
+
+    matplot(xPoints, chromExprs, xlim=xlim, type=type, lty=lty, col=col,
+            xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,...)
+
+    .dispXAxis(xPoints, geneNames, plotFormat,strands)
+
+    dup <- dup[!is.na(dup)]
+    if (any(dup)) {
+        if (xloc == "equispaced") {
+            segments(dup-2,1,dup-1,1,col="cyan",lwd=2)
+        }
+        else {
+            segments(xPoints[dup-1],1,xPoints[dup],1,col="cyan",lwd=2)
+        }
+    }
+}
+
+.dispXAxis <- function(xPoints, geneNames, plotFormat, strands) {
 
     ## Make sure that xPoints isn't exceeding our visual maximum.
     ## If so, reduce the number of poitns to actually be displayed.
-    dispXPoints <- .cullXPoints(xPool)
+    if (plotFormat == "local") {
+        xPoints <- xPoints[1:length(xPoints)-1]
+    }
+
+    dispXPoints <- .cullXPoints(xPoints)
     dispPointLocs <- match(dispXPoints,xPoints)
 
     if (plotFormat == "local") {
@@ -155,11 +217,12 @@ identifyLines <- function(identEnvir, ...) {
     axis(1, at=dispXPoints, labels = geneNames[dispPointLocs], las=2,
          cex.axis=0.7,)
 
-    axis(3, at=dispXPoints, labels = strands[dispPointLocs], cex.axis=0.8)
+    axis(3, at=dispXPoints, labels = strands[dispPointLocs],
+         cex.axis=0.8, tick=FALSE, mgp=c(0,0,0))
 }
 
 .doImagePlot <- function(exprs,chrom, geneNames, strands, scale, main,
-                         xlab, nCols) {
+                         xlab, nCols, byStrand=FALSE) {
     ## Passed in the expression matrix, the names of the
     ## used genes, the name of the chromosome, the scaling method & the number
     ## of colours to utilize in the plot, will generate
@@ -180,19 +243,33 @@ identifyLines <- function(identEnvir, ...) {
     ## Build the plot
     xPoints <- 1:ngenes
 
-    image(x=xPoints,y=1:(nsamp+1),z=exprs, col=d, breaks=b,
-          xlab=xlab, ylab=ylab, main=main, axes=FALSE)
-    axis(2, at=1:nsamp, labels=colnames(exprs))
+    if (byStrand==TRUE) {
+        mfPar <- par(mfrow = c(2,1))
+        on.exit(par(mfPar))
+        midVal <- b[length(b)/2]
+        pos <- xPoints[which(strands == "+")]
+        neg <- xPoints[which(strands == "-")]
+        posExprs <- exprs
+        posExprs[neg,] <- midVal
+        negExprs <- exprs
+        negExprs[pos,] <- midVal
 
-    .dispXAxis(xPoints, xPoints, geneNames, "image", strands)
+        image(x=xPoints,y=1:(nsamp+1),z=posExprs, col=d, breaks=b,
+              xlab=xlab, ylab=ylab, main=main, axes=FALSE)
+        axis(2, at=1:nsamp, labels=colnames(posExprs))
+        .dispXAxis(xPoints, geneNames, "image", strands)
 
-    ## Create an environment that contains the necessary X & Y points
-    ## for use with identify()
-
-    ## !!! As is, does not return the proper data
-    ##    identEnv <- new.env()
-    ##    multiassign(c("X","Y"),list(xPoints,exprs),envir=identEnv)
-    ##    return(identEnv)
+        image(x=xPoints,y=1:(nsamp+1),z=negExprs, col=d, breaks=b,
+              xlab=xlab, ylab=ylab, axes=FALSE)
+        axis(2, at=1:nsamp, labels=colnames(exprs))
+        .dispXAxis(xPoints, geneNames, "image", strands)
+    }
+    else {
+        image(x=xPoints,y=1:(nsamp+1),z=exprs, col=d, breaks=b,
+              xlab=xlab, ylab=ylab, main=main, axes=FALSE)
+        axis(2, at=1:nsamp, labels=colnames(exprs))
+        .dispXAxis(xPoints, geneNames, "image", strands)
+    }
 }
 
 .limitXRange <- function(xlim, usedGenes) {
