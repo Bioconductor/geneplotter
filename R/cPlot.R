@@ -9,48 +9,64 @@
     ## Get the scaling factor
     scale <- match.arg(scale)
 
-    scale <- cScale(xPoints, chromLens, scale)
+    scaledX <- cScale(xPoints, chromLens, scale, chromNum)
 
     nlocs <- length(locs)
 
     ## APply the scaling factor to the x positions
-    locs <- locs*scale[chromNum]
+    locs <- locs*scaledX
 
     ## Determine the direction of the Y plot (+ or -)
-    ypos <- rep(chromNum, nlocs)
+    cNum <- match(chromNum, names(chromLens))
+    ypos <- rep(cNum, nlocs)
     ytop <- ifelse(locs>0, ypos+glen, ypos-glen)
-
-    if (scale == "max") {
-        lines(c(1,xPoints-1),c(chromNum,chromNum),col="blue")
-    }
-    else {
-        lines(c(1,max(abs(locs))),c(chromNum,chromNum),col="blue")
-    }
 
     ## Plot
     segments(abs(locs), ypos, abs(locs), ytop, col=fg)
+
+    ## Drawn last to ensure that that the lines are actually displayed
+    if (scale == "max") {
+        lines(c(1,xPoints-1),c(cNum,cNum),col="blue")
+    }
+    else {
+        lines(c(1,max(abs(locs[!is.na(locs)]))),c(cNum,cNum),col="blue")
+    }
 }
 
-cColor <- function(genes, color, plotChroms) {
+cColor <- function(genes, color, plotChroms,
+                   scale=c("max","relative"), glen=0.4) {
     ## Passed a vector of gene names, a color and an instance of a
     ## chromLocation class.  Will recolor the specific genes in the
-    ## cPlot created plot to match the specified color
-
+    ## cPlot created plot to match the specified color.  Scale should
+    ## be the same as the scale from cPlot
+    scale <- match.arg(scale)
     xPoints <- 1000
 
-    ## Get the chromLocs listing from the chromLocation class
-    locList <- chromLocs(plotChroms)
+    if (!exists("hgu95Achrom", mode="environment"))
+        data(hgu95Achrom)
+    gc <- unlist(multiget(genes,env=hgu95Achrom))
+    gchr <- split(names(gc),gc)
+    gchr[["NA"]] <- NULL
 
     ## Look up the locations of these genes in each chromosome,
     ## plotting any results.
-    for (i in 1:nChrom(plotChroms)) {
-        locs <- locList[[i]][genes]
+    locList <- chromLocs(plotChroms)
+
+    if (!exists("hgCLengths", mode="environment"))
+        data(hgCLengths)
+
+    lens <- hgCLengths
+
+    for (cName in names(gchr)) {
+        locs <- locList[[cName]][gchr[[cName]]]
         locs <- as.numeric(locs[!is.na(locs)])
         if (length(locs) > 0) {
-            .plotData(i, locs, xPoints, chromLengths(plotChroms), color)
+            .plotData(cName, locs, xPoints, lens,
+                      color, scale, glen)
         }
     }
-}
+  }
+
 
 cPlot <- function(plotChroms, useChroms=chromNames(plotChroms),
                   scale=c("max","relative"), fg="white",
@@ -61,11 +77,15 @@ cPlot <- function(plotChroms, useChroms=chromNames(plotChroms),
     scale <- match.arg(scale)
 
     xPoints <- 1000
-    glen <- glen
 
     chromNames <- chromNames(plotChroms)
     labs <- rev(chromNames[chromNames %in% useChroms])
-    lens <- chromLengths(plotChroms)
+
+##    lens <- chromLengths(plotChroms)
+    if (!exists("hgCLengths", mode="environment"))
+        data(hgCLengths)
+
+    lens <- hgCLengths
     lens <- rev(lens[chromNames %in% labs])
 
     ## Build the initial plot structure
@@ -76,10 +96,10 @@ cPlot <- function(plotChroms, useChroms=chromNames(plotChroms),
 
     axis(2, c(1:length(labs)), labs)
 
-    byChroms <- chromLocs(plotChroms)
+    byChroms <- chromLocs(plotChroms)[labs]
 
-    for (i in 1:length(labs)) {
-        .plotData(i,byChroms[[labs[i]]], xPoints, lens, fg, scale,glen);
+    for (cName in labs) {
+        .plotData(cName,byChroms[[cName]], xPoints, lens, fg, scale,glen);
     }
 }
 
