@@ -47,7 +47,7 @@ data package. In this example we will consider using the
  library("hu6800")
  affy <- ls(env=hu6800CHR)
 
- chrs <- multiget(affy, env=hu6800CHR)
+ chrs <- mget(affy, env=hu6800CHR)
 
  ##check to see if these are well behaved
  lens<-sapply(chrs,length)
@@ -85,7 +85,7 @@ We use both the location and the orientation when making plots.
 
 <<strandloc>>=
 
- strand <- multiget(affy, env=hu6800CHRLOC)
+ strand <- mget(affy, env=hu6800CHRLOC)
 
  splits <- split(strand, chrs2)
  length(splits)
