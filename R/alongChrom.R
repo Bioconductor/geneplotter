@@ -9,10 +9,7 @@ alongChrom <- function(eSet, chrom, specChrom,
     ## according to their expression levels.
     ## Get the genes to display
     usedGenes <- .getGenes(eSet, chrom, specChrom)
-
-    ## Get the expression data, cumulative or otherwise
-    chromExprs <- .getExprs(eSet, usedGenes, plotFormat,scale)
-
+    usedGenes <- NULL
     ## The Y axis label varies according to if we're taking
     ## cummulative sums or not
     if (plotFormat == "cumulative") {
@@ -25,8 +22,10 @@ alongChrom <- function(eSet, chrom, specChrom,
 
     ## Plot data
     if (xloc == "equispaced") {
-        xPoints <- length(names(usedGenes)) - 1
-        xPoints <- 0:xPoints
+        if (length(usedGenes) != 0) {
+            xPoints <- length(names(usedGenes)) - 1
+            xPoints <- 0:xPoints
+        }
 
         ## Build main label
         main <- paste(ylab,"by genes in chromosome",chrom)
@@ -34,11 +33,28 @@ alongChrom <- function(eSet, chrom, specChrom,
         main <- paste(main,scale,"\n")
     }
     else {
-        xPoints <- as.numeric(abs(usedGenes)) + 1
+        if (length(usedGenes) != 0) {
+            xPoints <- as.numeric(abs(usedGenes)) + 1
+        }
+
         ## Build main label
         main <- paste(ylab,"in chromosome",chrom,
                       "by relative position\nscaling method:",scale,"\n")
     }
+
+    if (length(usedGenes) == 0) {
+        plot.new()
+        axis(1,labels=rep("NA",6))
+        axis(2, labels=rep("NA",6))
+        main <- paste("Plot empty, no genes from chromosome",chrom,
+                      "in exprSet provided.\n")
+
+        title(main = main)
+        return()
+    }
+
+    ## Get the expression data, cumulative or otherwise
+    chromExprs <- .getExprs(eSet, usedGenes, plotFormat,scale)
 
 
     ## In the case of local expression graphs, the labels are
