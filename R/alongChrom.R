@@ -4,7 +4,7 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
                        scale=c("none","zscale","rankscale","rangescale",
                                "zrobustscale"),
                        geneSymbols=FALSE,
-                       lty=1, colors="red", ...) {
+                       lty=1, type="S", colors="red", ...) {
 
     ## Will plot a set of exprset samples by genes of a chromosome
     ## according to their expression levels.
@@ -42,6 +42,10 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
     }
 
     strands <- ifelse(usedGenes>0,"+","-")
+
+    ## Check for duplicated positions
+    dup <- duplicated(abs(as.numeric(usedGenes)))
+    dup <- which(dup)
 
     nGenes <- length(usedGenes)
     if (nGenes == 0) {
@@ -81,7 +85,12 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
     }
     else if (xloc == "physical") {
         xPoints <- abs(as.numeric(usedGenes)) + 1
+        if (any(dup)) {
+            xPoints[dup] <- xPoints[dup] +
+                (0.5 * (xPoints[dup+1]-xPoints[dup]))
+        }
     }
+
     ## Local plots are shifted over, so create a faxe xPoint on the end
     if (plotFormat == "local") {
         chromExprs <- rbind(chromExprs,chromExprs[length(xPoints),])
@@ -92,12 +101,21 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
         xPool <- xPoints
     }
 
+
     ## Plot the graph
     opar <- par(mar=c(6,5,4,1),mgp=c(4,1,0))
     on.exit(par(opar))
-    matplot(xPoints, chromExprs, type="S", lty=lty, col=colors,
+    matplot(xPoints, chromExprs, type=type, lty=lty, col=colors,
             xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,...)
     .dispXAxis(xPoints, xPool, geneNames, plotFormat,strands)
+    if (any(dup)) {
+        if (xloc == "equispaced") {
+            segments(dup-2,1,dup-1,1,col="cyan",lwd=2)
+        }
+        else {
+            segments(xPoints[dup-1],1,xPoints[dup],1,col="cyan",lwd=2)
+        }
+    }
 
     ## Create an environment that contains the necessary X & Y points
     ## for use with identify()
