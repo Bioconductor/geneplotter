@@ -30,7 +30,7 @@ cScale(points, cLengths, method=c("max","relative")[1])
      data(hgCLengths)
 
      for (sc in c("max","relative"))
-       scales <- cScale(1000, hgCLengths,sc)
+       scale <- cScale(1000, hgCLengths,sc,"Y")
 }
 \keyword{utilities}
 
