@@ -18,7 +18,7 @@
                       plotFormat=c("cumulative","local")[1])
 {
     ## Will get the expression data for the given genes out of the
-    ## expr set.  If cumul is set to TRUE, will generate the
+    ## expr set.  If plotFormat is set to cumulative, will generate the
     ## cumulative sum of this data across the genes.
 
     ## Split out only the genes on the desired chrom from the exprset
