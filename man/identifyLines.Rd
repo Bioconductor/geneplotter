@@ -29,7 +29,7 @@ identifyLines(identEnvir)
    lty <- c(1, 2, 3, 4, 5)
    cols <- c("red", "green", "blue", "orange", "magenta", "black")
    identEnv <- alongChrom(eset,"1", hgu95ProbLocs, xloc="equispaced",
-                          plotformat="cumulative", scale="none",
+                          plotFormat="cumulative", scale="none",
                           lty,cols)
    if (interactive()) {
      identifyLines(identEnv)
