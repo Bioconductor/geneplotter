@@ -9,7 +9,6 @@ alongChrom <- function(eSet, chrom, specChrom,
     ## according to their expression levels.
     ## Get the genes to display
     usedGenes <- usedChromGenes(eSet, chrom, specChrom)
-    usedGenes <- NULL
     ## The Y axis label varies according to if we're taking
     ## cummulative sums or not
     if (plotFormat == "cumulative") {
