@@ -58,7 +58,7 @@
                 curRange <- range(x)
                 chromData[i,] <- (x - curRange[1])/(curRange[2] - curRange[1])
             }
-            else if (method == "rank") {
+            else if (method == "rankscale") {
                 chromData[i,] <- rank(x)
             }
             else if (method == "zrobustscale") {
