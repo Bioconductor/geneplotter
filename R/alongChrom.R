@@ -145,12 +145,16 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
                    dup=posDup, plotFormat=plotFormat,
                    geneNames=posGen, strands=posStr,  xloc=xloc,
                    byStrand=byStrand, ...)
+        mtext("Plus",
+              side=3,line=0.35,outer=FALSE,at=mean(par("usr")[1:2]))
+
         .doMatPlot(negPoints, negExprs, xlim=xlim, ylim=ylim, type=type, lty=lty, col=colors,
                    xlab=xlab,ylab=ylab, xaxt="n", main=NULL, cex.lab=0.9,
                    dup=negDup, plotFormat=plotFormat,
                    geneNames=negGen, strands=negStr,  xloc=xloc,
                    byStrand=byStrand, ...)
-
+        mtext("Minus",
+              side=3,line=0.35,outer=FALSE,at=mean(par("usr")[1:2]))
     }
     else {
             ## Local plots are shifted over, so create a faxe xPoint on the end
@@ -277,12 +281,15 @@ identifyLines <- function(identEnvir, ...) {
         axis(2, at=1:nsamp, labels=colnames(posExprs))
         .dispXAxis(xPoints, geneNames, "image", strands,
                    byStrand=byStrand)
-
+        mtext("Plus",
+              side=3,line=0.35,outer=FALSE,at=mean(par("usr")[1:2]))
         image(x=xPoints,y=1:(nsamp+1),z=negExprs, col=d, breaks=b,
               xlab=xlab, ylab=ylab, axes=FALSE)
         axis(2, at=1:nsamp, labels=colnames(exprs))
         .dispXAxis(xPoints, geneNames, "image", strands,
                    byStrand=byStrand)
+        mtext("Minus",
+              side=3,line=0.35,outer=FALSE,at=mean(par("usr")[1:2]))
     }
     else {
         image(x=xPoints,y=1:(nsamp+1),z=exprs, col=d, breaks=b,
