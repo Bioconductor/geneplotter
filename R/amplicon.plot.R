@@ -5,15 +5,15 @@ make.chromOrd <- function(genome, gnames) {
         stop("need a character vector indicating the genome")
     require("annotate") || stop("need the annotate package")
 
-    clname <- paste(genome, "chrloc", sep="")
-    data(clname)
+    clname <- paste(genome, "chroloc", sep="")
+    do.call("data", list(clname))
     allGcrloc <- multiget(gnames, env=get(clname))
     myfun <- function(x) min(as.numeric(x))
     allGcloc <- sapply(allGcrloc, myfun)
 
     dname <- paste(genome, "chrom", sep="")
     if( !exists(dname, mode="environment") )
-        data(dname)
+        do.call("data", list(dname))
     whichChrom <- unlist(multiget(gnames, env=get(dname)))
     byChr.cloc <- split(allGcloc, whichChrom)
     nchrom <- length(byChr.cloc)
@@ -34,7 +34,7 @@ amplicon.plot <- function(ESET, FUN, genome="hgu95A" ) {
 
     dname <- paste(genome, "chrom", sep="")
     if( !exists(dname, mode="environment") )
-        data(dname)
+        do.call("data", list(dname))
 
     whichChrom <- unlist(multiget(geneNames(ESET), env=get(dname)))
     ##split these by chromosome
@@ -47,7 +47,13 @@ amplicon.plot <- function(ESET, FUN, genome="hgu95A" ) {
     chromOrd <- make.chromOrd(genome, geneNames(ESET))
     nchrom <- length(chromOrd)
 
-    geneOrd <- c(1:22,"X","Y")
+    #get the names of the chromosome and their order
+    #for plotting
+    chromNames <- paste(genome, "chromNames", sep="")
+    if( !exists(chromNames, mode="environment") )
+        do.call("data", list(chromNames))
+    geneOrd <- get(chromNames)
+
     chromOrd <- chromOrd[geneOrd]
     byChr.pv <- byChr.pv[geneOrd]
     byChr.stat <- byChr.stat[geneOrd]
@@ -72,8 +78,8 @@ amplicon.plot <- function(ESET, FUN, genome="hgu95A" ) {
     }
     z<- data.frame(ncols)
     z<- as.matrix(z)
-    image(z, col=c("blue","white", "red"), xlab="Gene location",
-          ylab="Chromosome", axes=FALSE )
-    axis(2, at = (0:(nchrom-1))/nchrom, labels=names(byChr.pv))
+    image(1:maxlen, 1:nchrom, z, col=c("blue","white", "red"),
+    xlab="Gene location", ylab="Chromosome", axes=FALSE )
+    axis(2, at = 1:nchrom, labels=names(byChr.pv))
 }
 
