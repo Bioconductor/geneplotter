@@ -12,10 +12,10 @@
 }
 \usage{
    alongChrom(eSet, chrom, specChrom,  xlim, whichGenes, 
-   xloc=c("equispaced", "physical")[1], 
-   plotFormat=c("cumulative", "local","image")[1], 
-   scale=c("none","zscale","rankscale","rangescale","zrobustscale")[1], 
-   lty=1, colors="red",...)}
+   xloc=c("equispaced", "physical"), 
+   plotFormat=c("cumulative", "local","image"), 
+   scale=c("none","zscale","rankscale","rangescale","zrobustscale"),
+   geneSymbols=FALSE, byStrand=FALSE, lty=1, type="S",colors="red",...)}
 \arguments{
   \item{eSet}{The exprset object to be used.}
   \item{chrom}{The desired chromosome.}
@@ -33,6 +33,10 @@
   \item{plotFormat}{Determines the method which to plot the data.}
   \item{scale}{Determines what method of scaling will be applied to the
     data.  Default is none.}
+  \item{geneSymbols}{Notes whether to use Affy IDs or Gene Symbols,
+    default is Affy IDs}
+  \item{byStrand}{Determines whether to show the entire plot at once, or
+    a split plot by strands.  Default is a singular plot}
   \item{lty}{A vector of line types, which will be cycled. }
   \item{colors}{A vector of colors for the plots, which will be cycled.}
   \item{...}{Any remaining graphics commands may be passed along as per plot()}
@@ -81,8 +85,9 @@
      }
 
   ## Do an image plot
-  alongChrom(eset, "1", hgu95AProbLocs, xlim=xlim, plotFormat="image",
-             scale="zscale")
+  for (bs in c(TRUE,FALSE))
+     alongChrom(eset, "1", hgu95AProbLocs, xlim=xlim, plotFormat="image",
+               scale="zscale", byStrand=bs)
 }
 \keyword{utilities}
 
