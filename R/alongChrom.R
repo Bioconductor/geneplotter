@@ -82,7 +82,7 @@ alongChrom <- function(eSet, chrom, specChrom,
     }
 
     ## Plot the graph
-    matplot(xPoints, chromExprs, type="s", lty=lTypes, col=colors,
+    matplot(xPoints, chromExprs, type="S", lty=lTypes, col=colors,
             xlab="",ylab=ylab, xaxt="n", main=main, cex.lab=0.9, ...)
     axis(1, at=xPoints, labels = names(usedGenes), las=2,
          cex.axis=0.7,)
