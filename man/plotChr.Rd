@@ -9,7 +9,7 @@ anti-sense from 5' to 3' (left to right on x-axis).
 plotChr(chrN, senseObj, cols = rep("blue", length(senseObj[[1]])), log = FALSE, xloc = c("equispaced", "physical"), geneSymbols = FALSE, ngenes = 20, lines.at = NULL, lines.col = "red")
 }
 \arguments{
-  \item{chrN}{The desired chromosome, a character string in the set of c(1:22, "X", "Y").}
+  \item{chrN}{The desired chromosome, e.g. for humans it would be a character string in the set of c(1:22, "X", "Y").}
   \item{senseObj}{The result of \code{Makesense}.}
   \item{cols}{A vector of colors for the lines in the plot, typically specified according to a certain pheotype of samples.}
   \item{log}{Logical, whether log-transformation should be taken on the smoothed expressions.}

@@ -10,7 +10,9 @@ Makesense(expr, lib, f = 1/10)
 }
 \arguments{
   \item{expr}{a matrix of gene expressions, with genes as rows and columns as samples.}
-  \item{lib}{chip type, a string of characters. E.g., "hgu95av2", "hgu133a". }
+  \item{lib}{The name of the Bioconductor annotation data package that
+    will be used to provide mappings from probes to chromosomal
+    locations, such as \code{hgu95av2} or \code{hgu133a}.}
   \item{f}{the smoother span to be passed to 'lowess'. Its value should be in the interval of (0,1). This gives the proportion of points in the plot which influence the smooth at each value. Larger values give more smoothness.}
 }
 \value{
