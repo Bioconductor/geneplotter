@@ -77,8 +77,7 @@
    data(eset)
    ## A bit of a hack to not have a package dependency on hgu95av2
    ## but need to fiddle w/ the warn level to not fail the example anyways.
-   curWarn <- getOption("warn")
-   options(warn=0)
+   curWarn <- options(warn=0)
    on.exit(options(warn=curWarn), add=TRUE)
    if (require(hgu95av2)) {
       z <- buildChromLocation("hgu95av2")
