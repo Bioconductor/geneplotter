@@ -3,10 +3,10 @@
 # and proceed to generate a visual representation of the
 # chromosomes.
 
-.plotData <- function(chromNum, locs, chromLens, color)
+.plotData <- function(chromNum, locs, xPoints, chromLens, color)
 {
   # Get the scaling factor
-  scale <- cScale(1000, chromLens);
+  scale <- cScale(xPoints, chromLens);
 
   nlocs <- length(locs)
 
@@ -58,8 +58,8 @@ cPlot <- function(plotChroms) {
     byChroms <- chromLocs(plotChroms)
 
     for (i in 1:nChrom(plotChroms)) {
-        .plotData(i,byChroms[[i]], xPoints,
-        chromLengths(plotChroms), "lightgrey");
+        .plotData(i,byChroms[[i]], xPoints, chromLengths(plotChroms),
+                  "lightgrey");
     }
 }
 
