@@ -1,0 +1,19 @@
+geneplotter contains plotting functions for microarrays
+
+ To Do:
+
+  o A mechanism to order the rows and columns of the microarray matrix.
+    order.restricted is a start. We need a mechanism for dendrograms.
+    Dan Carr suggested that there was a method based on Principle components. 
+
+  o Links to the annotation library. Using locator(1) we should be able
+    to simulate interaction with the plot and look up genes at LocusLink
+    etc.
+
+  o Color scheme for Red-Blue is the same as Cheng's but the Red Green still
+    looks funny.
+
+  o Need some notion of a viewport so that we can zoom in and out. Perhaps
+    Paul Murrell, Ross Ihaka or Saikat DebRoy can help out in this regard.
+
+  o Lots of other visualization methods need to be implemented.
