@@ -5,6 +5,12 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
                                "zrobustscale")[1],
                        lty=1, colors="red", ...) {
 
+    ## !!!!!! TODO
+    ## - Give a warning if requested genes are snipped out
+    ## - If the resultant length of usedGEnes from snipping is 1, just
+    ##   plot it striahgt up
+    ## - image plot
+
     ## Will plot a set of exprset samples by genes of a chromosome
     ## according to their expression levels.
     ## Get the genes to display
