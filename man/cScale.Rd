@@ -8,13 +8,14 @@
   factors for each chromosome.
 }
 \usage{
-cScale(points, cLengths, method=c("max","relative")[1])
+cScale(points, cLengths, method=c("max","relative"), chrom)
 }
 \arguments{
   \item{points}{The number of points to scale the chromosome length to.}
   \item{cLengths}{A vector of chromosome lengths. }
   \item{method}{Determines whether to use relative or absolute scaling.
     Default is "max" (absolute).}
+  \item{chrom}{Which chrom to determine the scale for}
 }
 \details{
   The scale factor is calculated in a manner based on the "method"

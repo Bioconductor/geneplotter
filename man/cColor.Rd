@@ -6,20 +6,24 @@
   a plot which has already been created via the function cPlot().
 }
 \usage{
-cColor(genes, color, plotChroms)
+cColor(genes, color, plotChroms, scale=c("max","relative"),glen=0.4)
 }
 \arguments{
   \item{genes}{The genes that are being highlighted.}
   \item{color}{The color to highlight the genes.}
   \item{plotChroms}{An object of type chromLocation which contains all
     the gene information to be plotted. }
+  \item{scale}{Whether to plot the graph scaled absolutely or relative
+    by chromosome.  Default is absolute.}
+  \item{glen}{The length of the gene line plotted}
 }
 \details{
   It is important to call the function cPlot() first.  This function
   will then search for the specific locations of the genes desired,
   which are contained within the plotChroms instance of a chromLocation
   class.  It will then pass these on to the plotting routine to
-  highlight the desired locations.
+  highlight the desired locations.  NOTE:  It is important that
+  plotChroms, scale and glen parameters are the same as used for cPlot().
 }
 \author{Jeff Gentry}
 \seealso{

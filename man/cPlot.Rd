@@ -7,7 +7,7 @@
 }
 \usage{
 cPlot(plotChroms, useChroms=chromNames(plotChroms),
-      scale=c("max","relative")[1], fg="white", bg="lightgrey", glen=0.4)
+      scale=c("max","relative"), fg="white", bg="lightgrey", glen=0.4)
 }
 \arguments{
   \item{plotChroms}{An object of type chromLocation which contains all
