@@ -20,7 +20,7 @@ cScale(points, cLengths)
   returned to the calling function.
 }
 \author{Jeff Gentry}
-\examples {
+\examples{
      data(cLengths)
      scales <- cScale(1000, cLengths)
 }
