@@ -102,7 +102,7 @@
      which <- c("31540_at","31583_at", "31508_at", "31529_at", "31439_f_at",
                "31729_at")
      ## Gene "31529_at" does not exist in the current set of genes,
-     ## here it demonstrates ohw genes not available are dropped.
+     ## here it demonstrates how genes not available are dropped.
       for (xl in c("equispaced", "physical"))
         for (sc in c("none","rangescale"))
         {
