@@ -1,36 +1,76 @@
-.getGenes <- function(eSet, chrom, specChrom) {
-    ## Will acquire the set of genes used in alongChrom
+alongChrom <- function(eSet, chrom, specChrom,
+                       xloc=c("equispaced", "physical")[1],
+                       plotFormat=c("cumulative", "local")[1],
+                       scale=c("none","zscale","rankscale","rangescale",
+                               "zrobustscale")[1],
+                       lTypes="1", colors="red", ...) {
 
-    ## Extract the gene names of the chromosome of interest
-    cLocs <- chromLocs(specChrom)
-    genes <- cLocs[[chrom]]
+    ## Will plot a set of exprset samples by genes of a chromosome
+    ## according to their expression levels.
+    ## Get the genes to display
+    usedGenes <- .getGenes(eSet, chrom, specChrom)
 
-    ## Extract out of the expr set the genes that belong on this chrom
-    usedGenes <- genes[names(genes) %in% geneNames(eSet)]
+    ## Get the expression data, cumulative or otherwise
+    chromExprs <- .getExprs(eSet, usedGenes, plotFormat,scale)
 
-    ## Order the genes by location
-    usedGenes <- sort(abs(usedGenes))
-
-    return(usedGenes)
-}
-
-.getExprs <- function(eSet, usedGenes,
-                      plotFormat=c("cumulative","local")[1])
-{
-    ## Will get the expression data for the given genes out of the
-    ## expr set.  If plotFormat is set to cumulative, will generate the
-    ## cumulative sum of this data across the genes.
-
-    ## Split out only the genes on the desired chrom from the exprset
-    chromExprs <- eSet@exprs[names(usedGenes),]
-
+    ## The Y axis label varies according to if we're taking
+    ## cummulative sums or not
     if (plotFormat == "cumulative") {
-       chromExprs <- t(chromExprs)
-       ## Fill the matrix with the cumulative sum of the expression
-       chromExprs <- apply(chromExprs, 1, cumsum)
-   }
+        ylab <- "Cumulative expression levels"
+    }
+    else {
+        ylab <- "Expression levels"
+    }
+    xlab <- "Representative Genes"
 
-   return(chromExprs)
+    ## Plot data
+    if (xloc == "equispaced") {
+        xPoints <- length(names(usedGenes)) - 1
+        xPoints <- 0:xPoints
+
+        ## Build main label
+        main <- paste(ylab,"by genes in chromosome",chrom)
+        main <- paste(main,"\nscaling method:",sep="")
+        main <- paste(main,scale,"\n")
+    }
+    else {
+        xPoints <- as.numeric(abs(usedGenes)) + 1
+        ## Build main label
+        main <- paste(ylab,"in chromosome",chrom,
+                      "by relative position\nscaling method:",scale,"\n")
+    }
+
+    ## Make sure that xPoints isn't exceeding our visual maximum.
+    ## If so, reduce the number of poitns to actually be displayed.
+    dispXPoints <- .cullXPoints(xPoints)
+    dispPointLocs <- match(dispXPoints,xPoints)
+
+    ## In the case of local expression graphs, the labels are
+    ## shifted over by half a point, so we need to create a fake X
+    ## point on the end
+    if (plotFormat == "local") {
+        chromExprs <- rbind(chromExprs,chromExprs[length(xPoints),])
+        xPoints <- c(xPoints,xPoints[length(xPoints)]+1)
+    }
+
+    ## Plot the graph
+    opar <- par(mar=c(6,5,4,1),mgp=c(4,1,0))
+    on.exit(par(opar))
+
+    matplot(xPoints, chromExprs, type="S", lty=lTypes, col=colors,
+            xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,...)
+    if (plotFormat == "local") {
+        dispXPoints <- dispXPoints+0.5
+    }
+    axis(1, at=dispXPoints, labels = names(usedGenes)[dispPointLocs], las=2,
+         cex.axis=0.7,)
+
+    ## Create an environment that contains the necessary X & Y points
+    ## for use with identify()
+    identEnv <- new.env()
+    multiassign(c("X","Y"),list(xPoints,chromExprs),envir=identEnv)
+
+    return(identEnv)
 }
 
 identifyLines <- function(identEnvir, ...) {
@@ -81,9 +121,16 @@ identifyLines <- function(identEnvir, ...) {
 .cullXPoints <- function(xPoints) {
     ## Will reduce the xPoints vector to a visibly manageable size
     ## Currently if the size > 40, will leave every Nth point where
-    ## xPoints/40 = N.
+    ## xPoints/maxSize = N.  Maximum number of points is determined
+    ## by determining the size of the label text and filling up 65%
+    ## of the axis space with labels.
 
-    maxSize <- 40
+    ## First get the size of the plotting region
+    preg <- par('pin')[1] * 0.65
+    ## Now get the font size
+    strsize <- strheight("test",units="inches")
+    ## Calculate the maxSize
+    maxSize <- preg %/% strsize
 
     if (length(xPoints) > maxSize) {
         ## Calculate N, and then get the maxSize elements from every
@@ -101,68 +148,40 @@ identifyLines <- function(identEnvir, ...) {
     return(xPoints)
 }
 
-alongChrom <- function(eSet, chrom, specChrom,
-                       xloc=c("equispaced", "physical")[1],
-                       plotFormat=c("cumulative", "local")[1],
-                       scale=c("none","zscale","rankscale","rangescale",
-                               "zrobustscale")[1],
-                       lTypes="1", colors="red", ...) {
+.getGenes <- function(eSet, chrom, specChrom) {
+    ## Will acquire the set of genes used in alongChrom
 
-    ## Will plot a set of exprset samples by genes of a chromosome
-    ## according to their expression levels.
-    ## Get the genes to display
-    usedGenes <- .getGenes(eSet, chrom, specChrom)
+    ## Extract the gene names of the chromosome of interest
+    cLocs <- chromLocs(specChrom)
+    genes <- cLocs[[chrom]]
 
-    ## Get the expression data, cumulative or otherwise
-    chromExprs <- .getExprs(eSet, usedGenes, plotFormat)
+    ## Extract out of the expr set the genes that belong on this chrom
+    usedGenes <- genes[names(genes) %in% geneNames(eSet)]
 
-    ## The Y axis label varies according to if we're taking
-    ## cummulative sums or not
-    if (plotFormat == "cumulative") {
-        ylab <- "Cumulative expression levels"
-    }
-    else {
-        ylab <- "Expression levels"
-    }
+    ## Order the genes by location
+    usedGenes <- sort(abs(usedGenes))
+
+    return(usedGenes)
+}
+
+.getExprs <- function(eSet, usedGenes,
+                      plotFormat=c("cumulative","local")[1],
+                      scale=c("none","zscale","rangescale","rankscale", "zrobustscale")[1])
+{
+    ## Will get the expression data for the given genes out of the
+    ## expr set.  If plotFormat is set to cumulative, will generate the
+    ## cumulative sum of this data across the genes.
+
+    ## Split out only the genes on the desired chrom from the exprset
+    chromExprs <- eSet@exprs[names(usedGenes),]
 
     chromExprs <- .scaleData(chromExprs,scale)
 
-    ## Plot data
-    if (xloc == "equispaced") {
-        xPoints <- length(names(usedGenes)) - 1
-        xPoints <- 0:xPoints
-
-        ## Build main label
-        main <- paste(ylab,"by genes in chromosome")
-        main <- paste(main,chrom)
-        main <- paste(main,", scaling method:",sep="")
-        main <- paste(main,scale)
-    }
-    else {
-        xPoints <- as.numeric(abs(usedGenes)) + 1
-        ## Build main label
-        main <- paste(ylab,"in chromosome")
-        main <- paste(main,chrom)
-        main <- paste(main,"by relative position, scaling method:")
-        main <- paste(main,scale)
+    if (plotFormat == "cumulative") {
+        chromExprs <- t(chromExprs)
+        ## Fill the matrix with the cumulative sum of the expression
+        chromExprs <- apply(chromExprs, 1, cumsum)
     }
 
-    ## Make sure that xPoints isn't exceeding our visual maximum.
-    ## If so, reduce the number of poitns to actually be displayed.
-    dispXPoints <- .cullXPoints(xPoints)
-
-    ## Plot the graph
-    matplot(xPoints, chromExprs, type="S", lty=lTypes, col=colors,
-            xlab="",ylab=ylab, xaxt="n", main=main, cex.lab=0.9, ...)
-    axis(1, at=dispXPoints, labels = names(usedGenes)[dispXPoints+1], las=2,
-         cex.axis=0.7,)
-
-    ## Create an environment that contains the necessary X & Y points
-    ## for use with identify()
-    identEnv <- new.env()
-##    multiassign(c("X","Y"),c(xPoints,chromExprs),envir=identEnv)
-    assign("X", xPoints, envir=identEnv)
-    assign("Y", chromExprs, envir=identEnv)
-    return(identEnv)
+    return(chromExprs)
 }
-
