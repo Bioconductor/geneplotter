@@ -79,14 +79,13 @@ cPlot <- function(plotChroms, useChroms=chromNames(plotChroms),
     xPoints <- 1000
 
     chromNames <- chromNames(plotChroms)
-    labs <- rev(chromNames[chromNames %in% useChroms])
+    labs <- chromNames[chromNames %in% useChroms]
 
-##    lens <- chromLengths(plotChroms)
     if (!exists("hgCLengths", mode="environment"))
         data(hgCLengths)
 
     lens <- hgCLengths
-    lens <- rev(lens[chromNames %in% labs])
+    lens <- lens[chromNames %in% labs]
 
     ## Build the initial plot structure
     op <- par(bg=bg)
