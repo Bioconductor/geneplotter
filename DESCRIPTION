@@ -5,4 +5,4 @@ Author: R. Gentleman
 Description: Some basic functions for plotting genetic data
 Maintainer: Jeff Gentry <jgentry@jimmy.harvard.edu>
 Depends: annotate, Biobase
-License: GPL2.0
+License: LGPL 
