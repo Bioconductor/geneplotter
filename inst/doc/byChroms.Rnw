@@ -6,6 +6,7 @@
 % \VignetteAuthor{R. Gentleman}
 %\VignetteDepends{annotate, hu6800}
 %\VignetteKeywords{chromosomes}
+%\VignettePackage{geneplotter}
 \documentclass[12pt]{article}
 
 \usepackage{amsmath,pstricks}
@@ -112,7 +113,7 @@ Now we have processed the data and are ready to construct a new
 
 And finally we can test it by calling \texttt{cPlot}.
 
-<<cPlot>>=
+<<cPlot, fig=TRUE>>=
 
   library(geneplotter)
 
