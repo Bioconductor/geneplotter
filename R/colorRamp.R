@@ -21,7 +21,7 @@ colorRampPalette<-function(palette, bias=1,method=c("linear","spline")){
 
 }
 
-colorRamp<-function(palette, bias=1,method=c("spline","linear")){
+colorRamp<-function(palette, bias=1,method=c("linear","spline")){
 	
 	coord<-as.data.frame(t(col2rgb(palette))/255)
 	x<-seq(0,1,length=length(palette))

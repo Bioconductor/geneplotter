@@ -7,7 +7,7 @@ These functions are useful for converting hand-designed `sequential' or `divergi
 }
 \usage{
 colorRampPalette(palette, bias = 1,method=c("linear","spline"))
-colorRamp(palette, bias=1,method=c("spline","linear"))
+colorRamp(palette, bias=1,method=c("linear","spline"))
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
