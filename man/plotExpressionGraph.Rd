@@ -77,5 +77,6 @@ plotExpressionGraph(graph, nodeLLmap, exprs, LOCUSIDenvir, mapFun, log = FALSE, 
                                 hgu95av2LOCUSID, attrs=attrs)
    }
 }
-\keyword{utils}
-
+\keyword{utilities}
+\keyword{graphs}
+\keyword{hplot}
