@@ -92,6 +92,9 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
     }
     xlim <- range(xPoints)
 
+    ylim <- range(chromExprs)
+    ylim[1] <- ylim[1]-0.1
+
     ## Plot the graph
     opar <- par(mar=c(6,5,4,1),mgp=c(4,1,0))
     on.exit(par(opar))
@@ -137,11 +140,11 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
         }
 
 
-        .doMatPlot(posPoints, posExprs, xlim=xlim, type=type, lty=lty, col=colors,
+        .doMatPlot(posPoints, posExprs, xlim=xlim, ylim=ylim, type=type, lty=lty, col=colors,
                    xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,
                    dup=posDup, plotFormat=plotFormat,
                    geneNames=posGen, strands=posStr,  xloc=xloc,...)
-        .doMatPlot(negPoints, negExprs, xlim=xlim, type=type, lty=lty, col=colors,
+        .doMatPlot(negPoints, negExprs, xlim=xlim, ylim=ylim, type=type, lty=lty, col=colors,
                    xlab=xlab,ylab=ylab, xaxt="n", main=NULL, cex.lab=0.9,
                    dup=negDup, plotFormat=plotFormat,
                    geneNames=negGen, strands=negStr,  xloc=xloc, ...)
@@ -154,7 +157,7 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
             xPoints <- c(xPoints,xPoints[length(xPoints)]+1)
         }
 
-        .doMatPlot(xPoints, chromExprs, xlim=xlim, type=type, lty=lty, col=colors,
+        .doMatPlot(xPoints, chromExprs, xlim=xlim, ylim=ylim, type=type, lty=lty, col=colors,
                    xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,
                    dup=dup, plotFormat=plotFormat, geneNames=geneNames,
                    strands=strands,  xloc=xloc, ...)
@@ -184,12 +187,11 @@ identifyLines <- function(identEnvir, ...) {
     return(x)
 }
 
-.doMatPlot <- function(xPoints, chromExprs, xlim, type, lty, col,
+.doMatPlot <- function(xPoints, chromExprs, xlim, ylim, type, lty, col,
                        xlab, ylab, xaxt, main, cex, dup,
                        plotFormat, geneNames, strands, xloc, ...) {
 
-    ylim <- range(chromExprs)
-    ylim[1] <- ylim[1]-0.1
+
     matplot(xPoints, chromExprs, xlim=xlim, ylim=ylim,type=type, lty=lty, col=col,
             xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,...)
 
