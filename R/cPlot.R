@@ -7,20 +7,30 @@
 .plotData <- function(chromNum, locs, xPoints, chromLens, color,
                       scale = c("max","relative")[1])
 {
-  ## Get the scaling factor
+    ## Invert the chromosome number (since plot is "upside down")
+    chromNum <- 24-chromNum+1
+
+    ## Get the scaling factor
     scale <- cScale(xPoints, chromLens, scale)
 
     nlocs <- length(locs)
 
-  ## APply the scaling factor to the x positions
-  locs <- locs*scale[chromNum]
+    ## APply the scaling factor to the x positions
+    locs <- locs*scale[chromNum]
 
-  ## Determine the direction of the Y plot (+ or -)
-  ypos <- rep(24-chromNum+1, nlocs)
-  ytop <- ifelse(locs>0, ypos+0.4, ypos-0.4)
+    ## Determine the direction of the Y plot (+ or -)
+    ypos <- rep(chromNum, nlocs)
+    ytop <- ifelse(locs>0, ypos+0.4, ypos-0.4)
 
-  ## Plot
-  segments(abs(locs), ypos, abs(locs), ytop, col=color)
+    if (scale == "max") {
+        lines(c(1,xPoints-1),c(chromNum,chromNum),col="blue")
+    }
+    else {
+        lines(c(1,max(abs(locs))),c(chromNum,chromNum),col="blue")
+    }
+
+    ## Plot
+    segments(abs(locs), ypos, abs(locs), ytop, col=color)
 }
 
 cColor <- function(genes, color, plotChroms) {
@@ -56,8 +66,6 @@ cPlot <- function(plotChroms, scale=c("max","relative")[1], ccol="lightgrey") {
     axes=FALSE,)
     labs <- rev(chromNames(plotChroms))
     axis(2, c(1:nChrom(plotChroms)), labs)
-
-    for (i in 1:nChrom(plotChroms)) lines(c(1,xPoints-1),c(i,i),col="blue")
 
     byChroms <- chromLocs(plotChroms)
 
