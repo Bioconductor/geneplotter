@@ -46,7 +46,7 @@ cPlot <- function(plotChroms) {
     # to plot a set of genes on their proper chromosome locations.
 
     # Build the initial plot structure
-    plot(c(1, xPoints), c(1,24), type="n", xlab="", ylab="Chromosomes",
+    plot(c(1, 1000), c(1,24), type="n", xlab="", ylab="Chromosomes",
     axes=FALSE,)
     labs <- rev(chromNames(plotChroms))
     axis(2, c(1:nChrom(plotChroms)), labs)
