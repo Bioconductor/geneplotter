@@ -1,5 +1,5 @@
-plotChr <- function(chrN, senseObj, 
-	cols=rep("blue", length(senseObj[[1]])),log=FALSE, 
+plotChr <- function(chrN, senseObj,
+	cols=rep("blue", length(senseObj[[1]])),log=FALSE,
 	xloc = c("equispaced", "physical"), geneSymbols=FALSE,
 	ngenes=20, lines.at=NULL, lines.col="red") {
     # lines of +/- stands of a chromosome for a given sample:
@@ -49,7 +49,7 @@ plotChr <- function(chrN, senseObj,
 		names(repGx) <- probes
 		xlims <- c(1, length(repGx))
     }
-    pn <- rep(c("+","-"), c(length(at.px), 
+    pn <- rep(c("+","-"), c(length(at.px),
 	length(at.nx)))[uX][order(X[uX])][ind.seq]
     # probe density:
     if (xloc=="equispaced") {
@@ -59,9 +59,13 @@ plotChr <- function(chrN, senseObj,
     } else smX <- NULL
     opar <- par(mar = c(6, 5, 4, 1), mgp = c(4, 1, 0))
     on.exit(par(opar), add = TRUE)
+    if (log == TRUE)
+        yLab <- "Smoothed Expression (log)"
+    else
+        yLab <- "Smoothed Expression"
     plot(1,1, type="n", xlim=xlims, ylim=ylims, cex.lab=0.9,
-	 xlab="Representative Genes", 
-         ylab="Smoothed Expression", main=paste("Chromosome",chrN),
+	 xlab="Representative Genes",
+         ylab=yLab, main=paste("Chromosome",chrN),
         xaxt="n", yaxt="n")
     yticks <- pretty(c(0,ylims), 5)
     axis(2, at=yticks, labels=abs(yticks))
@@ -69,21 +73,21 @@ plotChr <- function(chrN, senseObj,
     axis(1, at=at.nx, pos=0, tck=-0.01,col="gray", labels=FALSE)
     axis(1, at=at.px, pos=0, tck=0.01,col="gray", las=3, labels=FALSE)
     # label representative genes:
-    labs <- probes 
+    labs <- probes
     if(geneSymbols) labs <- unlist(multiget(labs,
 	env=get(paste(senseObj$lib,"SYMBOL",sep=""))))
     axis(1, at=repGx, labels=labs,las=3, cex.axis=.7)
     axis(3, at=repGx, labels=pn,tick=FALSE, line=-1,cex.axis=.7)
-    for(i in 1:length(ans2))         
+    for(i in 1:length(ans2))
         linesStrand(ans2[[i]][[chrN]], cols[i], log, smX=smX)
     if (!is.null(lines.at)) {
 	lineXs <- unlist(multiget(lines.at,
         	env=get(paste(senseObj$lib,"CHRLOC",sep=""))))
 	lineXs <- abs(lineXs)
 	if(any(is.na(lineXs))) stop("wrong probe names")
-        if (xloc=="equispaced") lineXs <- 
+        if (xloc=="equispaced") lineXs <-
 		approx(sort(X[uX])[ind.seq],repGx, xout=lineXs)$y
     	abline(v=lineXs, col=lines.col)
     }
 }
-         
+
