@@ -13,6 +13,10 @@
 \usepackage[authoryear,round]{natbib}
 \usepackage{hyperref}
 
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+
 
 \textwidth=6.2in
 \textheight=8.5in
@@ -31,11 +35,11 @@
 \section*{How to Assemble a chromLocation Object}
 
 
-In order to use the various \texttt{geneplotter} functions you will
-need to assemble an object of class \texttt{chromLocation}.
+In order to use the various \Rpackage{geneplotter} functions you will
+need to assemble an object of class \Robject{chromLocation}.
 This is relatively straightforward if you have access to a Bioconductor
 data package. In this example we will consider using the
-\texttt{hu6800} data package to construct our object.
+\Rpackage{hu6800} data package to construct our object.
 
 <<loaddata>>=
 
@@ -99,19 +103,15 @@ We use both the location and the orientation when making plots.
 @
 
 Now we have processed the data and are ready to construct a new
-\texttt{chromLocation} object.
+\Robject{chromLocation} object.
 
 <<chrloc>>=
 
- data(hgCLengths)
-
- newChrClass <- buildChromClass("Human", "Hu6800 Bioconductor",
-     splits, hgCLengths)
-
+ newChrClass <- buildChromLocation("hu6800")
 
 @
 
-And finally we can test it by calling \texttt{cPlot}.
+And finally we can test it by calling \Rfunction{cPlot}.
 
 <<cPlot, fig=TRUE>>=
 

@@ -28,10 +28,18 @@ cScale(points, cLengths, method=c("relative","max"), chrom)
 \author{Jeff Gentry}
 \seealso{\code{\link{cPlot}}}
 \examples{
-     z <- buildChromLocation("hgu95av2")
+
+   ## A bit of a hack to not have a package dependency on hgu95av2
+   ## but need to fiddle w/ the warn level to not fail the example anyways.
+   curWarn <- getOption("warn")
+   options(warn=0)
+   on.exit(options(warn=curWarn), add=TRUE)
+   if (require(hgu95av2)) {
+      z <- buildChromLocation("hgu95av2")
 
      for (sc in c("max","relative"))
        scale <- cScale(1000, chromLengths(z),sc,"Y")
+   } else print("This example needs the hgu95av2 data package")
 }
 \keyword{utilities}
 

@@ -31,12 +31,20 @@ cColor(probes, color, plotChroms, scale=c("relative","max"),glen=0.4)
   \code{\link{cPlot}}, \code{\link{chromLocation-class}}
 }
 \examples{
+   ## A bit of a hack to not have a package dependency on hgu95av2
+   ## but need to fiddle w/ the warn level to not fail the example anyways.
+   curWarn <- getOption("warn")
+   options(warn=0)
+   on.exit(options(warn=curWarn), add=TRUE)
+   if (require(hgu95av2)) {
+
      z <- buildChromLocation("hgu95av2")
      cPlot(z)
      probes <- c("266_s_at", "31411_at", "610_at", "failExample")
      cColor(probes, "red", z)
      probes2 <- c("960_g_at", "41807_at", "931_at", "39032_at")
      cColor(probes2, "blue", z)
+ } else print("Need hgu95av2 data package to run example")
 }
 \keyword{utilities}
 

@@ -34,6 +34,12 @@ cPlot(plotChroms, useChroms=chromNames(plotChroms),
 \seealso{\code{\link{cScale}}, \code{\link{cColor}},
   \code{\link{chromLocation-class}}}
 \examples{
+   ## A bit of a hack to not have a package dependency on hgu95av2
+   ## but need to fiddle w/ the warn level to not fail the example anyways.
+   curWarn <- getOption("warn")
+   options(warn=0)
+   on.exit(options(warn=curWarn), add=TRUE)
+   if (require(hgu95av2)) {
     z <- buildChromLocation("hgu95av2")
 
      if (interactive()) {
@@ -42,6 +48,7 @@ cPlot(plotChroms, useChroms=chromNames(plotChroms),
 
      for (sc in c("max","relative"))
        cPlot(z,c("1","5","10","X","Y"),sc)
+  } else print("This example can not be run without hgu95av2 data package")
 }
 \keyword{utilities}
 
