@@ -23,8 +23,6 @@ cColor(genes, color, plotChroms)
 }
 \author{Jeff Gentry}
 \examples{
-     data(hgByChroms)
-     data(cLengths)
      data(hgChromClass)
      cPlot(hgChromClass)
      genes <- c("266_s_at", "31411_at", "610_at", "failExample")

@@ -34,8 +34,6 @@ alongChrom(eSet, chrom, specChrom, index=TRUE, cumul=TRUE, lTypes="1", colors="r
 \author{Jeff Gentry}
 \examples{
    data(eset)
-   data(hgByChroms)
-   data(cLengths)
    data(hgChromClass)
    lty <- c(1, 2, 3, 4, 5)
    cols <- c("red", "green", "blue", "orange", "magenta", "black")

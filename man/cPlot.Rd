@@ -21,8 +21,6 @@ cPlot(plotChroms)
 }
 \author{Jeff Gentry}
 \examples{
-     data(hgByChroms)
-     data(cLengths)
      data(hgChromClass)
      cPlot(hgChromClass)
 }
