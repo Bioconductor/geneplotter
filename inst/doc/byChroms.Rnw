@@ -83,7 +83,7 @@ We use both the location and the orientation when making plots.
 
  strand <- multiget(affy, env=hu6800CHRLOC)
 
- gstr <- sapply(strand, function(x) x[1])
+ gstr <- sapply(strand, function(x) as.numeric(x[1]))
  names(gstr) <- names(strand)
 
  orient <- multiget(affy, env=hu6800CHRORI)
