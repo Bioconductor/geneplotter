@@ -32,30 +32,30 @@ plotChr(chrN, senseObj, cols = rep("blue", length(senseObj[[1]])), log = FALSE, 
 \examples{
 example(Makesense)
 
-op <- par(ask=T)
+op <- par(ask=TRUE)
 
 cols <- c("red", "green")[unclass(eset133a$cov1)]
 plotChr("21", esetobj, cols)
 
 # plot on log-scale:
 
-plotChr("21", esetobj, cols, log=T)
+plotChr("21", esetobj, cols, log=TRUE)
 
 # genesymbol instead of probe names:
 
-plotChr("21", esetobj, cols, log=T, geneSymbols=T)
+plotChr("21", esetobj, cols, log=TRUE, geneSymbols=TRUE)
 
 # add vertical lines at genes of interest:
 
 gs <- c("220372_at", "35776_at", "200943_at")
-plotChr("21", esetobj, cols, log=T, geneSymbols=F, lines.at=gs)
+plotChr("21", esetobj, cols, log=TRUE, geneSymbols=FALSE, lines.at=gs)
 
 # add vertical lines at genes of interest
 # with specified colors:
 
 gs <- c("220372_at", "35776_at", "200943_at")
 cc <- c("blue", "cyan","magenta")
-plotChr("21", esetobj, cols, log=T, geneSymbols=F, lines.at=gs,
+plotChr("21", esetobj, cols, log=TRUE, geneSymbols=FALSE, lines.at=gs,
 lines.col=cc)
 par(op)
 }

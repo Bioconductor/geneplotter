@@ -66,14 +66,14 @@ plotChr <- function(chrN, senseObj,
     yticks <- pretty(c(0,ylims), 5)
     axis(2, at=yticks, labels=abs(yticks))
     abline(h=0, col="gray")
-    axis(1, at=at.nx, pos=0, tck=-0.01,col="gray", labels=F)
-    axis(1, at=at.px, pos=0, tck=0.01,col="gray", las=3, labels=F)
+    axis(1, at=at.nx, pos=0, tck=-0.01,col="gray", labels=FALSE)
+    axis(1, at=at.px, pos=0, tck=0.01,col="gray", las=3, labels=FALSE)
     # label representative genes:
     labs <- probes 
     if(geneSymbols) labs <- unlist(multiget(labs,
 	env=get(paste(senseObj$lib,"SYMBOL",sep=""))))
     axis(1, at=repGx, labels=labs,las=3, cex.axis=.7)
-    axis(3, at=repGx, labels=pn,tick=F, line=-1,cex.axis=.7)
+    axis(3, at=repGx, labels=pn,tick=FALSE, line=-1,cex.axis=.7)
     for(i in 1:length(ans2))         
         linesStrand(ans2[[i]][[chrN]], cols[i], log, smX=smX)
     if (!is.null(lines.at)) {
