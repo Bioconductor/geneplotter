@@ -23,9 +23,8 @@ cPlot(plotChroms)
 \examples{
      data(hgByChroms)
      data(cLengths)
-     plotChroms <- buildChromClass("Human", "Cheng Li's HG data",
-byChroms, cLengths)
-     cPlot(plotChroms)
+     data(hgChromClass)
+     cPlot(hgChromClass)
 }
 \keyword{utilities}
 

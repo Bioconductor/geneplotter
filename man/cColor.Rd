@@ -25,13 +25,12 @@ cColor(genes, color, plotChroms)
 \examples{
      data(hgByChroms)
      data(cLengths)
-     plotChroms <- buildChromClass("Human", "Cheng Li's HG data",
-byChroms, cLengths)
-     cPlot(plotChroms)
+     data(hgChromClass)
+     cPlot(hgChromClass)
      genes <- c("266_s_at", "31411_at", "610_at", "failExample")
-     cColor(genes, "red", plotChroms)
+     cColor(genes, "red", hgChromClass)
      genes2 <- c("960_g_at", "41807_at", "931_at", "39032_at")
-     cColor(genes2, "blue", plotChroms)
+     cColor(genes2, "blue", hgChromClass)
 }
 \keyword{utilities}
 

@@ -30,11 +30,10 @@ cumChrom(eSet, chrom, specChrom, lTypes="1", colors="red")
    data(eset)
    data(hgByChroms)
    data(cLengths)
-   specChroms <- buildChromClass("Human", "Cheng Li's HG data",
-      byChroms, cLengths)
+   data(hgChromClass)
    lty <- c(1, 2, 3, 4, 5)
    cols <- c("red", "green", "blue", "orange", "magenta", "black")
-   cumChrom(eset, "1", specChroms, lty, cols)
+   cumChrom(eset, "1", hgChromClass, lty, cols)
 }
 \keyword{utilities}
 
