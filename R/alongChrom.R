@@ -14,7 +14,9 @@
     return(usedGenes)
 }
 
-.getExprs <- function(eSet, usedGenes, cumul) {
+.getExprs <- function(eSet, usedGenes,
+                      plotFormat=c("cumulative","local")[1])
+{
     ## Will get the expression data for the given genes out of the
     ## expr set.  If cumul is set to TRUE, will generate the
     ## cumulative sum of this data across the genes.
@@ -22,7 +24,7 @@
     ## Split out only the genes on the desired chrom from the exprset
     chromExprs <- eSet@exprs[names(usedGenes),]
 
-    if (cumul == TRUE) {
+    if (plotFormat == "cumulative") {
        chromExprs <- t(chromExprs)
        ## Fill the matrix with the cumulative sum of the expression
        chromExprs <- apply(chromExprs, 1, cumsum)
@@ -39,8 +41,10 @@
              labels=rep(colnames(yPoints), rep(nrow(yPoints),ncol(yPoints))))
 }
 
-alongChrom <- function(eSet, chrom, specChrom, index=TRUE, cumul=TRUE,
-                     lTypes="1", colors="red", ...) {
+alongChrom <- function(eSet, chrom, specChrom,
+                       xloc=c("equispaced", "physical")[1],
+                       plotFormat=c("cumulative", "local")[1],
+                       lTypes="1", colors="red", ...) {
 
     ## Will plot a set of exprset samples by genes of a chromosome
     ## according to their expression levels.
@@ -49,11 +53,11 @@ alongChrom <- function(eSet, chrom, specChrom, index=TRUE, cumul=TRUE,
     usedGenes <- .getGenes(eSet, chrom, specChrom)
 
     ## Get the expression data, cumulative or otherwise
-    chromExprs <- .getExprs(eSet, usedGenes, cumul)
+    chromExprs <- .getExprs(eSet, usedGenes, plotFormat)
 
     ## The Y axis label varies according to if we're taking
     ## cummulative sums or not
-    if (cumul == TRUE) {
+    if (plotFormat == "cumulative") {
         ylab <- "Cumulative expression levels"
     }
     else {
@@ -61,7 +65,7 @@ alongChrom <- function(eSet, chrom, specChrom, index=TRUE, cumul=TRUE,
     }
 
     ## Plot data
-    if (index == TRUE) {
+    if (xloc == "equispaced") {
         xPoints <- length(names(usedGenes)) - 1
         xPoints <- 0:xPoints
 

@@ -37,10 +37,14 @@ alongChrom(eSet, chrom, specChrom, index=TRUE, cumul=TRUE, lTypes="1", colors="r
    data(hgu95ProbLocs)
    lty <- c(1, 2, 3, 4, 5)
    cols <- c("red", "green", "blue", "orange", "magenta", "black")
-   alongChrom(eset, "1", hgu95ProbLocs, TRUE, TRUE, lty, cols)
-   alongChrom(eset, "1", hgu95ProbLocs, TRUE, FALSE, lty, cols)
-   alongChrom(eset, "1", hgu95ProbLocs, FALSE, TRUE, lty, cols)
-   alongChrom(eset, "1", hgu95ProbLocs, FALSE, FALSE, lty, cols)
+   par(ask=T) # this gets you away from using the mouse to advance the plots
+   for (xl in c("equispaced", "physical"))
+    for (fo in c("cumulative", "local"))
+    {
+      alongChrom(eset, "1", hgu95ProbLocs, xloc=xl, plotFormat=fo,
+                 lty, cols)
+    }
+
 }
 \keyword{utilities}
 
