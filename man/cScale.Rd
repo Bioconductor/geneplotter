@@ -21,8 +21,8 @@ cScale(points, cLengths)
 }
 \author{Jeff Gentry}
 \examples{
-     data(cLengths)
-     scales <- cScale(1000, cLengths)
+     data(hgCLengths)
+     scales <- cScale(1000, hgCLengths)
 }
 \keyword{utilities}
 
