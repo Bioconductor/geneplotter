@@ -33,7 +33,7 @@ plotExpressionGraph(graph, nodeLLmap, exprs, LOCUSIDenvir, mapFun, log = FALSE, 
   The \code{nodeLLmap} parameter is a list that maps the nodes of the
   graphs to LocusLink IDs.  An example of this is the
   \code{IMCALocusLink} object in the
-  \code{\link{integrinMediatedCellAdhesion}} data set in the
+  \code{integrinMediatedCellAdhesion} data set in the
   \code{graph} package.
 
   The \code{exprs} argument is a vector mapping expression levels to
@@ -64,7 +64,7 @@ plotExpressionGraph(graph, nodeLLmap, exprs, LOCUSIDenvir, mapFun, log = FALSE, 
   in via the \code{...} parameter.
 }
 \author{Jeff Gentry}
-\seealso{\code{\link{plot.graph}}, \code{\link{integrinMediatedCellAdhesion}}}
+\seealso{\code{\link{plot.graph}}, \code{integrinMediatedCellAdhesion}}
 \examples{
    if ((require("Rgraphviz")) && (require("hgu95av2")) &&
         (require("fibroEset"))) {     
