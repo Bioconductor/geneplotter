@@ -93,7 +93,7 @@ identifyLines <- function(identEnvir, ...) {
 
         ## Start from 2 for now as a hack to keep from getting 0th
         ## entity, which throws off the labeling.
-        keep <- seq(2,length(xPoints),N)
+        keep <- seq(1,length(xPoints),N)
 
         xPoints <- xPoints[keep]
     }
@@ -154,7 +154,7 @@ alongChrom <- function(eSet, chrom, specChrom,
     ## Plot the graph
     matplot(xPoints, chromExprs, type="S", lty=lTypes, col=colors,
             xlab="",ylab=ylab, xaxt="n", main=main, cex.lab=0.9, ...)
-    axis(1, at=dispXPoints, labels = names(usedGenes)[dispXPoints], las=2,
+    axis(1, at=dispXPoints, labels = names(usedGenes)[dispXPoints+1], las=2,
          cex.axis=0.7,)
 
     ## Create an environment that contains the necessary X & Y points
