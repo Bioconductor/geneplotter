@@ -3,15 +3,16 @@
 \title{A function for mapping chromosome length to a number of points. }
 \description {
   Given a number of points (generally representing the number of points
-  on a plot's axis), will take a vector of chromosome lengths and create
-  a vector of scale factors.  There is a one to one mapping between the
-  scaling factors and the chromosomes.
+  on a plot's axis), and a vector of chromosome lengths - will generate
+  a vector of the same length as the one passed in containing scaling
+  factors for each chromosome.
 }
 \usage{
-cScale(cLength)
+cScale(points, cLengths)
 }
 \arguments{
-  \item{cLength}{The number of points to scale the chromosome length to.}
+  \item{points}{The number of points to scale the chromosome length to.}
+  \item{cLengths}{A vector of chromosome lengths. }
 }
 \details{
   The scale factor is simply derived by dividing the cLength argument by
@@ -20,7 +21,8 @@ cScale(cLength)
 }
 \author{Jeff Gentry}
 \examples {
-     cScale(1000)
+     data(cLengths)
+     scales <- cScale(1000, cLengths)
 }
 \keyword{utilities}
 

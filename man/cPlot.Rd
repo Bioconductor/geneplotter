@@ -2,28 +2,31 @@
 \alias{cPlot}
 \title{A plotting function for chromosomes. }
 \description {
-  Given a data file containing gene information, including the
-  gene name, chromosome number, start location, and strand type,
-  will create a graphic depicting this information.
+  Given a number of points for an X axis and a chromLocation object,
+  will plot all the gene locations from that object.
 }
 \usage{
-cPlot(xPoints, fileName)
+cPlot(xPoints, plotChroms)
 }
 \arguments{
   \item{xPoints}{The number of points to represent on the X axis, determines
     the resolution.}
-  \item{fileName}{The filename of the data file.  Stored in
-    geneplotter/data.}
+  \item{plotChroms}{An object of type chromLocation which contains all
+    the gene information to be plotted. }
 }
 \details{
-  The X argument is used to scale the X axis on the plot.  The other
-  determining factor is the length of the chromosome - the scale is
-  simply the number of points divided by the length.  This scale is then
-  applied to all genes on the particular chromosome.
+  The X argument is used to scale the X axis on the plot.  Once the
+  scaling factors are determined, the chromLocation object which is
+  passed in is used to determine all the gene locations/strand
+  information/etc, which is then plotted for the user.
 }
 \author{Jeff Gentry}
 \examples {
-     cPlot(1000,"data/hg_byChroms")
+     data(hgByChroms)
+     data(cLengths)
+     plotChroms <- buildChromClass("Human", "Chen Li's HG data",
+byChroms, cLengths)
+     cPlot(1000,plotChroms)
 }
 \keyword{utilities}
 
