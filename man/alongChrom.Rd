@@ -8,18 +8,20 @@
   the genes from the desired chromosome for each patient in the exprset.
 }
 \usage{
-alongChrom(eSet, chrom, specChrom, index=TRUE, cumul=TRUE, lTypes="1", colors="red",...)
+alongChrom(eSet, chrom, specChrom,  xloc=c("equispaced", "physical")[1],
+plotFormat=c("cumulative", "local")[1], lTypes="1", colors="red",...)
 }
 \arguments{
   \item{eSet}{The exprset object to be used.}
   \item{chrom}{The desired chromosome.}
   \item{specChrom}{An object of type chromLocation for the species being
     represented.}
-  \item{index}{Determines whether the X axis is displayed by gene index,
-    or with the genes marked relative to their position on the
-    chromosome.  Default is index mode.}
-  \item{cumul}{Determines whether the Y axis is displaying cumulative
-    sums or raw expression values.  Default is for cumulative sums.}
+  \item{xloc}{Determines whether the X axis points (gene names) will be
+    displayed according to their relative position on the chromosome
+    (physical), or spaced evenly (equispaced).  Default is equispaced.}
+  \item{plotFormat}{Determines whether the cumulative sum is to be
+    generated from the expression data, or just the raw data.  Default
+    is cumulative.}
   \item{lTypes}{A vector of line types, which will be cycled. }
   \item{colors}{A vector of colors for the plots, which will be cycled.}
   \item{...}{Any remaining graphics commands may be passed along as per plot()}
