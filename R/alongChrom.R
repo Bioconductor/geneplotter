@@ -131,7 +131,7 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
         negStr <- strands[nts]
 
         ## Local plots are shifted over, so create a faxe xPoint on the end
-        if (plotFormat == "local") {
+        if ((plotFormat == "local")&&((type=="S")||(type=="s"))) {
             posExprs <- rbind(posExprs,posExprs[length(posPoints),])
             posPoints <- c(posPoints,posPoints[length(posPoints)]+1)
 
@@ -152,7 +152,7 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
     }
     else {
             ## Local plots are shifted over, so create a faxe xPoint on the end
-        if (plotFormat == "local") {
+        if ((plotFormat == "local")&&((type=="S")||(type=="s"))) {
             chromExprs <- rbind(chromExprs,chromExprs[length(xPoints),])
             xPoints <- c(xPoints,xPoints[length(xPoints)]+1)
         }
@@ -195,7 +195,7 @@ identifyLines <- function(identEnvir, ...) {
     matplot(xPoints, chromExprs, xlim=xlim, ylim=ylim,type=type, lty=lty, col=col,
             xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,...)
 
-    .dispXAxis(xPoints, geneNames, plotFormat,strands)
+    .dispXAxis(xPoints, geneNames, plotFormat,strands, type)
 
     y <- min(chromExprs)-0.1
 
@@ -210,7 +210,7 @@ identifyLines <- function(identEnvir, ...) {
     }
 }
 
-.dispXAxis <- function(xPoints, geneNames, plotFormat, strands) {
+.dispXAxis <- function(xPoints, geneNames, plotFormat, strands, type) {
 
     ## Make sure that xPoints isn't exceeding our visual maximum.
     ## If so, reduce the number of poitns to actually be displayed.
@@ -221,7 +221,7 @@ identifyLines <- function(identEnvir, ...) {
     dispXPoints <- .cullXPoints(xPoints)
     dispPointLocs <- match(dispXPoints,xPoints)
 
-    if (plotFormat == "local") {
+    if ((plotFormat == "local")&&((type=="S")||(type=="s"))) {
         dispXPoints <- dispXPoints+0.5
     }
 
