@@ -88,6 +88,6 @@ alongChrom <- function(eSet, chrom, specChrom,
          cex.axis=0.7,)
 
     ## Call identify() on the plot
-    .identifyLines(xPoints, chromExprs)
+##    .identifyLines(xPoints, chromExprs)
 }
 
