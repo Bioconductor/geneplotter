@@ -74,8 +74,8 @@ GetColor <- function(value, GreenRed=FALSE, DisplayRange=3) {
     if( !isGeneric("plot") )
         setGeneric("plot")
 
-    setMethod("plot", "uarray", function(object, ...) {
-     expr <- as.matrix(uexpr(object))
+    setMethod("plot", "uarray", function(x, ...) {
+     expr <- as.matrix(uexpr(x))
      #scale
      expr <- sweep(expr, 1, apply(expr, 1, mean, na.rm = TRUE))
      f <- function(v) {
@@ -91,8 +91,8 @@ GetColor <- function(value, GreenRed=FALSE, DisplayRange=3) {
      on.exit(par(mar=opar))
      image(1:ncol(expr), 1:nrow(expr), z = t(expr), axes = F,
            col=colors, breaks=breaks, xlab="", ylab="")
-     axis(3, at=1:ncol(expr), labels=samplenames(object),tick=FALSE)
-     axis(4, at=1:nrow(expr), labels=genenames(object), tick=FALSE, las=1)
+     axis(3, at=1:ncol(expr), labels=samplenames(x),tick=FALSE)
+     axis(4, at=1:nrow(expr), labels=genenames(x), tick=FALSE, las=1)
  })
 
 }
@@ -112,6 +112,8 @@ order.restricted <- function(labels, weights, clusters) {
         rval <- c(rval, which[[j]][order(wts[[j]])])
     rval
 }
+
+
 
 
 
