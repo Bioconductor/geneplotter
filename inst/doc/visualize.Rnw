@@ -7,6 +7,7 @@
 % \VignetteIndexEntry{Visualization of Microarray Data}
 % \VignetteDepends{geneplotter}
 % \VignetteKeywords{Expression Analysis}
+%\VignettePackage{geneplotter}
 \documentclass{article}
 
 \usepackage{hyperref}
