@@ -3,16 +3,15 @@
 # Uses the vector of chromosome lengths and returns a vector
 # of scales.
 
-cScale <- function(cLength) {
-# Passed cLength - the number of points to scale the chromosomes too
-
-    data(cLengths);
+cScale <- function(points, cLengths) {
+# Passed points - the number of points to scale the chromosomes too
+# and cLengths - a vector of chromosome lengths.
 
     nLen <- length(cLengths);
     cScales <- vector("numeric", length=nLen);
 
     for (i in 1:nLen) {
-        cScales[i] <- cLength / cLengths[i];
+        cScales[i] <- points / cLengths[i];
     }
 
     return(cScales);

@@ -5,7 +5,6 @@
 
 plotData <- function(chromNum, locs, scale)
 {
-
   nlocs <- length(locs)
 
   locs <- locs*scale
@@ -16,26 +15,25 @@ plotData <- function(chromNum, locs, scale)
   segments(abs(locs), ypos, abs(locs), ytop, col="grey")
 }
 
-
-cPlot <- function(xPoints, fileName) {
-    # Passed the number of points on the X axis (for resolution) and
-    # the data file name, and will plot the data from the chromosome file
+cPlot <- function(xPoints, plotChroms) {
+    # Passed an instance of a chromLocation class, and the number of
+    # points to represent on the X axis, will utilize that data
+    # to plot a set of genes on their proper chromosome locations.
 
     # Get the scaling factor
-    scale <- xScale(xPoints);
+    scale <- cScale(xPoints, chromLengths(plotChroms));
 
     # Build the initial plot structure
     plot(c(1, xPoints), c(1,24), type="n", xlab="", ylab="Chromosomes",
     axes=FALSE,)
-    labs <- c("Y","X",22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1)
-    axis(2, c(1:24), labs)
+    labs <- chromNames(plotChroms)
+    axis(2, c(1:nChrom(plotChroms)), labs)
 
-    for (i in 1:24) lines(c(1,xPoints-1),c(i,i),col="blue")
+    for (i in 1:nChrom(plotChroms)) lines(c(1,xPoints-1),c(i,i),col="blue")
 
-    # Read in the file
-    load(fileName);
+    byChroms <- chromLocs(plotChroms)
 
-    for (i in 1:length(byChroms)) {
+    for (i in 1:nChrom(plotChroms)) {
         plotData(i,byChroms[[i]],scale[i]);
     }
 }
