@@ -4,9 +4,11 @@
 ## chromosomes.
 
 .plotData <- function(chromNum, locs, xPoints, chromLens, fg,
-                      scale = c("max","relative")[1],glen=0.4)
+                      scale = c("max","relative"),glen=0.4)
 {
     ## Get the scaling factor
+    scale <- match.arg(scale)
+
     scale <- cScale(xPoints, chromLens, scale)
 
     nlocs <- length(locs)
@@ -51,11 +53,12 @@ cColor <- function(genes, color, plotChroms) {
 }
 
 cPlot <- function(plotChroms, useChroms=chromNames(plotChroms),
-                  scale=c("max","relative")[1], fg="white",
+                  scale=c("max","relative"), fg="white",
                   bg="lightgrey", glen=0.4) {
     ## Passed an instance of a chromLocation class, and the number of
     ## points to represent on the X axis, will utilize that data
     ## to plot a set of genes on their proper chromosome locations.
+    scale <- match.arg(scale)
 
     xPoints <- 1000
     glen <- glen

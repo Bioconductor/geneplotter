@@ -3,10 +3,11 @@
 # Uses the vector of chromosome lengths and returns a vector
 # of scales.
 
-cScale <- function(points, cLengths, method=c("max","relative")[1]) {
+cScale <- function(points, cLengths, method=c("max","relative")) {
 # Passed points - the number of points to scale the chromosomes too
 # and cLengths - a vector of chromosome lengths.
 
+    method <- match.arg(method)
     nLen <- length(cLengths);
     cScales <- vector("numeric", length=nLen);
 
