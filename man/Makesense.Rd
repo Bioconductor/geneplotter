@@ -4,14 +4,16 @@
 \alias{Makesense,exprSet-method}
 \title{Produce Smoothed Sense/Anti-sense For All Chromosomes}
 \description{
-'Makesense' takes a matrix of gene expressions and produces 
- smoothed positive and negative strands for all chromosomes.
+  'Makesense' takes either an exprSet object or a matrix of gene
+  expressions and will produce a smoothed positive and negative strands
+  for all chromosomes.
 }
 \usage{
 Makesense(expr, lib, f)
 }
 \arguments{
-  \item{expr}{Either an exprSet object or a matrix of gene expressions, with genes as rows and columns as samples.}
+  \item{expr}{Either an exprSet object or a matrix of gene expressions
+    with genes as rows and columns as samples.}
   \item{lib}{The name of the Bioconductor annotation data package that
     will be used to provide mappings from probes to chromosomal
     locations, such as \code{hgu95av2} or \code{hgu133a}.  If
