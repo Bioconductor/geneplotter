@@ -114,25 +114,3 @@ order.restricted <- function(labels, weights, clusters) {
         rval <- c(rval, which[[j]][order(wts[[j]])])
     rval
 }
-
-
-
-##mstree, probably should get moved elsewhere
-#ignore plane for now
-
-mstree <- function(x, plane=T)
-{
-    require(mva)
-    dmat <- dist(x)
-    m <- length(dmat)
-    n <- nrow(x)
-    if( n < 2 )
-        stop("you need at least two observations")
-    Dlarge <- max(dmat) + 10
-    z <- .Fortran("prtree",as.integer(n), as.integer(m),
-                  A = integer(n), Dlarge, as.double(dmat),
-                  B=integer(n), C=double(n), ifault=integer(1))
-
-    return(list(mst=z$B, dist=z$C))
-}
-

@@ -1,6 +1,6 @@
 ##a function to get the chromosome order
 
-make.chromOrd <- function(genome) {
+make.chromOrd <- function(genome, gnames) {
     if(!is.character(genome) && length(genome != 1 ) )
         stop("need a character vector indicating the genome")
     require("annotate") || stop("need the annotate package")
@@ -32,7 +32,7 @@ amplicon.plot <- function(ESET, FUN, genome ) {
     if( !exists("hgu95Chrom", mode="environment") )
         hgu95Chrom <- read.annotation(paste(genome,"chrom", sep=""))
 
-    whichChrom <- unlist(multiget(gnames, env=hgu95Chrom))
+    whichChrom <- unlist(multiget(geneNames(ESET), env=hgu95Chrom))
     ##split these by chromosome
     byChr.pv <- split(tests.pvals, whichChrom)
     byChr.stat <- split(tests.stats, whichChrom)
@@ -40,7 +40,7 @@ amplicon.plot <- function(ESET, FUN, genome ) {
     byChr.pv$"NA" <- NULL
     byChr.stat$"NA" <- NULL
 
-    chromOrd <- make.chromOrd(genome)
+    chromOrd <- make.chromOrd(genome, geneNames(ESET))
     nchrom <- length(chromOrd)
 
     geneOrd <- c(1:22,"X","Y")

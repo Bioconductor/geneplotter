@@ -5,10 +5,11 @@
   This function makes a chromOrd object.
 }
 \usage{
-make.chromOrd(genome)
+make.chromOrd(genome, gnames)
 }
 \arguments{
   \item{genome}{A character string. }
+  \item{gnames}{A character vector of the genes to be selected. }
 }
 \details{
   This function reads in a lot of annotation data and creates a list
@@ -26,6 +27,7 @@ make.chromOrd(genome)
 \seealso{ \code{\link{amplicon.plot}} }
 
 \examples{
-  make.chromOrd("hgu95A")
+  data(eset)
+  make.chromOrd("hgu95A", geneNames(eset))
 }
 \keyword{ utilities }

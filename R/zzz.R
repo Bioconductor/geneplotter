@@ -11,5 +11,4 @@
         where <- pos.to.env(where)
     }
    .initClasses(where)
-   library.dynam("geneplotter", pkgname, libname)
 }
