@@ -1,4 +1,10 @@
 .First.lib <- function(libname, pkgname, where)
- { 
-  require(annotate) 
+ {
+
+    if(.Platform$OS.type == "windows" && require(Biobase) && interactive()
+        && .Platform$GUI ==  "Rgui"){
+        addPDF2Vig("geneplotter")
+    }
+
+
 }
