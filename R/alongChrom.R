@@ -1,4 +1,4 @@
-alongChrom <- function(eSet, chrom, specChrom,
+alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
                        xloc=c("equispaced", "physical")[1],
                        plotFormat=c("cumulative", "local")[1],
                        scale=c("none","zscale","rankscale","rangescale",
@@ -9,8 +9,53 @@ alongChrom <- function(eSet, chrom, specChrom,
     ## according to their expression levels.
     ## Get the genes to display
     usedGenes <- usedChromGenes(eSet, chrom, specChrom)
+
+    ## Limit the x plotting region by the xlim argument, wehther it be
+    ## a numerical range, or a vector of gene names.
+    if (!missing(xlim)) {
+        if (length(xlim) == 2) {
+            if (is.character(xlim)) {
+                ## If a pair of gene names are provided, get hteir
+                ## locations, and then use them as the xlim values.
+                xlim[1] <- as.numeric(usedGenes[xlim[1]])
+                xlim[2] <- as.numeric(usedGenes[xlim[2]])
+                if ((is.na(xlim[1]))|(is.na(xlim[2]))) {
+                    print("Error: Bad xlim parameters provided.")
+                    xlim[1] = 0
+                    xlim[2] = 0
+                    usedGenes <- NULL
+                }
+                ## Place them in proper numerical order
+                xlim <- xlim[order(xlim)]
+            }
+
+            ## At this point, we're dealing with a pair of numerical
+            ## values to denote the location range (in base pairs).
+            ## Ensure that the max is > than the min, then pick out
+            ## the remaining genes
+            if (xlim[2] > xlim[1]) {
+                usedGenes <-
+                    usedGenes[(usedGenes>=xlim[1])&(usedGenes<=xlim[2])]
+            }
+            else {
+                print("Error: Bad xlim parameters provided.")
+                usedGenes <- NULL
+            }
+        }
+        else {
+            print("Error: Bad xlim parameters provided.")
+            usedGenes <- NULL
+        }
+    }
+
+    ## If provided, select out only the genes specified by the
+    ## whichGenes argument
+    if (!missing(whichGenes)) {
+        usedGenes <- usedGenes[names(usedGenes) %in% whichGenes]
+    }
+
     ## The Y axis label varies according to if we're taking
-    ## cummulative sums or not
+    ## cumulative sums or not
     if (plotFormat == "cumulative") {
         ylab <- "Cumulative expression levels"
     }
@@ -184,7 +229,7 @@ identifyLines <- function(identEnvir, ...) {
     chromExprs <- .scaleData(chromExprs,scale)
 
     if (plotFormat == "cumulative") {
-        chromExprs <- t(chromExprs)
+
         ## Fill the matrix with the cumulative sum of the expression
         chromExprs <- apply(chromExprs, 1, cumsum)
     }

@@ -11,9 +11,9 @@
   will apply an identify() on the plot.
 }
 \usage{
-alongChrom(eSet, chrom, specChrom,  xloc=c("equispaced", "physical")[1],
-plotFormat=c("cumulative", "local")[1],
-scale=c("none","zscale","rankscale","rangescale","zrobustscale")[1], lty=1, colors="red",...)
+alongChrom(eSet, chrom, specChrom,  xlim, xloc=c("equispaced", "physical")[1], plotFormat=c("cumulative", "local")[1],
+scale=c("none","zscale","rankscale","rangescale","zrobustscale")[1],
+lty=1, colors="red",...)
 }
 \arguments{
   \item{eSet}{The exprset object to be used.}
@@ -49,11 +49,24 @@ scale=c("none","zscale","rankscale","rangescale","zrobustscale")[1], lty=1, colo
    if (interactive()) {
       par(ask=TRUE)
    }
+
+   ## Here we're using xlim to denote a physical region to display
+   xlim <- c(87511280,127717880)
    for (xl in c("equispaced", "physical"))
      for (sc in c("none","rangescale"))
      {
-        alongChrom(eset, "1", hgu95ProbLocs, xloc=xl, plotFormat="cumulative",
-                   scale=sc,lty, cols)
+        alongChrom(eset, "1", hgu95ProbLocs, xlim, xloc=xl,
+           plotFormat="cumulative", scale=sc,lty, cols)
+     }
+
+  ## Here we're looking for specific genes
+  xlim <- c("31540_at","31583_at", "31508_at", "31529_at", "31439_f_at",
+            "31729_at")
+   for (xl in c("equispaced", "physical"))
+     for (sc in c("none","rangescale"))
+     {
+        alongChrom(eset, "1", hgu95ProbLocs, xlim, xloc=xl,
+           plotFormat="cumulative", scale=sc,lty, cols)
      }
 }
 \keyword{utilities}
