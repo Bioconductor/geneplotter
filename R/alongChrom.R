@@ -143,11 +143,13 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
         .doMatPlot(posPoints, posExprs, xlim=xlim, ylim=ylim, type=type, lty=lty, col=colors,
                    xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,
                    dup=posDup, plotFormat=plotFormat,
-                   geneNames=posGen, strands=posStr,  xloc=xloc,...)
+                   geneNames=posGen, strands=posStr,  xloc=xloc,
+                   byStrand=byStrand, ...)
         .doMatPlot(negPoints, negExprs, xlim=xlim, ylim=ylim, type=type, lty=lty, col=colors,
                    xlab=xlab,ylab=ylab, xaxt="n", main=NULL, cex.lab=0.9,
                    dup=negDup, plotFormat=plotFormat,
-                   geneNames=negGen, strands=negStr,  xloc=xloc, ...)
+                   geneNames=negGen, strands=negStr,  xloc=xloc,
+                   byStrand=byStrand, ...)
 
     }
     else {
@@ -157,10 +159,12 @@ alongChrom <- function(eSet, chrom, specChrom, xlim, whichGenes,
             xPoints <- c(xPoints,xPoints[length(xPoints)]+1)
         }
 
-        .doMatPlot(xPoints, chromExprs, xlim=xlim, ylim=ylim, type=type, lty=lty, col=colors,
-                   xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,
-                   dup=dup, plotFormat=plotFormat, geneNames=geneNames,
-                   strands=strands,  xloc=xloc, ...)
+        .doMatPlot(xPoints, chromExprs, xlim=xlim, ylim=ylim,
+                   type=type, lty=lty, col=colors,
+                   xlab=xlab,ylab=ylab,
+                   xaxt="n", main=main, cex.lab=0.9, dup=dup,
+                   plotFormat=plotFormat, geneNames=geneNames,
+                   strands=strands,  xloc=xloc, byStrand=byStrand, ...)
     }
 
     ## Create an environment that contains the necessary X & Y points
@@ -189,13 +193,14 @@ identifyLines <- function(identEnvir, ...) {
 
 .doMatPlot <- function(xPoints, chromExprs, xlim, ylim, type, lty, col,
                        xlab, ylab, xaxt, main, cex, dup,
-                       plotFormat, geneNames, strands, xloc, ...) {
+                       plotFormat, geneNames, strands, xloc, byStrand,
+                       ...) {
 
 
     matplot(xPoints, chromExprs, xlim=xlim, ylim=ylim,type=type, lty=lty, col=col,
             xlab=xlab,ylab=ylab, xaxt="n", main=main, cex.lab=0.9,...)
 
-    .dispXAxis(xPoints, geneNames, plotFormat,strands, type)
+    .dispXAxis(xPoints, geneNames, plotFormat,strands, type, byStrand)
 
     y <- min(chromExprs)-0.1
 
@@ -210,7 +215,8 @@ identifyLines <- function(identEnvir, ...) {
     }
 }
 
-.dispXAxis <- function(xPoints, geneNames, plotFormat, strands, type) {
+.dispXAxis <- function(xPoints, geneNames, plotFormat, strands, type,
+                       byStrand) {
 
     ## Make sure that xPoints isn't exceeding our visual maximum.
     ## If so, reduce the number of poitns to actually be displayed.
@@ -227,9 +233,10 @@ identifyLines <- function(identEnvir, ...) {
 
     axis(1, at=dispXPoints, labels = geneNames[dispPointLocs], las=2,
          cex.axis=0.7,)
-
-    axis(3, at=dispXPoints, labels = strands[dispPointLocs],
-         cex.axis=0.8, tick=FALSE, mgp=c(0,0,0))
+    if (byStrand == FALSE) {
+        axis(3, at=dispXPoints, labels = strands[dispPointLocs],
+             cex.axis=0.8, tick=FALSE, mgp=c(0,0,0))
+    }
 }
 
 .doImagePlot <- function(exprs,chrom, geneNames, strands, scale, main,
@@ -268,18 +275,21 @@ identifyLines <- function(identEnvir, ...) {
         image(x=xPoints,y=1:(nsamp+1),z=posExprs, col=d, breaks=b,
               xlab=xlab, ylab=ylab, main=main, axes=FALSE)
         axis(2, at=1:nsamp, labels=colnames(posExprs))
-        .dispXAxis(xPoints, geneNames, "image", strands)
+        .dispXAxis(xPoints, geneNames, "image", strands,
+                   byStrand=byStrand)
 
         image(x=xPoints,y=1:(nsamp+1),z=negExprs, col=d, breaks=b,
               xlab=xlab, ylab=ylab, axes=FALSE)
         axis(2, at=1:nsamp, labels=colnames(exprs))
-        .dispXAxis(xPoints, geneNames, "image", strands)
+        .dispXAxis(xPoints, geneNames, "image", strands,
+                   byStrand=byStrand)
     }
     else {
         image(x=xPoints,y=1:(nsamp+1),z=exprs, col=d, breaks=b,
               xlab=xlab, ylab=ylab, main=main, axes=FALSE)
         axis(2, at=1:nsamp, labels=colnames(exprs))
-        .dispXAxis(xPoints, geneNames, "image", strands)
+        .dispXAxis(xPoints, geneNames, "image", strands,
+                   byStrand=byStrand)
     }
 }
 
