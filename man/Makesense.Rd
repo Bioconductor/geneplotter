@@ -1,12 +1,14 @@
 \name{Makesense}
 \alias{Makesense}
+\alias{Makesense,matrx-method}
+\alias{Makesense,exprSet-method}
 \title{Produce Smoothed Sense/Anti-sense For All Chromosomes}
 \description{
 'Makesense' takes a matrix of gene expressions and produces 
  smoothed positive and negative strands for all chromosomes.
 }
 \usage{
-Makesense(expr, lib, f = 1/10)
+Makesense(expr, lib, f)
 }
 \arguments{
   \item{expr}{a matrix of gene expressions, with genes as rows and columns as samples.}
