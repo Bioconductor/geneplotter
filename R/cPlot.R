@@ -3,10 +3,10 @@
 # and proceed to generate a visual representation of the
 # chromosomes.
 
-.plotData <- function(chromNum, locs, xPoints, chromLens, color)
+.plotData <- function(chromNum, locs, chromLens, color)
 {
   # Get the scaling factor
-  scale <- cScale(xPoints, chromLens);
+  scale <- cScale(1000, chromLens);
 
   nlocs <- length(locs)
 
@@ -21,7 +21,7 @@
   segments(abs(locs), ypos, abs(locs), ytop, col=color)
 }
 
-cColor <- function(genes, color, xPoints, plotChroms) {
+cColor <- function(genes, color, plotChroms) {
     # Passed a vector of gene names, a color and an instance of a
     # chromLocation class.  Will recolor the specific genes in the
     # cPlot created plot to match the specified color
@@ -40,7 +40,7 @@ cColor <- function(genes, color, xPoints, plotChroms) {
     }
 }
 
-cPlot <- function(xPoints, plotChroms) {
+cPlot <- function(plotChroms) {
     # Passed an instance of a chromLocation class, and the number of
     # points to represent on the X axis, will utilize that data
     # to plot a set of genes on their proper chromosome locations.
