@@ -41,6 +41,29 @@
              labels=rep(colnames(yPoints), rep(nrow(yPoints),ncol(yPoints))))
 }
 
+.scaleData <-
+    function(chromData, method=c("none","zscale","rangescale","madscale")[1])
+{
+    ## Will scale the data set to be plotted based on a variety of
+    ## methods
+
+    if (method == "none") {
+        return(chromData)
+    }
+    else if (method == "zscale") {
+        return((chromData - (mean(chromData) / sd(chromData))))
+    }
+    else if (method == "rangescale") {
+        curRange <- range(chromData)
+        curScale <- curRange[1] / (curRange[2] - curRange[1])
+        return(chromData - curScale)
+    }
+    else if (method == "madscale")
+    {
+        return((chromData / mad(chromData)))
+    }
+}
+
 alongChrom <- function(eSet, chrom, specChrom,
                        xloc=c("equispaced", "physical")[1],
                        plotFormat=c("cumulative", "local")[1],
@@ -48,7 +71,6 @@ alongChrom <- function(eSet, chrom, specChrom,
 
     ## Will plot a set of exprset samples by genes of a chromosome
     ## according to their expression levels.
-
     ## Get the genes to display
     usedGenes <- .getGenes(eSet, chrom, specChrom)
 
@@ -63,6 +85,8 @@ alongChrom <- function(eSet, chrom, specChrom,
     else {
         ylab <- "Expression levels"
     }
+
+    chromExprs <- .scaleData(chromExprs,"rangescale")
 
     ## Plot data
     if (xloc == "equispaced") {
