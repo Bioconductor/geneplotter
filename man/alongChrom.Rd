@@ -49,10 +49,9 @@ scale=c("none","zscale","rankscale","rangescale","zrobustscale")[1], lTypes="1",
       par(ask=TRUE)
    }
    for (xl in c("equispaced", "physical"))
-    for (fo in c("cumulative", "local"))
-     for (sc in c("none","rangescale","rankscale","zscale","zrobustscale"))
+     for (sc in c("none","rangescale"))
      {
-        alongChrom(eset, "1", hgu95ProbLocs, xloc=xl, plotFormat=fo,
+        alongChrom(eset, "1", hgu95ProbLocs, xloc=xl, plotFormat="cumulative",
                    scale=sc,lty, cols)
      }
 }
