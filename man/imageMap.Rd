@@ -1,5 +1,7 @@
 \name{imageMap-methods}
 \docType{methods}
+
+\alias{imageMap}
 \alias{imageMap-methods}
 \alias{imageMap,matrix-method}
 \alias{imageMap,matrix,connection,list,character-method}
