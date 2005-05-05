@@ -1,6 +1,10 @@
-export(alongChrom, cColor, cPlot, cScale, dChip.colors,
-greenred.colors, GetColor, plotChr, plotExpressionGraph, savepng,
-savepdf, saveeps, savetiff, make.chromOrd,
-openHtmlPage, closeHtmlPage)
+export("alongChrom", "cColor", "cPlot", "cScale", "dChip.colors",
+       "greenred.colors", "GetColor", "plotChr",
+       "plotExpressionGraph", "make.chromOrd", 
+       "savepng", "savepdf", "saveeps", "savetiff",
+       "smoothScatter", "densCols",
+       "openHtmlPage", "closeHtmlPage")
 
 exportMethods("Makesense", "imageMap")
+importFrom("KernSmooth", "bkde2D")
+importFrom("RColorBrewer", "brewer.pal")
