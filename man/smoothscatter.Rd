@@ -13,7 +13,7 @@
 smoothScatter(x, y,
               nbin = 128,
               bandwidth,
-              colramp = colorRampPalette(brewer.pal(9, "YlGnBu")),
+              colramp = colorRampPalette(c("white", brewer.pal(9, "Blues"))),
               nrpoints = 100,
               transformation = function(x) x^.25,
               xlab, ylab, ...) 
@@ -21,7 +21,7 @@ smoothScatter(x, y,
      densCols(x, y,
               nbin = 128,
               bandwidth,
-              colramp = colorRampPalette(brewer.pal(9, "YlGnBu")[-(1:3)]))
+              colramp = colorRampPalette(brewer.pal(9, "Blues")[-(1:3)]))
 }
 \arguments{
 \item{x}{Numeric vector containing x-values or n by 2 matrix containing x
@@ -66,8 +66,9 @@ smoothScatter(x, y,
 
 \examples{
 if(interactive()) {
-  x  <- 16*runif(1e4)
-  x  <- cbind(x, x+rnorm(length(x)))
+  x1  <- matrix(rnorm(1e4), ncol=2)
+  x2  <- matrix(rnorm(1e4, mean=3, sd=1.5), ncol=2)
+  x   <- rbind(x1,x2)
 
   layout(matrix(1:4, ncol=2, byrow=TRUE))
   smoothScatter(x, nrpoints=0)

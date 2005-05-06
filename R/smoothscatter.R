@@ -32,7 +32,7 @@
 smoothScatter <- function(x, y, 
                           nbin=128,
                           bandwidth,
-                          colramp=colorRampPalette(brewer.pal(9, "YlGnBu")),
+                          colramp=colorRampPalette(c("white", brewer.pal(9, "Blues"))),
                           nrpoints=100,
                           transformation=function(x) x^.25,
                           xlab, ylab, ...) {
@@ -81,7 +81,7 @@ smoothScatter <- function(x, y,
 densCols <- function(x, y,
                      nbin=128,
                      bandwidth,
-                     colramp=colorRampPalette(brewer.pal(9, "YlGnBu")[-(1:3)])) {
+                     colramp=colorRampPalette(brewer.pal(9, "Blues")[-(1:3)])) {
 
   ## create density map 
   x    <- .pradaMakeX(x, y)
