@@ -50,7 +50,7 @@
     within your graphic. Since the mapping between device coordinates
     and pixel coordinates is not obvious, this may be a little tricky.
     See the examples below, and for a more complex example, see the
-    source code of the function \code{\link{plotPlate}}.
+    source code of the function \code{\link[prada]{plotPlate}}.
     \item open an HTML page for writing and write HTML header,
     e.g. using the \code{\link{openHtmlPage}} function.
     \item Call the \code{\link{imageMap}} function.
@@ -62,8 +62,8 @@
 \value{The function is called for its side effect, which is writing text into
 the connection \code{con}.}
 
-\seealso{\code{\link[prada::plotPlate]{plotPlate}}, 
-   \code{\link[base::writeLines]{writeLines}}}
+\seealso{\code{\link[prada]{plotPlate}}, 
+   \code{\link[base]{writeLines}}}
 
 \author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
 \keyword{manip}

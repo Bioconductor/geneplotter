@@ -2,6 +2,7 @@ if (is.null(getGeneric("imageMap")))
     setGeneric("imageMap", function(object, ...)
                standardGeneric("imageMap"))
 
+setOldClass("connection")
 setMethod("imageMap",
   signature=c("matrix", "connection", "list", "character"),
   definition=function(object, con, tags, imgname) {
