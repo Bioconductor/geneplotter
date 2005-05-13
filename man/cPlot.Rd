@@ -36,7 +36,7 @@ cPlot(plotChroms, useChroms=chromNames(plotChroms),
 }
 \author{Jeff Gentry}
 \seealso{\code{\link{cScale}}, \code{\link{cColor}},
-  \code{\link{chromLocation-class}}}
+  \code{\link[annotate]{chromLocation-class}}}
 \examples{
    ## A bit of a hack to not have a package dependency on hgu95av2
    ## but need to fiddle w/ the warn level to not fail the example anyways.

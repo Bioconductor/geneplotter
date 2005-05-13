@@ -11,7 +11,7 @@ amplicon.plot(ESET, FUN, genome)
 }
 \arguments{
   \item{ESET}{an object of class \code{exprSet}}
-  \item{FUN}{A two sample test function suitable for \code{\link{esApply}}. }
+  \item{FUN}{A two sample test function suitable for \code{\link[Biobase]{esApply}}. }
   \item{genome}{A character string of the base name for the annotation. }
 }
 \details{
@@ -31,7 +31,7 @@ amplicon.plot(ESET, FUN, genome)
 
 \author{Robert Gentleman }
 
-\seealso{\code{\link{esApply}}, \code{\link{make.chromOrd}}}
+\seealso{\code{\link[Biobase]{esApply}}, \code{\link{make.chromOrd}}}
 
 \examples{
   ##none yet; takes too long

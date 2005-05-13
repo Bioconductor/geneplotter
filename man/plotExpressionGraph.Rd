@@ -59,12 +59,12 @@ plotExpressionGraph(graph, nodeLLmap, exprs, LOCUSIDenvir, mapFun, log = FALSE, 
 
   The \code{nodeAttrs} list can be specified if any other node
   attributes are desired to be set by the user.  Please see the
-  \code{\link{plot.graph}} man page for more information on this.  The
+  \code{\link[Rgraphviz]{plot.graph}} man page for more information on this.  The
   other attribute list (\code{attrs} and \code{edgeAttrs}) can be passed
   in via the \code{...} parameter.
 }
 \author{Jeff Gentry}
-\seealso{\code{\link{plot.graph}}, \code{integrinMediatedCellAdhesion}}
+\seealso{\code{\link[Rgraphviz]{plot.graph}}, \code{integrinMediatedCellAdhesion}}
 \examples{
    if ((require("Rgraphviz")) && (require("hgu95av2")) &&
         (require("fibroEset")) && (interactive())) {     

@@ -28,7 +28,7 @@ cColor(probes, color, plotChroms, scale=c("relative","max"),glen=0.4)
 }
 \author{Jeff Gentry}
 \seealso{
-  \code{\link{cPlot}}, \code{\link{chromLocation-class}}
+  \code{\link{cPlot}}, \code{\link[annotate]{chromLocation-class}}
 }
 \examples{
    ## A bit of a hack to not have a package dependency on hgu95av2

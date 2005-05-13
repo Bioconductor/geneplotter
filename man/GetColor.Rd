@@ -25,7 +25,7 @@ greenred.colors(n)
   \code{GetColor} is a simple mapping into RGB land provided by Cheng
   Li.
   \code{dChip.colors} provides functionality similar to that of
-  \code{\link{topo.colors}} for the red--blue colors used for genome
+  \code{\link[grDevices]{topo.colors}} for the red--blue colors used for genome
   plots. \code{greenred.colors} does the same for the green-black-red gradient. 
 }
 \value{

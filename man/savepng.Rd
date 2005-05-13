@@ -34,8 +34,8 @@
   graphics file.
 
   \code{savepdf}, \code{savepng}, and \code{saveeps} use the
-  devices \code{\link{pdf}}, \code{\link{png}}, and
-  \code{\link{postscript}}, respectively.
+  devices \code{\link[grDevices]{pdf}}, \code{\link[grDevices]{png}}, and
+  \code{\link[grDevices]{postscript}}, respectively.
 
   There is currently no TIFF device for R, so \code{savetiff}
   works differently. It relies on the external tool \code{convert} from
@@ -51,8 +51,8 @@
 
 \author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
 
-\seealso{\code{\link{dev.copy}}, \code{\link{pdf}}, \code{\link{png}},
-  \code{\link{postscript}}}
+\seealso{\code{\link[grDevices]{dev.copy}}, \code{\link[grDevices]{pdf}}, \code{\link[grDevices]{png}},
+  \code{\link[grDevices]{postscript}}}
 
 \examples{
   x = seq(0, 20*pi, len=1000)

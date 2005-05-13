@@ -44,8 +44,8 @@
   of steps:
   \enumerate{
     \item generate your graphic and save it as a bitmap file, e.g.
-    using the \code{\link{jpeg}}, \code{\link{png}}, or
-    \code{\link{bitmap}} devices. At this stage, you also need to
+    using the \code{\link[grDevices]{jpeg}}, \code{\link[grDevices]{png}}, or
+    \code{\link[grDevices]{bitmap}} devices. At this stage, you also need to
     figure out the pixel coordinates of the interesting regions
     within your graphic. Since the mapping between device coordinates
     and pixel coordinates is not obvious, this may be a little tricky.
