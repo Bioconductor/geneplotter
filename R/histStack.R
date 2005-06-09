@@ -1,4 +1,4 @@
-histStack <- function(x, breaks, breakFun=paste, ylab="frequency", ...) {
+histStack <- function(x, breaks, breaksFun=paste, ylab="frequency", ...) {
   if(!is.list(x))
     stop("'x' must be a list.")
   bars <- NULL
@@ -14,6 +14,5 @@ histStack <- function(x, breaks, breakFun=paste, ylab="frequency", ...) {
   at     = seq(along=h$breaks)
   modulo = floor(length(at)/10)
   sel    = ((at-1) %% modulo == 0)
-  axis(side=1,at=at[sel],labels=breakFun(h$breaks)[sel])
-  browser()
+  axis(side=1,at=at[sel],labels=breaksFun(h$breaks)[sel])
 }
