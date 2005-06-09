@@ -7,8 +7,9 @@
   \item{x}{A list of numeric vectors.}
   \item{breaks}{Histogram breaks, as in
     \code{\link[graphics:hist]{hist}}}
-  \item{midsFun}{Function, can be used to control the formatting and
-    number of the bar labels on the x-axis. See example.}
+  \item{breakFun}{Function, can be used to control the formatting
+    of the bin labels. See example.}
+  \item{ylab}{Character or expression, label of y-axis.}
   \item{...}{Further arguments that get passed to
     \code{\link[graphics:barplot]{barplot}}}
 }
@@ -31,11 +32,7 @@
   histStack(x, breaks=br, col=cols)
 
   histStack(x, breaks=br, col=cols,
-            midsFun=function(z) {
-              z <- paste(round(z, 3))
-              z[seq(2, length(z), by=2)] <- NA
-              return(z)
-            } )
+            breaksFun=function(z) paste(signif(z, 3)))
 }
 \keyword{hplot}
 
