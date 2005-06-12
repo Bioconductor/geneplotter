@@ -9,7 +9,6 @@
     \code{\link[graphics:hist]{hist}}}
   \item{breaksFun}{Function, can be used to control the formatting
     of the bin labels. See example.}
-  \item{ylab}{Character or expression, label of y-axis.}
   \item{...}{Further arguments that get passed to
     \code{\link[graphics:barplot]{barplot}}}
 }
