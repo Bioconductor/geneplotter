@@ -11,8 +11,9 @@ histStack <- function(x, breaks, breaksFun=paste, ylab="frequency", ...) {
 
   barplot(bars, names.arg=NULL, space=0, ylab=ylab, ...)
 
-  at     = seq(along=h$breaks)
-  modulo = floor(length(at)/10)
-  sel    = ((at-1) %% modulo == 0)
+  at     = seq(along=h$breaks)-1
+  modulo = ceiling(length(at)/10)
+  sel    = (at %% modulo == 0)
   axis(side=1,at=at[sel],labels=breaksFun(h$breaks)[sel])
+
 }
