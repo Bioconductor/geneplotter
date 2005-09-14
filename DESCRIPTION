@@ -1,6 +1,6 @@
 Package: geneplotter
 Title: Grapics related functions for Bioconductor
-Version: 1.7.3
+Version: 1.7.4
 Date: 11. Juni 2005
 Author: R. Gentleman
 Description: Some basic functions for plotting genetic data
@@ -11,4 +11,5 @@ Suggests: Rgraphviz, hgu95av2, fibroEset, hu6800, hgu133a, GO,
 Imports: KernSmooth, RColorBrewer
 Uses: hgu133a
 License: LGPL
+biocViews: Visualization
 
