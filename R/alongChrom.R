@@ -591,8 +591,8 @@ cullACXPoints <- function(xPoints) {
 
 emptyACPlot <- function(chrom) {
     plot.new()
-    axis(1,labels=rep("NA",6))
-    axis(2, labels=rep("NA",6))
+    axis(1, at=c(0,0.2, 0.4, 0.6,0.8,1), labels=rep("NA",6))
+    axis(2, at=c(0,0.2, 0.4, 0.6,0.8,1),labels=rep("NA",6))
     main <- paste("Plot empty, no genes from chromosome",chrom,
                   "in exprSet provided.\n")
 
