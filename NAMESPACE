@@ -3,8 +3,17 @@ export("alongChrom", "cColor", "cPlot", "cScale", "dChip.colors",
        "plotExpressionGraph", "make.chromOrd", 
        "savepng", "savepdf", "saveeps", "savetiff",
        "smoothScatter", "densCols", "histStack", 
-       "openHtmlPage", "closeHtmlPage")
+       "openHtmlPage", "closeHtmlPage",
+       "multiecdf", "multidensity")
 
 exportMethods("Makesense", "imageMap")
+
+S3method("multiecdf", "formula")
+S3method("multiecdf", "default")
+S3method("multidensity", "formula")
+S3method("multidensity", "default")
+
+
 importFrom("KernSmooth", "bkde2D")
 importFrom("RColorBrewer", "brewer.pal")
+
