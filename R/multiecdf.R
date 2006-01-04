@@ -17,8 +17,13 @@ multiecdf.formula <-
     multiecdf(split(mf[[response]], mf[-response]), ...)
 }
 
-multiecdf.default = function(x, xlim, col, main="", do.points=FALSE, ...) {
+multiecdf.default <- function(x, xlim, col, main="", do.points=FALSE,
+                              subsample=TRUE, ...) {
   stopifnot(length(x)>=1)
+  if(subsample)
+    for(i in 1:length(x))
+      if(length(x[[i]])>1000)
+        x[[i]] <- x[[i]][sample(1:length(x[[i]]), 1000)]
   ef = lapply(x, ecdf)
   if(missing(xlim))
     xlim = range(unlist(x))
