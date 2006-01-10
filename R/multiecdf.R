@@ -63,8 +63,11 @@ multidensity.default = function(x, xlim, col, main="", ...) {
   if(missing(col))
     col = brewer.pal(9, "Set1")
   plot(ef[[1]], xlim=xlim, col=col[1], main=main, ...)
+  m <- match.call(expand.dots = FALSE) # avoid warnings for invalid arguments
+  m$... <- m$...[!names(m$...) %in% c("xlab", "ylab")]  
   for(j in 2:length(ef)) {
-    lines(ef[[j]], col=col[1+((j-1)%%length(col))], ...)
+    args <- c(list(x=ef[[j]], col=col[1+((j-1)%%length(col))]), m$...)
+    do.call("lines", args)
   }
 }
 
