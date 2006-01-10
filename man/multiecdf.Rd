@@ -16,12 +16,11 @@
 \usage{
 multiecdf(x, \dots)
 \method{multiecdf}{formula}(formula, data = NULL, \dots, na.action = NULL)
-\method{multiecdf}{default}(x, xlim, col, main="", do.points=FALSE,
-subsample=TRUE, \dots)
+\method{multiecdf}{default}(x, xlim, col, do.points=FALSE, subsample=TRUE, \dots)
 
 multidensity(x, \dots)
 \method{multidensity}{formula}(formula, data = NULL, \dots, na.action = NULL)
-\method{multidensity}{default}(x, xlim, col, main="", \dots)
+\method{multidensity}{default}(x, xlim, col, \dots)
 
 }
 
@@ -39,13 +38,12 @@ multidensity(x, \dots)
   \item{col}{Line colors. If missing, the
     \code{\link[RColorBrewer::brewer.pal]{Set1}} palette from RColorBrewer
   is used.}
-  \item{main}{Plot title.}
   \item{do.points}{logical; if \code{TRUE}, also draw points at the knot
     locations.}
    \item{subsample}{logical; if \code{TRUE}, subsamples of size 1000 are
    used to compute and plot the ecdf for list items with many
    observations (\code{>1000})} 
-  \item{...}{Further arguments that get passed on.}
+  \item{...}{Further arguments that get passed on to the \code{plot} functions.}
 }
 
 \seealso{

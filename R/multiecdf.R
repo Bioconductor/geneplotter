@@ -17,7 +17,7 @@ multiecdf.formula <-
     multiecdf(split(mf[[response]], mf[-response]), ...)
 }
 
-multiecdf.default <- function(x, xlim, col, main="", do.points=FALSE,
+multiecdf.default <- function(x, xlim, col, do.points=FALSE,
                               subsample=TRUE, ...) {
   stopifnot(length(x)>=1)
   if(subsample)
@@ -29,10 +29,15 @@ multiecdf.default <- function(x, xlim, col, main="", do.points=FALSE,
     xlim = range(unlist(x))
   if(missing(col))
     col = brewer.pal(9, "Set1")
-  plot(ef[[1]], xlim=xlim, col.hor=col[1], col.vert=col[1], main=main, do.points=do.points, ...)
+  plot(ef[[1]], xlim=xlim, col.hor=col[1], col.vert=col[1], do.points=do.points, ...)
+  m <- match.call(expand.dots = FALSE) # avoid warnings for invalid arguments
+  m$... <- m$...[!names(m$...) %in% c("main", "xlab", "ylab", "ylim")]  
+
   for(j in 2:length(ef)) {
     mycol = col[1+((j-1)%%length(col))]
-    lines(ef[[j]], col.hor=mycol, col.vert=mycol, do.points=do.points, ...)
+    args <- c(list(x=ef[[j]], col.hor=mycol, col.vert=mycol, do.points=do.points), m$...)
+    do.call("lines", args)
+
   }
 }
 
@@ -55,16 +60,16 @@ multidensity.formula <-
     multidensity(split(mf[[response]], mf[-response]), ...)
 }
 
-multidensity.default = function(x, xlim, col, main="", ...) {
+multidensity.default = function(x, xlim, col, ...) {
   stopifnot(length(x)>=1)
   ef = lapply(x, density)
   if(missing(xlim))
     xlim = range(unlist(x))
   if(missing(col))
     col = brewer.pal(9, "Set1")
-  plot(ef[[1]], xlim=xlim, col=col[1], main=main, ...)
+  plot(ef[[1]], xlim=xlim, col=col[1],  ...)
   m <- match.call(expand.dots = FALSE) # avoid warnings for invalid arguments
-  m$... <- m$...[!names(m$...) %in% c("xlab", "ylab")]  
+  m$... <- m$...[!names(m$...) %in% c("main", "xlab", "ylab", "ylim")]  
   for(j in 2:length(ef)) {
     args <- c(list(x=ef[[j]], col=col[1+((j-1)%%length(col))]), m$...)
     do.call("lines", args)
