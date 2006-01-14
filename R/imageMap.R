@@ -1,10 +1,10 @@
-if (is.null(getGeneric("imageMap")))
-    setGeneric("imageMap", function(object, ...)
-               standardGeneric("imageMap"))
+setGeneric("imageMap", function(object, con, tags, imgname)
+           standardGeneric("imageMap"))
 
 setOldClass("connection")
 setMethod("imageMap",
-  signature=c("matrix", "connection", "list", "character"),
+  signature=signature(object="matrix", con="connection", tags="list",
+    imgname="character"),
   definition=function(object, con, tags, imgname) {
     
   if(!is.matrix(object)||ncol(object)!=4)

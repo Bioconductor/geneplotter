@@ -1,25 +1,25 @@
-if (is.null(getGeneric("Makesense")))
-    setGeneric("Makesense", function(expr, lib, f)
-               standardGeneric("Makesense"))
+setGeneric("Makesense", function(expr, lib, ...) standardGeneric("Makesense"))
 
-setMethod("Makesense", "exprSet", function(expr, lib, f) {
-    if (missing(lib))
-        lib <- annotation(expr)
 
-    if (length(lib) == 0)
-        stop("No annotation library supplied")
-
-    if (missing(f))
-        f <- 1/10
+setMethod("Makesense", signature(expr="exprSet", lib="character"),
+          function(expr, lib, f=1/10) {
+    if (!identical(length(lib), as.integer(1)) || !identical(nchar(lib) > 0, TRUE))
+      stop("No annotation library supplied")
     Makesense(exprs(expr), lib, f)
 })
 
-setMethod("Makesense", "matrix", function(expr, lib, f) {
+
+setMethod("Makesense", signature(expr="exprSet", lib="missing"),
+          function(expr, f=1/10) {
+              lib <- annotation(expr)
+              Makesense(expr, lib, f)
+          })
+
+
+setMethod("Makesense", signature(expr="matrix", lib="character"),
+          function(expr, lib, f=1/10) {
     if(!require(lib, character.only=TRUE))
         stop("data library ",lib," not avaiable")
-
-    if (missing(f))
-        f <- 1/10
 
     libCHR <- paste(lib, "CHR", sep="")
     libCHRLOC <- paste(lib, "CHRLOC", sep="")
@@ -63,3 +63,4 @@ setMethod("Makesense", "matrix", function(expr, lib, f) {
     }
     list(ans2=ans2, lib=lib)
 })
+

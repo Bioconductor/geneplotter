@@ -1,7 +1,8 @@
 \name{Makesense}
 \alias{Makesense}
-\alias{Makesense,matrix-method}
-\alias{Makesense,exprSet-method}
+\alias{Makesense,matrix,character-method}
+\alias{Makesense,exprSet,character-method}
+\alias{Makesense,exprSet,missing-method}
 \title{Produce Smoothed Sense/Anti-sense For All Chromosomes}
 \description{
   'Makesense' takes either an exprSet object or a matrix of gene
@@ -9,7 +10,7 @@
   for all chromosomes.
 }
 \usage{
-Makesense(expr, lib, f)
+Makesense(expr, lib, ...)
 }
 \arguments{
   \item{expr}{Either an exprSet object or a matrix of gene expressions
@@ -19,7 +20,8 @@ Makesense(expr, lib, f)
     locations, such as \code{hgu95av2} or \code{hgu133a}.  If
     \code{expr} is an \code{exprSet}, the argument defaults to the
     \code{annotation} slot of the \code{exprSet}.}
-  \item{f}{the smoother span to be passed to 'lowess'. Its value should
+  \item{...}{Currently, the only optional argument is \code{f}, the
+    smoother span to be passed to 'lowess'. Its value should
     be in the interval of (0,1). This gives the proportion of points in
     the plot which influence the smooth at each value. Larger values
     give more smoothness.  The default value for this argument is 1/10.}
