@@ -27,7 +27,7 @@ make.chromOrd(genome, gnames)
 \seealso{ \code{\link{amplicon.plot}} }
 
 \examples{
-  data(eset)
-  make.chromOrd("hgu95A", geneNames(eset))
+  data(sample.exprSet)
+  make.chromOrd("hgu95A", geneNames(sample.exprSet))
 }
 \keyword{ utilities }

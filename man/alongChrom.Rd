@@ -74,7 +74,7 @@
 }
 \author{Jeff Gentry}
 \examples{
-   data(eset)
+   data(sample.exprSet)
    ## A bit of a hack to not have a package dependency on hgu95av2
    ## but need to fiddle w/ the warn level to not fail the example anyways.
    curWarn <- options(warn=0)
@@ -83,7 +83,7 @@
       z <- buildChromLocation("hgu95av2")
       lty <- c(1, 2, 3, 4, 5)
       cols <- c("red", "green", "blue", "orange", "magenta", "black")
-      cols <- cols[eset$cov3]
+      cols <- cols[sample.exprSet$cov3]
       if (interactive()) {
          par(ask=TRUE)
       }
@@ -93,7 +93,7 @@
       for (xl in c("equispaced", "physical"))
         for (sc in c("none","rangescale"))
         {
-           alongChrom(eset, "1", z, xlim=xlim, xloc=xl,
+           alongChrom(sample.exprSet, "1", z, xlim=xlim, xloc=xl,
               plotFormat="cumulative", scale=sc,lty=lty, col=cols)
         }
 
@@ -105,18 +105,18 @@
       for (xl in c("equispaced", "physical"))
         for (sc in c("none","rangescale"))
         {
-            alongChrom(eset, "1", z, which=which, xloc=xl,
+            alongChrom(sample.exprSet, "1", z, which=which, xloc=xl,
                plotFormat="cumulative", scale=sc,lty=lty, col=cols)
          }
 
       ## Do an image plot
       for (bs in c(TRUE,FALSE))
-         alongChrom(eset, "1",z, xlim=xlim, plotFormat="image",
+         alongChrom(sample.exprSet, "1",z, xlim=xlim, plotFormat="image",
                    scale="zscale", byStrand=bs)
 
       ## A boxplot
       for (st in c(TRUE,FALSE))
-         alongChrom(eset, "1", z, plotFormat="local",
+         alongChrom(sample.exprSet, "1", z, plotFormat="local",
                     colors=cols, byStrand=st)
     } else print("Example can not be run without the hgu95av2 data package")
 }

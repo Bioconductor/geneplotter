@@ -25,7 +25,7 @@ identifyLines(identEnvir,...)
   \code{\link{alongChrom}}, \code{\link{identify}}.
 }
 \examples{
-   data(eset)
+   data(sample.exprSet)
 
    ## A bit of a hack to not have a package dependency on hgu95av2
    ## but need to fiddle w/ the warn level to not fail the example anyways.
@@ -35,7 +35,7 @@ identifyLines(identEnvir,...)
      z <- buildChromLocation("hgu95av2")
      lty <- c(1, 2, 3, 4, 5)
      cols <- c("red", "green", "blue", "orange", "magenta", "black")
-     identEnv <- alongChrom(eset,"1", z, xloc="equispaced",
+     identEnv <- alongChrom(sample.exprSet,"1", z, xloc="equispaced",
                           plotFormat="cumulative", scale="none",
                           lty,cols)
      if (interactive()) {
