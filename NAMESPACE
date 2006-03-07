@@ -7,7 +7,7 @@ export("alongChrom", "cColor", "cPlot", "cScale", "dChip.colors",
        "multiecdf", "multidensity")
 
 exportMethods("Makesense", "imageMap")
-
+exportClasses("file", "connection")
 S3method("multiecdf", "formula")
 S3method("multiecdf", "default")
 S3method("multidensity", "formula")

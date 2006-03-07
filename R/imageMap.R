@@ -2,10 +2,9 @@ setGeneric("imageMap", function(object, con, tags, imgname)
            standardGeneric("imageMap"))
 
 
-#setOldClass(c("file", "connection"))
-
+setOldClass(c("file", "connection"))
 setMethod("imageMap",
-  signature=signature(object="matrix", con="ANY", tags="list",
+  signature=signature(object="matrix", con="connection", tags="list",
     imgname="character"),
   definition=function(object, con, tags, imgname) {
     
