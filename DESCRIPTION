@@ -4,7 +4,7 @@ Version: 1.9.7
 Date: 6 March 2006
 Author: R. Gentleman
 Description: Some basic functions for plotting genetic data
-Maintainer: Jeff Gentry <jgentry@jimmy.harvard.edu>
+Maintainer: Biocore Team <biocpkgs@lists.fhcrc.org>
 Depends: R (>= 2.1.0), annotate, Biobase, methods
 Suggests: Rgraphviz, hgu95av2, fibroEset, hu6800, hgu133a, GO,
         KernSmooth, RColorBrewer
