@@ -3,7 +3,7 @@
 \alias{densCols}
 \title{Scatterplots with smoothed densities color representation}
 
-\description{\code{smothScatter} produces a smoothed color density
+\description{\code{smoothScatter} produces a smoothed color density
   representation of the scatterplot, obtained through a kernel
   density estimate. \code{densCols} produces a vector containing
   colors which encode the local densities at each point in a
