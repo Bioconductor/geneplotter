@@ -46,8 +46,9 @@ in the same order as appearing in the columns of
 'expr'. Each component is also a list, named by chromosomes 
 "1"-"22", "X" and "Y". Each named component is again a list 
 with two elements named "posS" and "negS", corresponding to the
-positive and negative strands of a chromosome, each of which isan object returned by 'lowess'.}
-\item{lib}{as passed in.}
+positive and negative strands of a chromosome, each of which is an object returned by 'lowess'.}
+\item{lib}{A string giving the name of the annotation data package to
+use.  Optional if \code{expr} is an \code{exprSet}.}
 }
 \author{Robert Gentleman and Xiaochun Li}
 
@@ -62,6 +63,6 @@ data(eset133a)
 
 esetobj <- Makesense(exprs(eset133a), "hgu133a")
 
-esetobj2 <- Makesense(eset133a, "hgu133a")
+esetobj2 <- Makesense(eset133a[1:200, ], "hgu133a")
 }
 \keyword{dplot}

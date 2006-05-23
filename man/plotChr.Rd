@@ -6,7 +6,7 @@ For a given chromosome, plot the smooths of the sense and the
 anti-sense from 5' to 3' (left to right on x-axis). 
 }
 \usage{
-plotChr(chrN, senseObj, cols = rep("blue", length(senseObj[[1]])), log = FALSE, xloc = c("equispaced", "physical"), geneSymbols = FALSE, ngenes = 20, lines.at = NULL, lines.col = "red")
+plotChr(chrN, senseObj, cols = rep("black", length(senseObj[[1]])), log = FALSE, xloc = c("equispaced", "physical"), geneSymbols = FALSE, ngenes = 20, lines.at = NULL, lines.col = "red")
 }
 \arguments{
   \item{chrN}{The desired chromosome, e.g. for humans it would be a character string in the set of c(1:22, "X", "Y").}
