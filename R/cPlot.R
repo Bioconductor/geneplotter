@@ -54,7 +54,14 @@ cColor <- function(probes, color, plotChroms,
     lens <- chromLengths(plotChroms)
     names(lens) <- chromNames(plotChroms)
 
-    for (cName in names(gchr)) {
+    sel <- (names(gchr)%in% names(locList))
+    chrToDo <- names(gchr)[sel]
+    if(!all(sel))
+      warning(sprintf("No locations available for probes on chromosome%s %s",
+                      c("", "s")[1+(sum(sel)>1)],
+                      names(gchr)[!sel]))
+      
+    for (cName in chrToDo) {
         locs <- locList[[cName]][gchr[[cName]]]
         locs <- as.numeric(locs[!is.na(locs)])
         if (length(locs) > 0) {
