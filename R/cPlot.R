@@ -58,7 +58,7 @@ cColor <- function(probes, color, plotChroms,
     chrToDo <- names(gchr)[sel]
     if(!all(sel))
       warning(sprintf("No locations available for probes on chromosome%s %s",
-                      c("", "s")[1+(sum(sel)>1)],
+                      c("", "s")[1+(sum(!sel)>1)],
                       names(gchr)[!sel]))
       
     for (cName in chrToDo) {
