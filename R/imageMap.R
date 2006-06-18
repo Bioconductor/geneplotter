@@ -1,4 +1,4 @@
-setGeneric("imageMap", function(object, con, tags, imgname)
+setGeneric("imageMap", function(object, con, tags, imgname, ...)
            standardGeneric("imageMap"))
 
 
