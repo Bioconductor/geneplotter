@@ -2,7 +2,7 @@
 % NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
 % likely to be overwritten.
 %
-% \VignetteIndexEntry{byChroms HowTo}
+% \VignetteIndexEntry{How to assemble a chromLocation object}
 % \VignetteAuthor{R. Gentleman}
 %\VignetteDepends{annotate, hu6800}
 %\VignetteKeywords{chromosomes}
