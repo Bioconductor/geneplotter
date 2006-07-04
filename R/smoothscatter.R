@@ -18,7 +18,7 @@
     stop("'nbin' must be numeric of length 1 or 2")
 
   if (missing(bandwidth)) {
-    bandwidth <- diff(apply(x, 2, quantile, probs=c(0.05, 0.95))) / 25
+    bandwidth <- diff(apply(x, 2, quantile, probs=c(0.05, 0.95), na.rm=TRUE)) / 25
   } else {
     if(!is.numeric(bandwidth))
       stop("'bandwidth' must be numeric")
