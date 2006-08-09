@@ -4,7 +4,8 @@
     x <- cbind(x, y)
   if (!is.matrix(x) && ncol(x)==2)
     stop("Wrong size of arguments 'x' (and/or 'y')")
-  return(x)
+  ## eliminate NA (similar as in "plot")
+  return(x[rowSums(is.na(x))==0, ])
 }
 
 .pradaMakeDens <- function(x, nbin, bandwidth) {
