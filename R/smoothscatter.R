@@ -4,14 +4,10 @@
     x <- cbind(x, y)
   if (!is.matrix(x) && ncol(x)==2)
     stop("Wrong size of arguments 'x' (and/or 'y')")
-  ## eliminate NA (similar as in "plot")
-  return(x[rowSums(is.na(x))==0, ])
+  return(x)
 }
 
 .pradaMakeDens <- function(x, nbin, bandwidth) {
-  ##for(p in c("KernSmooth", "RColorBrewer"))
-  ##  if(!require(p, character.only=TRUE))
-  ##    stop(paste("Required package '", p, "' could not be found", sep=""))
   
   if (length(nbin) == 1)
     nbin <- c(nbin, nbin)
@@ -24,6 +20,7 @@
     if(!is.numeric(bandwidth))
       stop("'bandwidth' must be numeric")
   }
+
   ## create density map
   rv <- bkde2D(x, gridsize=nbin, bandwidth=bandwidth)
   rv$bandwidth <- bandwidth
@@ -38,10 +35,11 @@ smoothScatter <- function(x, y,
                           transformation=function(x) x^.25,
                           xlab, ylab, ...) {
   
-  if (!is.numeric(nrpoints) | (nrpoints < 0) | (length(nrpoints) > 1) )
-    stop("'nrpoints' should be integer or inf")
+  if (!is.numeric(nrpoints) | (nrpoints<0) | (length(nrpoints)!=1) )
+    stop("'nrpoints' should be numeric scalar with value >= 0.")
+  
   if(missing(xlab)) {
-    xlab <- if(missing(y))
+    xlab <- if(missing(x))
       colnames(x)[1]
     else
       deparse(substitute(x))
@@ -53,8 +51,12 @@ smoothScatter <- function(x, y,
       deparse(substitute(y))
   }
 
-  ## create density map
   x    <- .pradaMakeX(x, y)
+
+  ## eliminate NA (similar as in "plot")
+  x <- x[!(is.na(x[,1])|is.na(x[,2])), ]
+  
+  ## create density map
   map  <- .pradaMakeDens(x, nbin, bandwidth)
   xm   <- map$x1
   ym   <- map$x2
@@ -85,7 +87,13 @@ densCols <- function(x, y,
                      colramp=colorRampPalette(brewer.pal(9, "Blues")[-(1:3)])) {
 
   ## create density map 
-  x    <- .pradaMakeX(x, y)
+  x  <- .pradaMakeX(x, y)
+
+  ## deal with NA
+  select <- !(is.na(x[,1])|is.na(x[,2]))
+  x <- x[select, ]
+  
+  ## create density map
   map  <- .pradaMakeDens(x, nbin, bandwidth)
 
   ## bin x-values
@@ -101,7 +109,8 @@ densCols <- function(x, y,
 
   ## transform densities to colors
   colpal <- as.integer(1 + (length(dens)-1) * dens/max(dens))
-  cols   <- colramp(length(dens))[colpal]
+  cols   <- rep(as.character(NA), nrow(x))
+  cols[select] <- colramp(length(dens))[colpal]
     
   return(cols)
 }
