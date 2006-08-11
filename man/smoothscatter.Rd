@@ -10,18 +10,18 @@
   scatterplot.}
 
 \usage{
-smoothScatter(x, y,
-              nbin = 128,
+smoothScatter(x, y=NULL,
+              nbin=128,
               bandwidth,
-              colramp = colorRampPalette(c("white", brewer.pal(9, "Blues"))),
-              nrpoints = 100,
-              transformation = function(x) x^.25,
-              xlab, ylab, ...) 
+              colramp=colorRampPalette(c("white", brewer.pal(9, "Blues"))),
+              nrpoints=100,
+              transformation=function(x) x^.25,
+              xlab=NULL, ylab=NULL, postPlotHook=box, ...) 
 
-     densCols(x, y,
-              nbin = 128,
+     densCols(x, y=NULL,
+              nbin=128,
               bandwidth,
-              colramp = colorRampPalette(brewer.pal(9, "Blues")[-(1:3)]))
+              colramp=colorRampPalette(brewer.pal(9, "Blues")[-(1:3)]))
 }
 \arguments{
 \item{x}{Numeric vector containing x-values or n by 2 matrix containing x
@@ -33,7 +33,7 @@ smoothScatter(x, y,
   grid points for the density estimation.}
 \item{bandwidth}{Numeric vector: the smoothing bandwidth. If missing,
   these functions come up with a more or less useful guess. This
-  parameter then gets passed on to function.
+  parameter then gets passed on to the function
   \code{\link[KernSmooth::bkde2D]{bkde2D}}.}
 \item{colramp}{Function accepting an integer \code{n} as an argument and
   returning \code{n} colors.}
@@ -43,12 +43,17 @@ smoothScatter(x, y,
 \item{transformation}{Function that maps the density scale to the color scale.}
 \item{xlab}{Character. Gets passed on to \code{\link{image}}}
 \item{ylab}{Character. Gets passed on to \code{\link{image}}}
+\item{postHook}{Either \code{NULL} or a function with no
+  arguments that will be called after \code{\link{image}}.}
 \item{...}{Further arguments that are passed on to \code{\link{image}}.}
 }
 
 \details{
-  These functions are convenience wrappers around
-  \code{\link[KernSmooth::bkde2D]{bkde2D}}.
+These functions are convenience wrappers around
+\code{\link[KernSmooth::bkde2D]{bkde2D}}.
+
+The treatment of the \code{x} and \code{y} arguments attempts to be
+consistent with that e.g. of \code{\link{plot.default}}.
 }
 
 \value{\code{smoothScatter} is called for its side-effect, producing a
@@ -70,10 +75,10 @@ if(interactive()) {
   x2  <- matrix(rnorm(1e4, mean=3, sd=1.5), ncol=2)
   x   <- rbind(x1,x2)
 
-  layout(matrix(1:4, ncol=2, byrow=TRUE))
+  par(mfrow=c(2,2))
   smoothScatter(x, nrpoints=0)
   smoothScatter(x)
-  smoothScatter(x, nrpoints=Inf, colramp=colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd")), bandwidth=40)  
+  smoothScatter(x,nrpoints=Inf,colramp=colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd")),bandwidth=1)  
 
   colors  <- densCols(x)
   plot(x, col=colors, pch=20)

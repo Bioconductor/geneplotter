@@ -1,13 +1,4 @@
-.pradaMakeX    <- function(x, y) {
-  ## check correct input
-  if (!is.matrix(x) || ncol(x)<2)
-    x <- cbind(x, y)
-  if (!is.matrix(x) && ncol(x)==2)
-    stop("Wrong size of arguments 'x' (and/or 'y')")
-  return(x)
-}
-
-.pradaMakeDens <- function(x, nbin, bandwidth) {
+.smoothScatterCalcDensity <- function(x, nbin, bandwidth) {
   
   if (length(nbin) == 1)
     nbin <- c(nbin, nbin)
@@ -27,37 +18,36 @@
   return(rv)
 }
 
-smoothScatter <- function(x, y, 
+smoothScatter <- function(x, y=NULL, 
                           nbin=128,
                           bandwidth,
                           colramp=colorRampPalette(c("white", brewer.pal(9, "Blues"))),
                           nrpoints=100,
                           transformation=function(x) x^.25,
-                          xlab, ylab, ...) {
+                          xlab=NULL, ylab=NULL, postPlotHook=box, ...) {
   
   if (!is.numeric(nrpoints) | (nrpoints<0) | (length(nrpoints)!=1) )
     stop("'nrpoints' should be numeric scalar with value >= 0.")
-  
-  if(missing(xlab)) {
-    xlab <- if(missing(x))
-      colnames(x)[1]
-    else
-      deparse(substitute(x))
-  }
-  if(missing(ylab)) {
-    ylab <- if(missing(y))
-      colnames(x)[2]
-    else
-      deparse(substitute(y))
-  }
 
-  x    <- .pradaMakeX(x, y)
+  ## similar as in plot.default
+  xlabel <- if (!missing(x)) 
+    deparse(substitute(x))
+  ylabel <- if (!missing(y)) 
+    deparse(substitute(y))
+  xy <- xy.coords(x, y, xlabel, ylabel)
+  xlab <- if (is.null(xlab)) 
+    xy$xlab
+  else xlab
+  ylab <- if (is.null(ylab)) 
+    xy$ylab
+  else ylab
 
-  ## eliminate NA (similar as in "plot")
-  x <- x[!(is.na(x[,1])|is.na(x[,2])), ]
+
+  ## eliminate NA
+  x <- cbind(xy$x, xy$y)[!(is.na(xy$x)|is.na(xy$y)), ]
   
   ## create density map
-  map  <- .pradaMakeDens(x, nbin, bandwidth)
+  map  <- .smoothScatterCalcDensity(x, nbin, bandwidth)
   xm   <- map$x1
   ym   <- map$x2
   dens <- map$fhat
@@ -65,7 +55,7 @@ smoothScatter <- function(x, y,
   
   ## plot color image
   image(xm, ym, z=dens, col=colramp(256), xlab=xlab, ylab=ylab, ...)
-  box()
+  if(!is.null(postPlotHook)) postPlotHook()
   
   ## plot selection of dots
   if (nrpoints!=0){
@@ -81,20 +71,20 @@ smoothScatter <- function(x, y,
   }
 }
 
-densCols <- function(x, y,
+densCols <- function(x, y=NULL,
                      nbin=128,
                      bandwidth,
                      colramp=colorRampPalette(brewer.pal(9, "Blues")[-(1:3)])) {
 
-  ## create density map 
-  x  <- .pradaMakeX(x, y)
+  ## similar as in plot.default
+  xy <- xy.coords(x, y)
 
   ## deal with NA
-  select <- !(is.na(x[,1])|is.na(x[,2]))
-  x <- x[select, ]
+  select <- !(is.na(xy$x)|is.na(xy$y))
+  x <- cbind(xy$x, xy$y)[select, ]
   
   ## create density map
-  map  <- .pradaMakeDens(x, nbin, bandwidth)
+  map  <- .smoothScatterCalcDensity(x, nbin, bandwidth)
 
   ## bin x-values
   dx   <- diff(range(x[,1])) / (length(map$x1)-1)
