@@ -43,7 +43,7 @@ smoothScatter(x, y=NULL,
 \item{transformation}{Function that maps the density scale to the color scale.}
 \item{xlab}{Character. Gets passed on to \code{\link{image}}}
 \item{ylab}{Character. Gets passed on to \code{\link{image}}}
-\item{postHook}{Either \code{NULL} or a function with no
+\item{postPlotHook}{Either \code{NULL} or a function with no
   arguments that will be called after \code{\link{image}}.}
 \item{...}{Further arguments that are passed on to \code{\link{image}}.}
 }
