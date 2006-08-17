@@ -24,7 +24,8 @@ smoothScatter <- function(x, y=NULL,
                           colramp=colorRampPalette(c("white", brewer.pal(9, "Blues"))),
                           nrpoints=100,
                           transformation=function(x) x^.25,
-                          xlab=NULL, ylab=NULL, postPlotHook=box, ...) {
+                          xlab=NULL, ylab=NULL, postPlotHook=box,
+                          pch=".", cex=1, ...) {
   
   if (!is.numeric(nrpoints) | (nrpoints<0) | (length(nrpoints)!=1) )
     stop("'nrpoints' should be numeric scalar with value >= 0.")
@@ -67,7 +68,7 @@ smoothScatter <- function(x, y=NULL,
     idens <- dens[1 + iym*length(xm) + ixm]
     nrpoints <- min(nrow(x), ceiling(nrpoints))
     sel <- order(idens, decreasing=FALSE)[1:nrpoints]
-    points(x[sel,1:2], pch=".", col="black")
+    points(x[sel,1:2], pch=pch, cex=cex, col="black")
   }
 }
 

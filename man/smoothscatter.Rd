@@ -16,7 +16,7 @@ smoothScatter(x, y=NULL,
               colramp=colorRampPalette(c("white", brewer.pal(9, "Blues"))),
               nrpoints=100,
               transformation=function(x) x^.25,
-              xlab=NULL, ylab=NULL, postPlotHook=box, ...) 
+              xlab=NULL, ylab=NULL, postPlotHook=box, pch=".", cex=1, ...) 
 
      densCols(x, y=NULL,
               nbin=128,
@@ -45,6 +45,10 @@ smoothScatter(x, y=NULL,
 \item{ylab}{Character. Gets passed on to \code{\link{image}}}
 \item{postPlotHook}{Either \code{NULL} or a function with no
   arguments that will be called after \code{\link{image}}.}
+\item{pch}{\code{\link{points}} parameter setting}
+\item{cex}{character expansion parameter setting
+   (see \code{\link{par}}) passed to the \code{\link{points}} phase
+   of the function}
 \item{...}{Further arguments that are passed on to \code{\link{image}}.}
 }
 
