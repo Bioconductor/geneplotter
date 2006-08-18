@@ -38,7 +38,9 @@ smoothScatter(x, y=NULL,
 \item{colramp}{Function accepting an integer \code{n} as an argument and
   returning \code{n} colors.}
 \item{nrpoints}{Numeric vector of length 1 giving number of points to
-  be superimposed on the density image.
+  be superimposed on the density image. The first \code{nrpoints} points
+  from those areas of lowest regional densities will be plotted. Adding
+  points to the plot allows for the identification of outliers.
   If all points are to be plotted, choose \code{nrpoints = Inf}.}
 \item{transformation}{Function that maps the density scale to the color scale.}
 \item{xlab}{Character. Gets passed on to \code{\link{image}}}
