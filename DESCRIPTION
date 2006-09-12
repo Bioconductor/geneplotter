@@ -5,7 +5,7 @@ Date: 11 August 2006
 Author: R. Gentleman, Biocore
 Description: Some basic functions for plotting genetic data
 Maintainer: Biocore Team <biocpkgs@lists.fhcrc.org>
-Depends: R (>= 2.1.0), annotate, Biobase (>= 1.11.34), methods
+Depends: R (>= 2.4.0), annotate, Biobase (>= 1.11.34), methods
 Suggests: Rgraphviz, hgu95av2, fibroEset, hu6800, hgu133a, GO,
         KernSmooth, RColorBrewer
 Imports: KernSmooth, RColorBrewer
