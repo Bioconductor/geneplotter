@@ -88,6 +88,11 @@ if(interactive()) {
 
   colors  <- densCols(x)
   plot(x, col=colors, pch=20)
+
+  par(mfrow=c(1,1))
+  y <- matrix(rnorm(40000), ncol=4) + 3*rnorm(10000)
+  y[, c(2,4)] <- (-y[, c(2,4)])
+  pairs(y, panel=function(...) {par(new=TRUE);smoothScatter(..., nrpoints=0)})
 }
 }
 
