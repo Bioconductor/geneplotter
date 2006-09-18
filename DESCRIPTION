@@ -9,7 +9,7 @@ Suggests: Rgraphviz, hgu95av2, fibroEset, hu6800, hgu133a, GO,
         KernSmooth, RColorBrewer
 Imports: KernSmooth, RColorBrewer
 Uses: hgu133a
-License: LGPL
+License: The Artistic License, Version 2.0
 biocViews: Visualization
 SaveImage: yes
 
