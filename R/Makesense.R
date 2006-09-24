@@ -1,6 +1,7 @@
 setGeneric("Makesense", function(expr, lib, ...) standardGeneric("Makesense"))
 
 
+##FIXME: are we deprecating exprSet now?
 setMethod("Makesense", signature(expr="exprSet", lib="character"),
           function(expr, lib, f=1/10) {
               Makesense(exprs(expr), lib, f)
@@ -12,6 +13,16 @@ setMethod("Makesense", signature(expr="exprSet", lib="missing"),
               Makesense(expr, annotation(expr), f)
           })
 
+
+setMethod("Makesense", signature(expr="eSet", lib="character"),
+          function(expr, lib, f=1/10) {
+              Makesense(exprs(expr), lib, f)
+})
+
+setMethod("Makesense", signature(expr="eSet", lib="missing"),
+          function(expr, f=1/10) {
+              Makesense(expr, annotation(expr), f)
+          })
 
 setMethod("Makesense", signature(expr="matrix", lib="character"),
           function(expr, lib, f=1/10) {
