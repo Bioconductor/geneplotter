@@ -58,16 +58,11 @@ use.  Optional if \code{expr} is an \code{exprSet}.}
 \examples{
 if(require("hgu133a") )
 {
-
-  data(eset133a)
-
-  esetobj <- Makesense(exprs(eset133a), "hgu133a")
-
-  esetobj2 <- Makesense(eset133a[1:200, ], "hgu133a")
-
   data(expressionSet133a)
 
-  esetObj3 <- Makesense(expressionSet133a[400:500,])
+  esetobj <- Makesense(exprs(expressionSet133a), "hgu133a")
+
+  esetobj2 <- Makesense(expressionSet133a[1:200, ])
 }
 }
 \keyword{dplot}

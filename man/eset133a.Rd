@@ -1,5 +1,4 @@
-\name{eset133a}
-\alias{eset133a}
+\name{expressionSet133a}
 \alias{expressionSet133a}
 \docType{data}
 \title{A small dataset for testing}
@@ -7,8 +6,7 @@
 	An artificial Affymetrix hgu133a dataset, with one 
 covariate 'cov1'.
 }
-\usage{data(eset133a)
-       data(expressionSet133a)
+\usage{data(expressionSet133a)
 }
 \format{
  The data are artifical. There are 6 cases labeled 1 to
@@ -17,7 +15,6 @@ covariate 'cov1'.
  for the first 3 samples and "type 2" for the last 3 samples.
 }
 \examples{
-data(eset133a)
 data(expressionSet133a)
 }
 \keyword{datasets}
