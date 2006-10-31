@@ -1,3 +1,51 @@
+## grid/lattice version of smoothScatter
+##courtesy of D. Sarkar
+
+panel.smoothScatter <-
+    function (x, y = NULL,
+              nbin = 128,
+              bandwidth,
+              colramp = colorRampPalette(c("white", brewer.pal(9, "Blues"))),
+              nrpoints = 100,
+              transformation = function(x) x^0.25,
+              pch = ".",
+              cex = 1,
+              ...)
+{
+    x <- as.numeric(x)
+    y <- as.numeric(y)
+    if (!is.numeric(nrpoints) | (nrpoints < 0) | (length(nrpoints) != 1))
+        stop("'nrpoints' should be numeric scalar with value >= 0.")
+    xy <- xy.coords(x, y)
+    x <- cbind(xy$x, xy$y)[!(is.na(xy$x) | is.na(xy$y)), ]
+    map <- .smoothScatterCalcDensity(x, nbin, bandwidth)
+    xm <- map$x1
+    ym <- map$x2
+    dens <- map$fhat
+    dens <- array(transformation(dens), dim = dim(dens))
+    panel.levelplot(x = rep(xm, length(ym)),
+                    y = rep(ym, each = length(xm)),
+                    z = as.numeric(dens),
+                    subscripts = TRUE,
+                    at = seq(from = 0, to = 1.01 * max(dens), length = 257),
+                    col.regions = colramp(256),
+                    ...)
+    if (nrpoints != 0)
+    {
+        stopifnot(length(xm) == nrow(dens), length(ym) == ncol(dens))
+        ixm <- round((x[, 1] - xm[1])/(xm[length(xm)] - xm[1]) *
+                     (length(xm) - 1))
+        iym <- round((x[, 2] - ym[1])/(ym[length(ym)] - ym[1]) *
+                     (length(ym) - 1))
+        idens <- dens[1 + iym * length(xm) + ixm]
+        nrpoints <- min(nrow(x), ceiling(nrpoints))
+        sel <- order(idens, decreasing = FALSE)[1:nrpoints]
+        panel.points(x[sel, 1:2], pch = pch, cex = cex, col = "black")
+    }
+    panel.abline(h=0, col="#fe0020")
+}
+
+
 .smoothScatterCalcDensity <- function(x, nbin, bandwidth) {
   
   if (length(nbin) == 1)
