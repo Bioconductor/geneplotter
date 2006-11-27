@@ -1,16 +1,30 @@
+
 ## grid/lattice version of smoothScatter
-##courtesy of D. Sarkar
+## courtesy of D. Sarkar
 
 panel.smoothScatter <-
     function (x, y = NULL,
-              nbin = 128,
+              nbin = 64,
+              cuts = 255,
               bandwidth,
               colramp = colorRampPalette(c("white", brewer.pal(9, "Blues"))),
               nrpoints = 100,
               transformation = function(x) x^0.25,
               pch = ".",
               cex = 1,
-              ...)
+              ...,
+              subscripts)
+
+    ## subscripts is ignored (and recomputed), but the formal argument
+    ## necessary to catch another version passed in as ...
+
+    ## If time permits, replacing the call to panel.levelplot by
+    ## panel.rect might make the code more transparent (which would
+    ## also make the subscripts thing unnecessary).  The only drawback
+    ## I can think of is that we will no longer get contourplots
+    ## instead of levelplots, but I don't think this is the right
+    ## place for that anyway.
+
 {
     x <- as.numeric(x)
     y <- as.numeric(y)
@@ -27,8 +41,8 @@ panel.smoothScatter <-
                     y = rep(ym, each = length(xm)),
                     z = as.numeric(dens),
                     subscripts = TRUE,
-                    at = seq(from = 0, to = 1.01 * max(dens), length = 257),
-                    col.regions = colramp(256),
+                    at = seq(from = 0, to = 1.01 * max(dens), length = cuts + 2),
+                    col.regions = colramp(cuts + 1),
                     ...)
     if (nrpoints != 0)
     {
@@ -42,7 +56,7 @@ panel.smoothScatter <-
         sel <- order(idens, decreasing = FALSE)[1:nrpoints]
         panel.points(x[sel, 1:2], pch = pch, cex = cex, col = "black")
     }
-    panel.abline(h=0, col="#fe0020")
+    ## panel.abline(h=0, col="#fe0020") # why was this here?
 }
 
 
@@ -119,6 +133,7 @@ smoothScatter <- function(x, y=NULL,
     points(x[sel,1:2], pch=pch, cex=cex, col="black")
   }
 }
+
 
 densCols <- function(x, y=NULL,
                      nbin=128,
