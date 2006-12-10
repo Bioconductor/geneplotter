@@ -44,35 +44,49 @@ multiecdf.default <- function(x, xlim, col, do.points=FALSE,
 multidensity = function(x, ...)
   UseMethod("multidensity")
 
-multidensity.formula <-
-    function(formula, data = NULL, ..., na.action = NULL)
+multidensity.formula = function(formula, data = NULL, main, xlab, ..., na.action = NULL)
 {
-    if(missing(formula) || (length(formula) != 3))
-        stop("'formula' missing or incorrect")
-    m <- match.call(expand.dots = FALSE)
-    if(is.matrix(eval(m$data, parent.frame())))
-        m$data <- as.data.frame(data)
-    m$... <- NULL
-    m$na.action <- na.action # force use of default for this method
-    m[[1]] <- as.name("model.frame")
-    mf <- eval(m, parent.frame())
-    response <- attr(attr(mf, "terms"), "response")
-    multidensity(split(mf[[response]], mf[-response]), ...)
+  if(missing(formula) || (length(formula) != 3))
+    stop("'formula' missing or incorrect")
+
+  if(missing(main))
+    main = sprintf("multidensity(%s)", deparse(substitute(formula)))
+  if(missing(xlab))
+    xlab = deparse(substitute(formula))
+  
+  m <- match.call(expand.dots = FALSE)
+  if(is.matrix(eval(m$data, parent.frame())))
+    m$data <- as.data.frame(data)
+  m$... <- NULL
+  m$na.action <- na.action # force use of default for this method
+  m[[1]] <- as.name("model.frame")
+  mf <- eval(m, parent.frame())
+  response <- attr(attr(mf, "terms"), "response")
+  multidensity(split(mf[[response]], mf[-response]), main=main, xlab=xlab, ...)
 }
 
-multidensity.default = function(x, xlim, col, ...) {
+multidensity.default = function(x, xlim, ylim, col, main, xlab, ...) {
   stopifnot(length(x)>=1)
-  ef = lapply(x, density)
+  ef = lapply(x, density, na.rm=TRUE)
+  
   if(missing(xlim))
-    xlim = range(unlist(x))
+    xlim = range(unlist(x), na.rm=TRUE)
+  if(missing(ylim))
+    ylim = range(unlist(lapply(ef, "[[", "y")))
   if(missing(col))
     col = brewer.pal(9, "Set1")
-  plot(ef[[1]], xlim=xlim, col=col[1],  ...)
-  m <- match.call(expand.dots = FALSE) # avoid warnings for invalid arguments
+  if(missing(main))
+    main = sprintf("multidensity.default(%s)", deparse(substitute(x)))
+  if(missing(xlab))
+    xlab = deparse(substitute(x))
+  
+  plot(ef[[1]], xlim=xlim, ylim=ylim, xlab=xlab, main=main, col=col[1],  ...)
+  m <- match.call(expand.dots = FALSE) ## avoid warnings for invalid arguments
   m$... <- m$...[!names(m$...) %in% c("main", "xlab", "ylab", "ylim")]  
   for(j in 2:length(ef)) {
     args <- c(list(x=ef[[j]], col=col[1+((j-1)%%length(col))]), m$...)
     do.call("lines", args)
   }
+  invisible(ef)
 }
 

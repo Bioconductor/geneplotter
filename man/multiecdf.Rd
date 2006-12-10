@@ -19,8 +19,8 @@ multiecdf(x, \dots)
 \method{multiecdf}{default}(x, xlim, col, do.points=FALSE, subsample=TRUE, \dots)
 
 multidensity(x, \dots)
-\method{multidensity}{formula}(formula, data = NULL, \dots, na.action = NULL)
-\method{multidensity}{default}(x, xlim, col, \dots)
+\method{multidensity}{formula}(formula, data = NULL, main, xlab, \dots, na.action = NULL)
+\method{multidensity}{default}(x, xlim, ylim, col, main, xlab, \dots)
 
 }
 
@@ -33,11 +33,15 @@ multidensity(x, \dots)
   \item{na.action}{a function which indicates what should happen
     when the data contain \code{NA}s.  The default is to ignore missing
     values in either the response or the group.}
-  \item{x}{A list of numeric vectors.}
-  \item{xlim}{Range of the x axis.}
+  \item{x}{a list of numeric vectors.}
+  \item{xlim}{Range of the x axis. If missing, the data range is used.}
+  \item{ylim}{Range of the y axis. If missing, the range of the density
+    estimates is used.}
   \item{col}{Line colors. If missing, the
     \code{\link[RColorBrewer::brewer.pal]{Set1}} palette from RColorBrewer
-  is used.}
+    is used.}
+  \item{main}{Plot title.}
+  \item{xlab}{x-axis label.}
   \item{do.points}{logical; if \code{TRUE}, also draw points at the knot
     locations.}
    \item{subsample}{logical; if \code{TRUE}, subsamples of size 1000 are
@@ -51,8 +55,12 @@ multidensity(x, \dots)
   \code{\link[stats::ecdf]{ecdf}}
   \code{\link[stats::density]{density}}
 }
-\details{}
-\value{}
+
+\details{The \code{multidensity} functions call \code{\link{density}} with
+  default parameters, except for \code{na.rm=TRUE}. Finer user-control
+  would be desirable.}
+
+\value{For the \code{multidensity} functions, a list of \code{\link{density}} objects.}
 
 \author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 
