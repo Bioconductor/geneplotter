@@ -20,8 +20,7 @@ multiecdf(x, \dots)
 
 multidensity(x, \dots)
 \method{multidensity}{formula}(formula, data = NULL, main, xlab, \dots, na.action = NULL)
-\method{multidensity}{default}(x, xlim, ylim, col, main, xlab, \dots)
-
+\method{multidensity}{default}(x, bw="nrd0", xlim, ylim, col, main, xlab, \dots)
 }
 
 \arguments{
@@ -34,6 +33,10 @@ multidensity(x, \dots)
     when the data contain \code{NA}s.  The default is to ignore missing
     values in either the response or the group.}
   \item{x}{a list of numeric vectors.}
+  \item{bw}{the smoothing bandwidth, see the manual page for
+    \code{\link{density}}. If \code{bw} is a character string specifying a rule to choose
+    the bandwidth, this rule is applied to \code{x[[1]]} and then
+    the same numerical value of \code{bw} is used throughout.}    
   \item{xlim}{Range of the x axis. If missing, the data range is used.}
   \item{ylim}{Range of the y axis. If missing, the range of the density
     estimates is used.}
@@ -56,9 +59,9 @@ multidensity(x, \dots)
   \code{\link[stats::density]{density}}
 }
 
-\details{The \code{multidensity} functions call \code{\link{density}} with
-  default parameters, except for \code{na.rm=TRUE}. Finer user-control
-  would be desirable.}
+\details{The usefulness of \code{multidensity} can vary,
+  depending on the data and because of smoothing
+  artifacts. \code{multiecdf} will in many cases be preferable.}
 
 \value{For the \code{multidensity} functions, a list of \code{\link{density}} objects.}
 

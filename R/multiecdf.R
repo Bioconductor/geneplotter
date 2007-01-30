@@ -65,9 +65,14 @@ multidensity.formula = function(formula, data = NULL, main, xlab, ..., na.action
   multidensity(split(mf[[response]], mf[-response]), main=main, xlab=xlab, ...)
 }
 
-multidensity.default = function(x, xlim, ylim, col, main, xlab, ...) {
+multidensity.default = function(x, bw="nrd0", xlim, ylim, col, main, xlab,  ...) {
   stopifnot(length(x)>=1)
-  ef = lapply(x, density, na.rm=TRUE)
+
+  ef = vector(mode="list", length=length(x))
+  ef[[1]] = density(x[[1]], na.rm=TRUE, bw=bw)
+  bw = ef[[1]]$bw
+  for(j in seq(along=x)[-1])
+    ef[[j]] = density(x[[j]], na.rm=TRUE, bw=bw)
   
   if(missing(xlim))
     xlim = range(unlist(x), na.rm=TRUE)
