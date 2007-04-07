@@ -57,7 +57,7 @@ multidensity.formula = function(formula, data = NULL, main, xlab, ..., na.action
   m <- match.call(expand.dots = FALSE)
   if(is.matrix(eval(m$data, parent.frame())))
     m$data <- as.data.frame(data)
-  m$... <- NULL
+  m$... <- m$main <- m$xlab <- NULL
   m$na.action <- na.action # force use of default for this method
   m[[1]] <- as.name("model.frame")
   mf <- eval(m, parent.frame())
