@@ -58,6 +58,7 @@ gs <- c("220372_at", "35776_at", "200943_at")
 cc <- c("blue", "cyan","magenta")
 plotChr("21", esetobj, cols, log=TRUE, geneSymbols=FALSE, lines.at=gs,
 lines.col=cc)
-par(op)
+if (interactive())
+  par(op)
 }
 \keyword{hplot} 
