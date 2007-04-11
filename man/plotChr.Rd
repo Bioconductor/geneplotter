@@ -32,7 +32,8 @@ plotChr(chrN, senseObj, cols = rep("black", length(senseObj[[1]])), log = FALSE,
 \examples{
 example(Makesense)
 
-op <- par(ask=TRUE)
+if (interactive())
+  op <- par(ask=TRUE)
 
 cols <- ifelse(expressionSet133a$cov1=="test 1", "red", "green")
 plotChr("21", esetobj, cols)
