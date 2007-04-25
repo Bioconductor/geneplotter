@@ -16,7 +16,9 @@ smoothScatter(x, y=NULL,
               colramp=colorRampPalette(c("white", brewer.pal(9, "Blues"))),
               nrpoints=100,
               transformation=function(x) x^.25,
-              xlab=NULL, ylab=NULL, postPlotHook=box, pch=".", cex=1, ...) 
+              xlab=NULL, ylab=NULL, postPlotHook=box,
+              pch=".", cex=1,
+              xlim, ylim, ...) 
 
      densCols(x, y=NULL,
               nbin=128,
@@ -43,14 +45,14 @@ smoothScatter(x, y=NULL,
   points to the plot allows for the identification of outliers.
   If all points are to be plotted, choose \code{nrpoints = Inf}.}
 \item{transformation}{Function that maps the density scale to the color scale.}
-\item{xlab}{Character. Gets passed on to \code{\link{image}}}
-\item{ylab}{Character. Gets passed on to \code{\link{image}}}
+\item{xlab, ylab}{Character. Gets passed on to \code{\link{image}}}
 \item{postPlotHook}{Either \code{NULL} or a function with no
   arguments that will be called after \code{\link{image}}.}
 \item{pch}{\code{\link{points}} parameter setting}
 \item{cex}{character expansion parameter setting
    (see \code{\link{par}}) passed to the \code{\link{points}} phase
    of the function}
+\item{xlim, ylim}{Numeric vectors of length 2, axis limits.}
 \item{...}{Further arguments that are passed on to \code{\link{image}}.}
 }
 

@@ -87,7 +87,8 @@ smoothScatter <- function(x, y=NULL,
                           nrpoints=100,
                           transformation=function(x) x^.25,
                           xlab=NULL, ylab=NULL, postPlotHook=box,
-                          pch=".", cex=1, ...) {
+                          pch=".", cex=1,
+                          xlim, ylim, ...) {
   
   if (!is.numeric(nrpoints) | (nrpoints<0) | (length(nrpoints)!=1) )
     stop("'nrpoints' should be numeric scalar with value >= 0.")
@@ -108,6 +109,16 @@ smoothScatter <- function(x, y=NULL,
 
   ## eliminate NA
   x <- cbind(xy$x, xy$y)[!(is.na(xy$x)|is.na(xy$y)), ]
+
+  ## xlim and ylim
+  if(!missing(xlim)) {
+    stopifnot(is.numeric(xlim), length(xlim)==2, !any(is.na(xlim)))
+    x <- x[ (x[,1]>=xlim[1]) & (x[,1]<=xlim[2]), ]
+  }
+  if(!missing(ylim)) {
+    stopifnot(is.numeric(ylim), length(ylim)==2, !any(is.na(ylim)))
+    x <- x[ (x[,2]>=ylim[1]) & (x[,2]<=ylim[2]), ]
+  }
   
   ## create density map
   map  <- .smoothScatterCalcDensity(x, nbin, bandwidth)
