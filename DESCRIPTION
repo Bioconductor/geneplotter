@@ -11,5 +11,5 @@ Imports: KernSmooth, RColorBrewer
 Uses: hgu133a
 License: The Artistic License, Version 2.0
 biocViews: Visualization
-SaveImage: yes
+LazyLoad: yes
 
