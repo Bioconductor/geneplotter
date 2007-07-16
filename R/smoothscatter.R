@@ -114,10 +114,14 @@ smoothScatter <- function(x, y=NULL,
   if(!missing(xlim)) {
     stopifnot(is.numeric(xlim), length(xlim)==2, !any(is.na(xlim)))
     x <- x[ (x[,1]>=xlim[1]) & (x[,1]<=xlim[2]), ]
+  } else {
+    xlim <- range(x[,1], na.rm=TRUE)
   }
   if(!missing(ylim)) {
     stopifnot(is.numeric(ylim), length(ylim)==2, !any(is.na(ylim)))
     x <- x[ (x[,2]>=ylim[1]) & (x[,2]<=ylim[2]), ]
+  } else {
+    ylim <- range(x[,2], na.rm=TRUE)
   }
   
   ## create density map
@@ -128,7 +132,7 @@ smoothScatter <- function(x, y=NULL,
   dens <- array(transformation(dens), dim=dim(dens))
   
   ## plot color image
-  image(xm, ym, z=dens, col=colramp(256), xlab=xlab, ylab=ylab, ...)
+  image(xm, ym, z=dens, col=colramp(256), xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim, ...)
   if(!is.null(postPlotHook)) postPlotHook()
   
   ## plot selection of dots
