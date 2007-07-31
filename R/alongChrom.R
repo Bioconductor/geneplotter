@@ -611,7 +611,7 @@ getACExprs <- function(eSet, usedGenes,
     plotFormat <- match.arg(plotFormat)
     scale <- match.arg(scale)
 
-    chromExprs <- eSet@exprs[names(usedGenes),]
+    chromExprs <- exprs(eSet)[names(usedGenes),]
 
     chromExprs <- scaleACData(chromExprs,scale)
 

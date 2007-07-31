@@ -36,7 +36,7 @@ amplicon.plot <- function(ESET, FUN, genome="hgu95A" ) {
     if( !exists(dname, mode="environment") )
         do.call("data", list(dname))
 
-    whichChrom <- unlist(mget(geneNames(ESET), env=get(dname),
+    whichChrom <- unlist(mget(featureNames(ESET), env=get(dname),
                                   ifnotfound=NA))
     ##split these by chromosome
     byChr.pv <- split(tests.pvals, whichChrom)
@@ -45,7 +45,7 @@ amplicon.plot <- function(ESET, FUN, genome="hgu95A" ) {
     byChr.pv$"NA" <- NULL
     byChr.stat$"NA" <- NULL
 
-    chromOrd <- make.chromOrd(genome, geneNames(ESET))
+    chromOrd <- make.chromOrd(genome, featureNames(ESET))
     nchrom <- length(chromOrd)
 
     #get the names of the chromosome and their order
