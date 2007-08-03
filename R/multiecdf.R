@@ -1,8 +1,7 @@
 multiecdf = function(x, ...)
   UseMethod("multiecdf")
 
-multiecdf.formula <-
-    function(formula, data = NULL, ..., na.action = NULL)
+multiecdf.formula <- function(formula, data = NULL, ..., na.action = NULL)
 {
     if(missing(formula) || (length(formula) != 3))
         stop("'formula' missing or incorrect")
@@ -17,6 +16,9 @@ multiecdf.formula <-
     multiecdf(split(mf[[response]], mf[-response]), ...)
 }
 
+multiecdf.matrix <- function(x, ...)
+  multiecdf(x~col(x), ...)
+            
 multiecdf.default <- function(x, xlim, col, do.points=FALSE,
                               subsample=TRUE, ...) {
   stopifnot(length(x)>=1)
@@ -24,6 +26,7 @@ multiecdf.default <- function(x, xlim, col, do.points=FALSE,
     for(i in 1:length(x))
       if(length(x[[i]])>1000)
         x[[i]] <- x[[i]][sample(1:length(x[[i]]), 1000)]
+  
   ef = lapply(x, ecdf)
   if(missing(xlim))
     xlim = range(unlist(x), na.rm=TRUE)
@@ -64,6 +67,9 @@ multidensity.formula = function(formula, data = NULL, main, xlab, ..., na.action
   response <- attr(attr(mf, "terms"), "response")
   multidensity(split(mf[[response]], mf[-response]), main=main, xlab=xlab, ...)
 }
+
+multidensity.matrix <- function(x, ...)
+  multidensity(x~col(x), ...)
 
 multidensity.default = function(x, bw="nrd0", xlim, ylim, col, main, xlab,  ...) {
   stopifnot(length(x)>=1)
