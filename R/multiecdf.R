@@ -23,7 +23,7 @@ multiecdf.default <- function(x, xlim, col, do.points=FALSE,
                               subsample=TRUE, ...) {
   stopifnot(length(x)>=1)
   if(subsample)
-    for(i in 1:length(x))
+    for(i in seq(along=x))
       if(length(x[[i]])>1000)
         x[[i]] <- x[[i]][sample(1:length(x[[i]]), 1000)]
   
@@ -36,7 +36,7 @@ multiecdf.default <- function(x, xlim, col, do.points=FALSE,
   m <- match.call(expand.dots = FALSE) # avoid warnings for invalid arguments
   m$... <- m$...[!names(m$...) %in% c("main", "xlab", "ylab", "ylim")]  
 
-  for(j in 2:length(ef)) {
+  for(j in seq(alog=ef)[-1]) {
     mycol = col[1+((j-1)%%length(col))]
     args <- c(list(x=ef[[j]], col.hor=mycol, col.vert=mycol, do.points=do.points), m$...)
     do.call("lines", args)
@@ -94,7 +94,7 @@ multidensity.default = function(x, bw="nrd0", xlim, ylim, col, main, xlab,  ...)
   plot(ef[[1]], xlim=xlim, ylim=ylim, xlab=xlab, main=main, col=col[1],  ...)
   m <- match.call(expand.dots = FALSE) ## avoid warnings for invalid arguments
   m$... <- m$...[!names(m$...) %in% c("main", "xlab", "ylab", "ylim")]  
-  for(j in 2:length(ef)) {
+  for(j in seq(along=ef)[-1]) {
     args <- c(list(x=ef[[j]], col=col[1+((j-1)%%length(col))]), m$...)
     do.call("lines", args)
   }
