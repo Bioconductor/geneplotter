@@ -68,20 +68,26 @@ multidensity.formula = function(formula, data = NULL, main, xlab, ..., na.action
   multidensity(split(mf[[response]], mf[-response]), main=main, xlab=xlab, ...)
 }
 
-multidensity.matrix <- function(x, ...)
-  multidensity(x~col(x), ...)
+multidensity.matrix = function(x, xlab, ...) {
+  if(missing(xlab))
+    xlab = deparse(substitute(x))
+  multidensity(x~col(x), xlab=xlab, ...)
+}
 
 multidensity.default = function(x, bw="nrd0", xlim, ylim, col, main, xlab,  ...) {
   stopifnot(length(x)>=1)
 
+  if(missing(xlim))
+    xlim = range(unlist(x), na.rm=TRUE)
+
+  x = lapply(x, function(z) z[(z>=xlim[1]) & (z<=xlim[2])])
+  
   ef = vector(mode="list", length=length(x))
   ef[[1]] = density(x[[1]], na.rm=TRUE, bw=bw)
   bw = ef[[1]]$bw
   for(j in seq(along=x)[-1])
     ef[[j]] = density(x[[j]], na.rm=TRUE, bw=bw)
   
-  if(missing(xlim))
-    xlim = range(unlist(x), na.rm=TRUE)
   if(missing(ylim))
     ylim = range(unlist(lapply(ef, "[[", "y")), na.rm=TRUE)
   if(missing(col))
