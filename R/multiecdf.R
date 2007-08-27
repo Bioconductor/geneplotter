@@ -74,7 +74,12 @@ multidensity.matrix = function(x, xlab, ...) {
   multidensity(x~col(x), xlab=xlab, ...)
 }
 
-multidensity.default = function(x, bw="nrd0", xlim, ylim, col, main, xlab,  ...) {
+multidensity.default = function(x, bw="nrd0", xlim, ylim,
+  col  = brewer.pal(9, "Set1"),
+  main = sprintf("multidensity.default(%s)", deparse(substitute(x))),
+  xlab = deparse(substitute(x)),
+  lty  = 1L , ...) {
+  
   stopifnot(length(x)>=1)
 
   if(missing(xlim))
@@ -90,18 +95,13 @@ multidensity.default = function(x, bw="nrd0", xlim, ylim, col, main, xlab,  ...)
   
   if(missing(ylim))
     ylim = range(unlist(lapply(ef, "[[", "y")), na.rm=TRUE)
-  if(missing(col))
-    col = brewer.pal(9, "Set1")
-  if(missing(main))
-    main = sprintf("multidensity.default(%s)", deparse(substitute(x)))
-  if(missing(xlab))
-    xlab = deparse(substitute(x))
   
-  plot(ef[[1]], xlim=xlim, ylim=ylim, xlab=xlab, main=main, col=col[1],  ...)
+  plot(ef[[1]], xlim=xlim, ylim=ylim, xlab=xlab, main=main, col=col[1], lty=lty[1], ...)
   m <- match.call(expand.dots = FALSE) ## avoid warnings for invalid arguments
   m$... <- m$...[!names(m$...) %in% c("main", "xlab", "ylab", "ylim")]  
   for(j in seq(along=ef)[-1]) {
-    args <- c(list(x=ef[[j]], col=col[1+((j-1)%%length(col))]), m$...)
+    args <- c(list(x=ef[[j]]), col=col[1+((j-1)%%length(col))],
+                               lty=lty[1+((j-1)%%length(lty))], m$...)
     do.call("lines", args)
   }
   invisible(ef)

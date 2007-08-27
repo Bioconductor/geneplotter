@@ -20,7 +20,11 @@ multiecdf(x, \dots)
 
 multidensity(x, \dots)
 \method{multidensity}{formula}(formula, data = NULL, main, xlab, \dots, na.action = NULL)
-\method{multidensity}{default}(x, bw="nrd0", xlim, ylim, col, main, xlab, \dots)
+\method{multidensity}{default}(x, bw="nrd0", xlim, ylim,
+  col  = brewer.pal(9, "Set1"),
+  main = sprintf("multidensity.default(\%s)", deparse(substitute(x))),
+  xlab = deparse(substitute(x)),
+  lty  = 1L , \dots)
 }
 
 \arguments{
@@ -40,9 +44,7 @@ multidensity(x, \dots)
   \item{xlim}{Range of the x axis. If missing, the data range is used.}
   \item{ylim}{Range of the y axis. If missing, the range of the density
     estimates is used.}
-  \item{col}{Line colors. If missing, the
-    \code{\link[RColorBrewer::brewer.pal]{Set1}} palette from RColorBrewer
-    is used.}
+  \item{col, lty}{Line colors and line type.}
   \item{main}{Plot title.}
   \item{xlab}{x-axis label.}
   \item{do.points}{logical; if \code{TRUE}, also draw points at the knot
