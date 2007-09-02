@@ -18,7 +18,7 @@ smoothScatter(x, y=NULL,
               transformation=function(x) x^.25,
               xlab=NULL, ylab=NULL, postPlotHook=box,
               pch=".", cex=1,
-              xlim, ylim, ...) 
+              xlim, ylim, col="black", ...) 
 
      densCols(x, y=NULL,
               nbin=128,
@@ -52,8 +52,9 @@ smoothScatter(x, y=NULL,
 \item{cex}{character expansion parameter setting
    (see \code{\link{par}}) passed to the \code{\link{points}} phase
    of the function}
-\item{xlim, ylim}{Numeric vectors of length 2, axis limits.}
-\item{...}{Further arguments that are passed on to \code{\link{image}}.}
+ \item{xlim, ylim}{Numeric vectors of length 2, axis limits.}
+ \item{col}{\code{\link{points}} color parameter}
+\item{\dots}{Further arguments that are passed on to \code{\link{image}}.}
 }
 
 \details{

@@ -16,7 +16,7 @@ panel.smoothScatter(x, y = NULL,
                     nrpoints = 100,
                     transformation = function(x) x^0.25,
                     pch = ".",
-                    cex = 1,
+                    cex = 1, col="black",
                     ...,
                     subscripts)
 }
@@ -43,6 +43,7 @@ panel.smoothScatter(x, y = NULL,
   \item{transformation}{Function that maps the density scale to the color scale.}
   \item{pch, cex}{ graphical parameters for the \code{nrpoints}
     \dQuote{outlying} points shown in the display }
+  \item{col}{\code{\link{points}} color parameter}
   \item{\dots}{Further arguments that are passed on to
     \code{\link[lattice]{panel.levelplot}}.}
   \item{subscripts}{ ignored, but necessary for handling of \dots in
