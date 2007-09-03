@@ -88,7 +88,8 @@ smoothScatter <- function(x, y=NULL,
                           transformation=function(x) x^.25,
                           xlab=NULL, ylab=NULL, postPlotHook=box,
                           pch=".", cex=1,
-                          xlim, ylim, col="black", ...) {
+                          xlim, ylim, col="black",
+                          xaxs=par("xaxs"), yaxs=par("yaxs"), ...) {
   
   if (!is.numeric(nrpoints) | (nrpoints<0) | (length(nrpoints)!=1) )
     stop("'nrpoints' should be numeric scalar with value >= 0.")
@@ -132,7 +133,8 @@ smoothScatter <- function(x, y=NULL,
   dens <- array(transformation(dens), dim=dim(dens))
   
   ## plot color image
-  image(xm, ym, z=dens, col=colramp(256), xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim, ...)
+  image(xm, ym, z=dens, col=colramp(256),
+        xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim, xaxs=xaxs, yaxs=yaxs, ...)
   if(!is.null(postPlotHook)) postPlotHook()
   
   ## plot selection of dots
