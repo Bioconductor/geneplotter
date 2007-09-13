@@ -18,11 +18,11 @@
 \alias{emptyACPlot}
 \alias{getACExprs}
 \alias{highlightACDups}
-\title{A function for plotting expression data from an exprset for a
+\title{A function for plotting expression data from an eSet for a
   given chromosome. }
 \description{
-  Given a particular exprset object, a chromLocation object, and a
-  chromosome name, will plot selected exprSet data using various methods.
+  Given a particular eSet object, a chromLocation object, and a
+  chromosome name, will plot selected eSet data using various methods.
 }
 \usage{
    alongChrom(eSet, chrom, specChrom,  xlim, whichGenes, 
@@ -32,7 +32,7 @@
    geneSymbols=FALSE, byStrand=FALSE, colors="red", lty=1, type="S",
    ...)}
 \arguments{
-  \item{eSet}{The exprset object to be used.}
+  \item{eSet}{The eSet object to be used.}
   \item{chrom}{The desired chromosome.}
   \item{specChrom}{An object of type chromLocation for the species being
     represented.}
@@ -60,7 +60,7 @@
 \details{
   The genes on the chromosome of interest are extracted from the
   \code{chromLocation} object passed in, which are then intersected with the
-  genes listed in the exprset.  These remaining genes will then be
+  genes listed in the eSet.  These remaining genes will then be
   plotted according to the \code{plotFormat} argument.  If \code{image} is
   specified, an image plot is created showing the expression levels of
   the samples by gene, using a colour map to denote the levels.  If
@@ -74,7 +74,7 @@
 }
 \author{Jeff Gentry}
 \examples{
-   data(sample.exprSet)
+   data(sample.ExpressionSet)
    ## A bit of a hack to not have a package dependency on hgu95av2
    ## but need to fiddle w/ the warn level to not fail the example anyways.
    curWarn <- options(warn=0)
@@ -83,7 +83,7 @@
       z <- buildChromLocation("hgu95av2")
       lty <- c(1, 2, 3, 4, 5)
       cols <- c("red", "green", "blue", "orange", "magenta", "black")
-      cols <- cols[sample.exprSet$cov3]
+      cols <- cols[sample.ExpressionSet$type]
       if (interactive()) {
          par(ask=TRUE)
       }
@@ -93,8 +93,8 @@
       for (xl in c("equispaced", "physical"))
         for (sc in c("none","rangescale"))
         {
-           alongChrom(sample.exprSet, "1", z, xlim=xlim, xloc=xl,
-              plotFormat="cumulative", scale=sc,lty=lty, col=cols)
+           alongChrom(sample.ExpressionSet, "1", z, xlim=xlim, xloc=xl,
+              plotFormat="cumulative", scale=sc,lty=lty, colors=cols)
         }
 
      ## Here we're looking for specific genes
@@ -105,18 +105,18 @@
       for (xl in c("equispaced", "physical"))
         for (sc in c("none","rangescale"))
         {
-            alongChrom(sample.exprSet, "1", z, which=which, xloc=xl,
+            alongChrom(sample.ExpressionSet, "1", z, which=which, xloc=xl,
                plotFormat="cumulative", scale=sc,lty=lty, col=cols)
          }
 
       ## Do an image plot
       for (bs in c(TRUE,FALSE))
-         alongChrom(sample.exprSet, "1",z, xlim=xlim, plotFormat="image",
+         alongChrom(sample.ExpressionSet, "1",z, xlim=xlim, plotFormat="image",
                    scale="zscale", byStrand=bs)
 
       ## A boxplot
       for (st in c(TRUE,FALSE))
-         alongChrom(sample.exprSet, "1", z, plotFormat="local",
+         alongChrom(sample.ExpressionSet, "1", z, plotFormat="local",
                     colors=cols, byStrand=st)
     } else print("Example can not be run without the hgu95av2 data package")
 }
