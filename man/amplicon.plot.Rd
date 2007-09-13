@@ -2,7 +2,7 @@
 \alias{amplicon.plot}
 \title{Create an amplicon plot  }
 \description{
-  Given a two-sample test statistic and an eSet this function plots
+  Given a two-sample test statistic and an ExpressionSet this function plots
   regions of the genome that are either highly expressed (in red) or
   have low expression (blue) differentially in the two groups.
 }
@@ -10,7 +10,7 @@
 amplicon.plot(ESET, FUN, genome)
 }
 \arguments{
-  \item{ESET}{an object extending class \code{eSet}}
+  \item{ESET}{an object of class \code{ExpressionSet}}
   \item{FUN}{A two sample test function suitable for \code{\link[Biobase]{esApply}}. }
   \item{genome}{A character string of the base name for the annotation. }
 }

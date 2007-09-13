@@ -18,11 +18,11 @@
 \alias{emptyACPlot}
 \alias{getACExprs}
 \alias{highlightACDups}
-\title{A function for plotting expression data from an eSet for a
+\title{A function for plotting expression data from an ExpressionSet for a
   given chromosome. }
 \description{
-  Given a particular eSet object, a chromLocation object, and a
-  chromosome name, will plot selected eSet data using various methods.
+  Given a particular ExpressionSet object, a chromLocation object, and a
+  chromosome name, will plot selected ExpressionSet data using various methods.
 }
 \usage{
    alongChrom(eSet, chrom, specChrom,  xlim, whichGenes, 
@@ -32,7 +32,7 @@
    geneSymbols=FALSE, byStrand=FALSE, colors="red", lty=1, type="S",
    ...)}
 \arguments{
-  \item{eSet}{The eSet object to be used.}
+  \item{eSet}{The ExpressionSet object to be used.}
   \item{chrom}{The desired chromosome.}
   \item{specChrom}{An object of type chromLocation for the species being
     represented.}
@@ -60,7 +60,7 @@
 \details{
   The genes on the chromosome of interest are extracted from the
   \code{chromLocation} object passed in, which are then intersected with the
-  genes listed in the eSet.  These remaining genes will then be
+  genes listed in the ExpressionSet.  These remaining genes will then be
   plotted according to the \code{plotFormat} argument.  If \code{image} is
   specified, an image plot is created showing the expression levels of
   the samples by gene, using a colour map to denote the levels.  If
