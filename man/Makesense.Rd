@@ -5,9 +5,11 @@
 \alias{Makesense,exprSet,missing-method}
 \alias{Makesense,eSet,missing-method}
 \alias{Makesense,eSet,character-method}
+\alias{Makesense,ExpressionSet,missing-method}
+\alias{Makesense,ExpressionSet,character-method}
 \title{Produce Smoothed Sense/Anti-sense For All Chromosomes}
 \description{
-  'Makesense' takes either an eSet object or a matrix of gene
+  'Makesense' takes either an ExpressionSet object or a matrix of gene
   expressions and will produce a smoothed positive and negative strands
   for all chromosomes.
 }
@@ -15,13 +17,13 @@
 Makesense(expr, lib, ...)
 }
 \arguments{
-  \item{expr}{One of an \code{exprSet} (deprecated), an \code{eSet} or a \code{matrix} of 
+  \item{expr}{One of an \code{exprSet} (deprecated), an \code{ExpressionSet} or a \code{matrix} of 
     gene expressions with genes as rows and columns as samples.}
   \item{lib}{The name of the Bioconductor annotation data package that
     will be used to provide mappings from probes to chromosomal
     locations, such as \code{hgu95av2} or \code{hgu133a}.  If
-    \code{expr} is an \code{eSet}, the argument defaults to the
-    \code{annotation} slot of the \code{eSet}.}
+    \code{expr} is an \code{ExpressionSet}, the argument defaults to the
+    \code{annotation} slot of the \code{ExpressionSet}.}
   \item{...}{Currently, the only optional argument is \code{f}, the
     smoother span to be passed to 'lowess'. Its value should
     be in the interval of (0,1). This gives the proportion of points in
@@ -29,14 +31,14 @@ Makesense(expr, lib, ...)
     give more smoothness.  The default value for this argument is 1/10.}
 }
 \details{
-  The \code{expr} argument can either be of class \code{eSet} or
+  The \code{expr} argument can either be of class \code{ExpressionSet} or
   \code{matrix}, where the latter represents the matrix of gene
   expressions.
 
-  If the \code{expr} argument is an \code{eSet}, the \code{lib}
+  If the \code{expr} argument is an \code{ExpressionSet}, the \code{lib}
   argument will use the \code{annotation} slot.  Users can override this
   behaviour and supply their own \code{lib} argument if they wish.  If
-  the \code{eSet} has no value associated with the \code{annotation}
+  the \code{ExpressionSet} has no value associated with the \code{annotation}
   slot (which should not happen, but is possible) then the user must
   supply the \code{lib} argument manually or the function will throw an
   error.
@@ -50,7 +52,7 @@ in the same order as appearing in the columns of
 with two elements named "posS" and "negS", corresponding to the
 positive and negative strands of a chromosome, each of which is an object returned by 'lowess'.}
 \item{lib}{A string giving the name of the annotation data package to
-use.  Optional if \code{expr} is an \code{eSet}.}
+use.  Optional if \code{expr} is an \code{ExpressionSet}.}
 }
 \author{Robert Gentleman and Xiaochun Li}
 

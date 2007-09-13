@@ -14,13 +14,29 @@ setMethod("Makesense", signature(expr="exprSet", lib="missing"),
               Makesense(expr, annotation(expr), f)
           })
 
+## eSet is a virtual class without exprs method or exprs
+## element. Nonetheless the next two method existed and could be used
+## by classes derived from eSet. Retain for compatiblity
+.DEPRECATE_MAKESENSE_ESET <-
+    "The 'Makesense,eSet' methods are deprecated"    
 
 setMethod("Makesense", signature(expr="eSet", lib="character"),
           function(expr, lib, f=1/10) {
+              .Deprecated(msg=.DEPRECATE_MAKESENSE_ESET)
               Makesense(exprs(expr), lib, f)
 })
 
 setMethod("Makesense", signature(expr="eSet", lib="missing"),
+          function(expr, f=1/10) {
+              Makesense(expr, annotation(expr), f)
+          })
+
+setMethod("Makesense", signature(expr="ExpressionSet", lib="character"),
+          function(expr, lib, f=1/10) {
+              Makesense(exprs(expr), lib, f)
+})
+
+setMethod("Makesense", signature(expr="ExpressionSet", lib="missing"),
           function(expr, f=1/10) {
               Makesense(expr, annotation(expr), f)
           })
