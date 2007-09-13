@@ -36,7 +36,7 @@ multiecdf.default <- function(x, xlim, col, do.points=FALSE,
   m <- match.call(expand.dots = FALSE) # avoid warnings for invalid arguments
   m$... <- m$...[!names(m$...) %in% c("main", "xlab", "ylab", "ylim")]  
 
-  for(j in seq(alog=ef)[-1]) {
+  for(j in seq(along=ef)[-1]) {
     mycol = col[1+((j-1)%%length(col))]
     args <- c(list(x=ef[[j]], col.hor=mycol, col.vert=mycol, do.points=do.points), m$...)
     do.call("lines", args)
