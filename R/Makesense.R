@@ -28,22 +28,20 @@ setMethod("Makesense", signature(expr="eSet", lib="missing"),
 setMethod("Makesense", signature(expr="matrix", lib="character"),
           function(expr, lib, f=1/10) {
     if (length(lib) != 1 || nchar(lib) < 1)
-      stop("invalid arg ", sQuote(lib), " must be lenth one.")
-    if(!require(lib, character.only=TRUE))
-        stop("annotation data package ",lib," not avaiable")
+      stop("'lib' argument must be length one")
 
     genes <- rownames(expr)
-    libCHR <- paste(lib, "CHR", sep="")
-    libCHRLOC <- paste(lib, "CHRLOC", sep="")
+    libCHR <- getAnnMap("CHR", lib)
+    libCHRLOC <- getAnnMap("CHRLOC", lib)
     ## Select genes that are annotated at exactly _one_ chromosome.
-    chr <- mget(genes, envir=get(libCHR), ifnotfound=NA)
+    chr <- mget(genes, envir=libCHR, ifnotfound=NA)
     oneC <- sapply(chr, function(x)
                    if (length(x) == 1 && !is.na(x)) TRUE else FALSE)
     ## Select genes that are annotated at exactly _one_ chrom location
     ##
     ## FIXME: There are many genes with multiple CHRLOC entries, is
     ##        there anything we can do to keep more of them?
-    chrL <- mget(genes, envir=get(libCHRLOC), ifnotfound=NA)
+    chrL <- mget(genes, envir=libCHRLOC, ifnotfound=NA)
     oneL <- sapply(chrL, function(x)
                    if (length(x) == 1 && !is.na(x)) TRUE else FALSE)
     wanted <- oneC & oneL
@@ -54,7 +52,6 @@ setMethod("Makesense", signature(expr="matrix", lib="character"),
 
     gE <- expr[wanted, ]
     ans2 <- vector("list", length=ncol(gE))
-    libCHRLENGTHS <- get(paste(lib,"CHRLENGTHS",sep=""))
 
     for( j in 1:ncol(gE) ) {
         s1 <- split(gE[,j], chrName)
@@ -85,4 +82,3 @@ setMethod("Makesense", signature(expr="matrix", lib="character"),
     }
     list(ans2=ans2, lib=lib)
 })
-
