@@ -1,10 +1,11 @@
 \name{identifyLines}
 \alias{identifyLines}
-\title{A function for identifying sample lines on an alongChrom()
+\title{(Deprecated) A function for identifying sample lines on an alongChrom()
   plot. }
 \description{
-  Given an environment returned from alongChrom(), will call identify()
-  on the alongChrom() plot.
+  (This function is deprecated, and will be removed from a subsequent
+  release) Given an environment returned from
+  alongChrom(), will call identify() on the alongChrom() plot.
 }
 \usage{
 identifyLines(identEnvir,...)
@@ -25,6 +26,8 @@ identifyLines(identEnvir,...)
   \code{\link{alongChrom}}, \code{\link{identify}}.
 }
 \examples{
+   \dontrun{
+   ## This function is deprecated, and not exported from the name space
    data(sample.exprSet)
 
    ## A bit of a hack to not have a package dependency on hgu95av2
@@ -42,5 +45,6 @@ identifyLines(identEnvir,...)
        identifyLines(identEnv)
      }
   } else print("This example needs the hgu95av2 data package")
+  }
 }
 \keyword{utilities}

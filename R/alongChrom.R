@@ -445,6 +445,7 @@ buildACMainLabel <- function(ylab, chrom, xloc, plotFormat, scale) {
 }
 
 identifyLines <- function(identEnvir, ...) {
+    .Deprecated()
     ## Will call identify() on teh alongChrom() plot to detail which
     ## lines map tow which samples
 
