@@ -1,6 +1,6 @@
 Package: geneplotter
 Title: Grapics related functions for Bioconductor
-Version: 1.15.15
+Version: 1.15.17
 Author: R. Gentleman, Biocore
 Description: Some basic functions for plotting genetic data
 Maintainer: Biocore Team c/o BioC user list <bioconductor@stat.math.ethz.ch>
