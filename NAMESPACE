@@ -18,4 +18,4 @@ S3method("multidensity", "default")
 
 importFrom("KernSmooth", "bkde2D")
 importFrom("RColorBrewer", "brewer.pal")
-
+import("AnnotationDbi")

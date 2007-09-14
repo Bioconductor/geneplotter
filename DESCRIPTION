@@ -7,7 +7,7 @@ Maintainer: Biocore Team c/o BioC user list <bioconductor@stat.math.ethz.ch>
 Depends: R (>= 2.4.0), annotate, Biobase (>= 1.11.34), methods, lattice
 Suggests: Rgraphviz, hgu95av2, fibroEset, hu6800, hgu133a, GO,
         KernSmooth, RColorBrewer
-Imports: KernSmooth, RColorBrewer
+Imports: KernSmooth, RColorBrewer, AnnotationDbi
 Uses: hgu133a
 License: Artistic-2.0
 biocViews: Visualization
