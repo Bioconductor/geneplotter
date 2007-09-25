@@ -1,6 +1,7 @@
 \name{plotExpressionGraph}
 \alias{plotExpressionGraph}
 \alias{getPlotExpressionColors}
+\alias{IMCAEntrezLink}
 \alias{defMapFun}
 \title{A function to plot a graph colored by expression data}
 \description{
@@ -8,16 +9,16 @@
   with the nodes colored according to the expression levels provided.
 }
 \usage{
-plotExpressionGraph(graph, nodeLLmap, exprs, LOCUSIDenvir, mapFun, log = FALSE, nodeAttrs = list(), ...)
+plotExpressionGraph(graph, nodeEGmap, exprs, ENTREZIDenvir, mapFun, log = FALSE, nodeAttrs = list(), ...)
 }
 \arguments{
   \item{graph}{The graph to plot}
-  \item{nodeLLmap}{A list with element names being node names and the
-    elements being LocusLink IDs corresponding to those node names.}
+  \item{nodeEGmap}{A list with element names being node names and the
+    elements being EntrezLink IDs corresponding to those node names.}
   \item{exprs}{A vector of expression data, with names being Affymetrix
     IDs and values being the expression level.}
-  \item{LOCUSIDenvir}{An environment mapping Affymetrix IDs to LocusLink
-  IDs, such as the ones provided in the xxx2LOCUSID environments from
+  \item{ENTREZIDenvir}{An environment mapping Affymetrix IDs to EntrezLink
+  IDs, such as the ones provided in the xxx2ENTREZID environments from
   the Bioconductor data packages (where xxx) is a data package)}
   \item{mapFun}{A function to map expression levels to colors}
   \item{log}{Whether or not the expression data }
@@ -30,9 +31,9 @@ plotExpressionGraph(graph, nodeLLmap, exprs, LOCUSIDenvir, mapFun, log = FALSE, 
   \code{graph} parameter is a \code{graph} object from the \code{graph}
   package.
 
-  The \code{nodeLLmap} parameter is a list that maps the nodes of the
-  graphs to LocusLink IDs.  An example of this is the
-  \code{IMCALocusLink} object in the
+  The \code{nodeEGmap} parameter is a list that maps the nodes of the
+  graphs to EntrezLink IDs.  An example of this is the
+  \code{IMCAEntrezLink} object in the
   \code{integrinMediatedCellAdhesion} data set in the
   \code{graph} package.
 
@@ -40,10 +41,10 @@ plotExpressionGraph(graph, nodeLLmap, exprs, LOCUSIDenvir, mapFun, log = FALSE, 
   Affymetrix IDs.  One way to generate an appropriate vector is to
   extract a single column from an \code{exprSet}.
 
-  The \code{LOCUSIDenvir} environment maps Affymetrix IDs to LocusLink
+  The \code{ENTREZIDenvir} environment maps Affymetrix IDs to EntrezLink
   IDs.  The simplest way to provide this argument is to load the
   preferred Bioconductor data package (e.g. \code{hgu95av2}) and pass in
-  that package's \code{xxx2LOCUSID}, where \code{xxx} is the name of the
+  that package's \code{xxx2ENTREZID}, where \code{xxx} is the name of the
   package.
 
   The \code{mapFun} function defaults to the function \code{defMapFun},
@@ -62,6 +63,11 @@ plotExpressionGraph(graph, nodeLLmap, exprs, LOCUSIDenvir, mapFun, log = FALSE, 
   \code{\link[Rgraphviz]{plot.graph}} man page for more information on this.  The
   other attribute list (\code{attrs} and \code{edgeAttrs}) can be passed
   in via the \code{...} parameter.
+  
+  The IMCAEntrezLink data structure was created for the purpose of
+   illustrating this program.  On Sept 24 2007, the current versions
+   of  hgu95av2.db and hgu95av2 were used to map from the
+   nodes of IMCAGraph (in graph package) to Entrez identifiers.
 }
 \author{Jeff Gentry}
 \seealso{\code{\link[Rgraphviz]{plot.graph}}, \code{integrinMediatedCellAdhesion}}
@@ -69,12 +75,13 @@ plotExpressionGraph(graph, nodeLLmap, exprs, LOCUSIDenvir, mapFun, log = FALSE, 
    if ((require("Rgraphviz")) && (require("hgu95av2")) &&
         (require("fibroEset")) && (interactive())) {     
             data(integrinMediatedCellAdhesion)
+	    data(IMCAEntrezLink)
             data(fibroEset)
             attrs=getDefaultAttrs()
             attrs$graph$rankdir <- "LR"
-            plotExpressionGraph(IMCAGraph, IMCALocusLink,
+            plotExpressionGraph(IMCAGraph, IMCAEntrezLink,
                                 exprs(fibroEset)[,1],
-                                hgu95av2LOCUSID, attrs=attrs)
+                                hgu95av2ENTREZID, attrs=attrs)
    }
 }
 \keyword{utilities}

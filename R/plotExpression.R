@@ -1,10 +1,10 @@
-plotExpressionGraph <- function(graph, nodeLLmap, exprs, LOCUSIDenvir,
+plotExpressionGraph <- function(graph, nodeEGmap, exprs, ENTREZIDenvir,
                                 mapFun, log=FALSE, nodeAttrs=list(), ...) {
     require("Rgraphviz") || stop("Requires Rgraphviz to continue")
 
-    envll <- unlist(contents(LOCUSIDenvir))
-    graphLLs <- unlist(lapply(nodeLLmap, function(x){x[1]}))
-    graphAffys <- names(envll)[envll %in% graphLLs]
+    envll <- unlist(contents(ENTREZIDenvir))
+    graphEGs <- unlist(lapply(nodeEGmap, function(x){x[1]}))
+    graphAffys <- names(envll)[envll %in% graphEGs]
 
     if (missing(mapFun))
         mapFun <- defMapFun
@@ -13,12 +13,12 @@ plotExpressionGraph <- function(graph, nodeLLmap, exprs, LOCUSIDenvir,
 
     ## Vector of colors w/ affy's as names - need SYMs
     colAffys <- names(cols)
-    colLLs <- envll[colAffys]
-    colSyms <- names(graphLLs[graphLLs %in% colLLs])
+    colEGs <- envll[colAffys]
+    colSyms <- names(graphEGs[graphEGs %in% colEGs])
     names(cols) <- colSyms
     nodeAttrs$fillcolor <- cols
 
-    plot(IMCAGraph, nodeAttrs=nodeAttrs, ...)
+    plot(graph, nodeAttrs=nodeAttrs, ...)
 }
 
 
