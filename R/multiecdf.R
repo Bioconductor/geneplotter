@@ -90,6 +90,7 @@ multiecdf.default = function(x,
     do.call("lines", args)
 
   }
+  invisible(ef)
 }
 
 multidensity.default = function(x,
