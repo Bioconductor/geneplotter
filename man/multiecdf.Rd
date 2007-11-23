@@ -2,10 +2,11 @@
 \alias{multiecdf}
 \alias{multiecdf.default}
 \alias{multiecdf.formula}
-
+\alias{multiecdf.matrix}
 \alias{multidensity}
 \alias{multidensity.default}
 \alias{multidensity.formula}
+\alias{multidensity.matrix}
 
 \title{Multiple empirical cumulative distribution functions (ecdf)
   and densities}
@@ -15,15 +16,25 @@
 
 \usage{
 multiecdf(x, \dots)
-\method{multiecdf}{formula}(formula, data = NULL, \dots, na.action = NULL)
-\method{multiecdf}{default}(x, xlim, col, do.points=FALSE, subsample=TRUE, \dots)
+\method{multiecdf}{formula}(formula, data = NULL, xlab, na.action = NULL, \dots)
+\method{multiecdf}{matrix}(x, xlab, ...) 
+\method{multiecdf}{default}(x, xlim,
+       col=brewer.pal(9, "Set1"),
+       main="multiecdf",
+       xlab,
+       do.points=FALSE,
+       subsample=TRUE, \dots)
 
 multidensity(x, \dots)
-\method{multidensity}{formula}(formula, data = NULL, main, xlab, \dots, na.action = NULL)
-\method{multidensity}{default}(x, bw="nrd0", xlim, ylim,
+\method{multidensity}{formula}(formula, data = NULL, xlab, na.action = NULL, \dots)
+\method{multidensity}{matrix}(x, xlab, ...) 
+\method{multidensity}{default}(x,
+  bw="nrd0",
+  xlim,
+  ylim,
   col  = brewer.pal(9, "Set1"),
-  main = sprintf("multidensity.default(\%s)", deparse(substitute(x))),
-  xlab = deparse(substitute(x)),
+  main = "multidensity",
+  xlab,
   lty  = 1L , \dots)
 }
 
