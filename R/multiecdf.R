@@ -13,12 +13,10 @@ multiecdf.formula = function(formula, data = NULL,
      xlab = deparse(substitute(formula))
   if(missing(formula) || (length(formula) != 3))
     stop("'formula' missing or incorrect")
-  if(missing(xlab))
-     xlab = deparse(substitute(formula))
   m = match.call(expand.dots = FALSE)
   if(is.matrix(eval(m$data, parent.frame())))
     m$data = as.data.frame(data)
-  m$... = NULL
+  m$... = m$xlab = NULL
   m$na.action = na.action # force use of default for this method
   m[[1]] = as.name("model.frame")
   mf = eval(m, parent.frame())
@@ -38,7 +36,7 @@ multidensity.formula = function(formula, data = NULL,
   m = match.call(expand.dots = FALSE)
   if(is.matrix(eval(m$data, parent.frame())))
     m$data = as.data.frame(data)
-  m$... = m$main = m$xlab = NULL
+  m$... = m$xlab = NULL
   m$na.action = na.action # force use of default for this method
   m[[1]] = as.name("model.frame")
   mf = eval(m, parent.frame())
