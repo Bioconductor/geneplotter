@@ -5,7 +5,7 @@
 
 
 % \VignetteIndexEntry{Visualization of Microarray Data}
-% \VignetteDepends{geneplotter, hgu95av2}
+% \VignetteDepends{geneplotter, hgu95av2.db}
 % \VignetteKeywords{Expression Analysis}
 %\VignettePackage{geneplotter}
 \documentclass{article}

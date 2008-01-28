@@ -19,7 +19,7 @@
 \alias{getACExprs}
 \alias{highlightACDups}
 \title{A function for plotting expression data from an ExpressionSet for a
-  given chromosome. }
+  given chromosome.}
 \description{
   Given a particular ExpressionSet object, a chromLocation object, and a
   chromosome name, will plot selected ExpressionSet data using various methods.
@@ -79,7 +79,7 @@
    ## but need to fiddle w/ the warn level to not fail the example anyways.
    curWarn <- options(warn=0)
    on.exit(options(warn=curWarn$warn), add=TRUE)
-   if (require(hgu95av2)) {
+   if (require("hgu95av2.db")) {
       z <- buildChromLocation("hgu95av2")
       lty <- c(1, 2, 3, 4, 5)
       cols <- c("red", "green", "blue", "orange", "magenta", "black")
@@ -120,6 +120,4 @@
                     colors=cols, byStrand=st)
     } else print("Example can not be run without the hgu95av2 data package")
 }
-  
 \keyword{utilities}
-

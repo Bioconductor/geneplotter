@@ -1,6 +1,6 @@
 \name{cPlot}
 \alias{cPlot}
-\title{A plotting function for chromosomes. }
+\title{A plotting function for chromosomes.}
 \description{
   Given a chromLocation object, will plot all the gene locations from
   that object.
@@ -12,14 +12,14 @@ cPlot(plotChroms, useChroms=chromNames(plotChroms),
 }
 \arguments{
   \item{plotChroms}{An object of type chromLocation which contains all
-    the gene information to be plotted. }
+    the gene information to be plotted.}
   \item{useChroms}{A vector of chromosome names to be used in the plot.
   Default is to use all the chromosomes from the plotChroms object.}
   \item{scale}{Passed on to cScale as it's scale argument.  Determines
     whether the graph is scaled on a relative or absolute basis.}
   \item{fg}{The colour to be used for the genes.  Default is white.}
   \item{bg}{The colour to be used for the background of the plot.
-    Defaults to lightgrey/}
+    Defaults to lightgrey.}
   \item{glen}{A scaling factor applied to the plotted length of each
     gene.  Defaults to 0.4 - it is recommended that this not be set
     larger then 0.5 as it will cause overlap between chromosomes.}
@@ -42,7 +42,7 @@ cPlot(plotChroms, useChroms=chromNames(plotChroms),
    ## but need to fiddle w/ the warn level to not fail the example anyways.
    curWarn <- options(warn=0)
    on.exit(options(warn=curWarn), add=TRUE)
-   if (require(hgu95av2)) {
+   if (require("hgu95av2.db")) {
     z <- buildChromLocation("hgu95av2")
 
      if (interactive()) {
@@ -54,4 +54,3 @@ cPlot(plotChroms, useChroms=chromNames(plotChroms),
   } else print("This example can not be run without hgu95av2 data package")
 }
 \keyword{utilities}
-

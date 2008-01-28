@@ -43,7 +43,7 @@ plotExpressionGraph(graph, nodeEGmap, exprs, ENTREZIDenvir, mapFun, log = FALSE,
 
   The \code{ENTREZIDenvir} environment maps Affymetrix IDs to EntrezLink
   IDs.  The simplest way to provide this argument is to load the
-  preferred Bioconductor data package (e.g. \code{hgu95av2}) and pass in
+  preferred Bioconductor data package (e.g. \code{hgu95av2.db}) and pass in
   that package's \code{xxx2ENTREZID}, where \code{xxx} is the name of the
   package.
 
@@ -65,14 +65,14 @@ plotExpressionGraph(graph, nodeEGmap, exprs, ENTREZIDenvir, mapFun, log = FALSE,
   in via the \code{...} parameter.
   
   The IMCAEntrezLink data structure was created for the purpose of
-   illustrating this program.  On Sept 24 2007, the current versions
-   of  hgu95av2.db and hgu95av2 were used to map from the
-   nodes of IMCAGraph (in graph package) to Entrez identifiers.
+   illustrating this program.  On Sept 24 2007, the current version
+   of  hgu95av2.db was used to map from the nodes of IMCAGraph
+   (in graph package) to Entrez identifiers.
 }
 \author{Jeff Gentry}
 \seealso{\code{\link[Rgraphviz]{plot.graph}}, \code{integrinMediatedCellAdhesion}}
 \examples{
-   if ((require("Rgraphviz")) && (require("hgu95av2")) &&
+   if ((require("Rgraphviz")) && (require("hgu95av2.db")) &&
         (require("fibroEset")) && (interactive())) {     
             data(integrinMediatedCellAdhesion)
 	    data(IMCAEntrezLink)

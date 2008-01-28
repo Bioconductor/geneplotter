@@ -1,21 +1,21 @@
 \name{cColor}
 \alias{cColor}
-\title{A function for marking specific probes on a cPlot. }
+\title{A function for marking specific probes on a cPlot.}
 \description{
   Given a set of probes, will highlight them in the color desired on
   a plot which has already been created via the function cPlot().
 }
 \usage{
-cColor(probes, color, plotChroms, scale=c("relative","max"),glen=0.4)
+cColor(probes, color, plotChroms, scale=c("relative","max"), glen=0.4)
 }
 \arguments{
   \item{probes}{The probes that are being highlighted.}
   \item{color}{The color to highlight the probes.}
   \item{plotChroms}{An object of type \code{chromLocation} which contains all
-    the gene information to be plotted. }
+    the gene information to be plotted.}
   \item{scale}{Whether to plot the graph scaled absolutely or relative
     by chromosome.  Default is absolute.}
-  \item{glen}{The length of the gene line plotted}
+  \item{glen}{The length of the gene line plotted.}
 }
 \details{
   It is important to call the function \code{cPlot()} first.  This function
@@ -31,16 +31,15 @@ cColor(probes, color, plotChroms, scale=c("relative","max"),glen=0.4)
   \code{\link{cPlot}}, \code{\link[annotate]{chromLocation-class}}
 }
 \examples{
-if(match("hgu95av2", .packages(all = TRUE), nomatch=0)) {
-  library("hgu95av2")
-  z <- buildChromLocation("hgu95av2")
-  cPlot(z)
-  probes <- c("266_s_at", "31411_at", "610_at", "failExample")
-  cColor(probes, "red", z)
-  probes2 <- c("960_g_at", "41807_at", "931_at", "39032_at")
-  cColor(probes2, "blue", z)
-} else
-  print("Need hgu95av2 data package for the example")
-}
+  if(match("hgu95av2.db", .packages(all = TRUE), nomatch=0)) {
+    library("hgu95av2.db")
+    z <- buildChromLocation("hgu95av2")
+    cPlot(z)
+    probes <- c("266_s_at", "31411_at", "610_at", "failExample")
+    cColor(probes, "red", z)
+    probes2 <- c("960_g_at", "41807_at", "931_at", "39032_at")
+    cColor(probes2, "blue", z)
+  } else
+    print("Need hgu95av2.db data package for the example")
+  }
 \keyword{utilities}
-

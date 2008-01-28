@@ -4,7 +4,7 @@
 %
 % \VignetteIndexEntry{How to assemble a chromLocation object}
 % \VignetteAuthor{R. Gentleman}
-%\VignetteDepends{annotate, hu6800}
+%\VignetteDepends{annotate, hu6800.db}
 %\VignetteKeywords{chromosomes}
 %\VignettePackage{geneplotter}
 \documentclass[12pt]{article}
@@ -39,14 +39,14 @@ In order to use the various \Rpackage{geneplotter} functions you will
 need to assemble an object of class \Robject{chromLocation}.
 This is relatively straightforward if you have access to a Bioconductor
 data package. In this example we will consider using the
-\Rpackage{hu6800} data package to construct our object. This vignette
-was built with version \Sexpr{packageDescription("hu6800")$Version} of
+\Rpackage{hu6800.db} data package to construct our object. This vignette
+was built with version \Sexpr{packageDescription("hu6800.db")$Version} of
 the package.
 
 <<loaddata>>=
 
  library("annotate")
- library("hu6800")
+ library("hu6800.db")
  lens <- unlist(eapply(hu6800CHR, length))
 
  table(lens)

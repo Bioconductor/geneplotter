@@ -21,7 +21,7 @@ Makesense(expr, lib, ...)
     gene expressions with genes as rows and columns as samples.}
   \item{lib}{The name of the Bioconductor annotation data package that
     will be used to provide mappings from probes to chromosomal
-    locations, such as \code{hgu95av2} or \code{hgu133a}.  If
+    locations, such as \code{hgu95av2.db} or \code{hgu133a.db}.  If
     \code{expr} is an \code{ExpressionSet}, the argument defaults to the
     \code{annotation} slot of the \code{ExpressionSet}.}
   \item{...}{Currently, the only optional argument is \code{f}, the
@@ -55,10 +55,9 @@ positive and negative strands of a chromosome, each of which is an object return
 use.  Optional if \code{expr} is an \code{ExpressionSet}.}
 }
 \author{Robert Gentleman and Xiaochun Li}
-
 \seealso{ \code{\link{plotChr}}}
 \examples{
-if(require("hgu133a") )
+if(require("hgu133a.db") )
 {
   data(expressionSet133a)
 

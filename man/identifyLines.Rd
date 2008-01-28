@@ -1,7 +1,7 @@
 \name{identifyLines}
 \alias{identifyLines}
 \title{(Deprecated) A function for identifying sample lines on an alongChrom()
-  plot. }
+  plot.}
 \description{
   (This function is deprecated, and will be removed from a subsequent
   release) Given an environment returned from
@@ -34,7 +34,7 @@ identifyLines(identEnvir,...)
    ## but need to fiddle w/ the warn level to not fail the example anyways.
    curWarn <- options(warn=0)
    on.exit(options(warn=curWarn), add=TRUE)
-   if (require(hgu95av2)) {
+   if (require("hgu95av2.db")) {
      z <- buildChromLocation("hgu95av2")
      lty <- c(1, 2, 3, 4, 5)
      cols <- c("red", "green", "blue", "orange", "magenta", "black")
@@ -44,7 +44,7 @@ identifyLines(identEnvir,...)
      if (interactive()) {
        identifyLines(identEnv)
      }
-  } else print("This example needs the hgu95av2 data package")
+  } else print("This example needs the hgu95av2.db data package")
   }
 }
 \keyword{utilities}
