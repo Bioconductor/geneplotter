@@ -1,23 +1,19 @@
 \name{Makesense}
 \alias{Makesense}
 \alias{Makesense,matrix,character-method}
-\alias{Makesense,exprSet,character-method}
-\alias{Makesense,exprSet,missing-method}
-\alias{Makesense,eSet,missing-method}
-\alias{Makesense,eSet,character-method}
 \alias{Makesense,ExpressionSet,missing-method}
 \alias{Makesense,ExpressionSet,character-method}
 \title{Produce Smoothed Sense/Anti-sense For All Chromosomes}
 \description{
-  'Makesense' takes either an ExpressionSet object or a matrix of gene
-  expressions and will produce a smoothed positive and negative strands
+  'Makesense' takes either an \code{ExpressionSet} object or a \code{matrix}
+  of gene expressions and will produce a smoothed positive and negative strands
   for all chromosomes.
 }
 \usage{
 Makesense(expr, lib, ...)
 }
 \arguments{
-  \item{expr}{One of an \code{exprSet} (deprecated), an \code{ExpressionSet} or a \code{matrix} of 
+  \item{expr}{Either an \code{ExpressionSet} or a \code{matrix} of 
     gene expressions with genes as rows and columns as samples.}
   \item{lib}{The name of the Bioconductor annotation data package that
     will be used to provide mappings from probes to chromosomal
@@ -45,10 +41,10 @@ Makesense(expr, lib, ...)
   }
 \value{
 A list of 2 components:
-\item{ans2}{a list, whose components correspond to samples 
+\item{ans2}{a \code{list}, whose components correspond to samples 
 in the same order as appearing in the columns of 
-'expr'. Each component is also a list, named by chromosomes 
-"1"-"22", "X" and "Y". Each named component is again a list 
+'expr'. Each component is also a \code{list}, named by chromosomes 
+"1"-"22", "X" and "Y". Each named component is again a \code{list} 
 with two elements named "posS" and "negS", corresponding to the
 positive and negative strands of a chromosome, each of which is an object returned by 'lowess'.}
 \item{lib}{A string giving the name of the annotation data package to
@@ -57,13 +53,9 @@ use.  Optional if \code{expr} is an \code{ExpressionSet}.}
 \author{Robert Gentleman and Xiaochun Li}
 \seealso{ \code{\link{plotChr}}}
 \examples{
-if(require("hgu133a.db") )
-{
+  library("hgu133a.db")
   data(expressionSet133a)
-
   esetobj <- Makesense(exprs(expressionSet133a), "hgu133a")
-
   esetobj2 <- Makesense(expressionSet133a[1:200, ])
-}
 }
 \keyword{dplot}

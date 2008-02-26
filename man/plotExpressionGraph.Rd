@@ -13,17 +13,17 @@ plotExpressionGraph(graph, nodeEGmap, exprs, ENTREZIDenvir, mapFun, log = FALSE,
 }
 \arguments{
   \item{graph}{The graph to plot}
-  \item{nodeEGmap}{A list with element names being node names and the
+  \item{nodeEGmap}{A \code{list} with element names being node names and the
     elements being EntrezLink IDs corresponding to those node names.}
-  \item{exprs}{A vector of expression data, with names being Affymetrix
+  \item{exprs}{A \code{vector} of expression data, with names being Affymetrix
     IDs and values being the expression level.}
-  \item{ENTREZIDenvir}{An environment mapping Affymetrix IDs to EntrezLink
+  \item{ENTREZIDenvir}{An \code{environment} mapping Affymetrix IDs to EntrezLink
   IDs, such as the ones provided in the xxx2ENTREZID environments from
-  the Bioconductor data packages (where xxx) is a data package)}
-  \item{mapFun}{A function to map expression levels to colors}
-  \item{log}{Whether or not the expression data }
-  \item{nodeAttrs}{A list of node attributes, as per \code{plot.graph}}
-  \item{\dots}{ Any extra arguments to be passed to \code{plot.graph} }
+  the Bioconductor data packages (where xxx) is a data package).}
+  \item{mapFun}{A function to map expression levels to colors.}
+  \item{log}{Whether or not the expression data.}
+  \item{nodeAttrs}{A \code{list} of node attributes, as per \code{plot.graph}.}
+  \item{\dots}{Any extra arguments to be passed to \code{plot.graph}.}
 }
 \details{
   This function can be used to plot a graph and have the nodes colored
@@ -39,7 +39,7 @@ plotExpressionGraph(graph, nodeEGmap, exprs, ENTREZIDenvir, mapFun, log = FALSE,
 
   The \code{exprs} argument is a vector mapping expression levels to
   Affymetrix IDs.  One way to generate an appropriate vector is to
-  extract a single column from an \code{exprSet}.
+  extract a single column from an \code{ExpressionSet}.
 
   The \code{ENTREZIDenvir} environment maps Affymetrix IDs to EntrezLink
   IDs.  The simplest way to provide this argument is to load the
@@ -66,7 +66,7 @@ plotExpressionGraph(graph, nodeEGmap, exprs, ENTREZIDenvir, mapFun, log = FALSE,
   
   The IMCAEntrezLink data structure was created for the purpose of
    illustrating this program.  On Sept 24 2007, the current version
-   of  hgu95av2.db was used to map from the nodes of IMCAGraph
+   of \code{hgu95av2.db} was used to map from the nodes of IMCAGraph
    (in graph package) to Entrez identifiers.
 }
 \author{Jeff Gentry}

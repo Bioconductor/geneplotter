@@ -444,23 +444,6 @@ buildACMainLabel <- function(ylab, chrom, xloc, plotFormat, scale) {
     return(main)
 }
 
-identifyLines <- function(identEnvir, ...) {
-    .Deprecated()
-    ## Will call identify() on teh alongChrom() plot to detail which
-    ## lines map tow which samples
-
-    points <- mget(c("X","Y"), envir=identEnvir, ifnotfound=NA)
-
-    xPoints <- points$X
-    yPoints <- points$Y
-
-    x <- identify(rep(xPoints,ncol(yPoints)), yPoints,
-                  labels=rep(colnames(yPoints),
-                  rep(nrow(yPoints),ncol(yPoints))), ...)
-
-    return(x)
-}
-
 limitACXRange <- function(xlim, usedGenes) {
 
     if (!missing(xlim)) {
