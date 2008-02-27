@@ -152,6 +152,7 @@ smoothScatter <- function(x, y=NULL,
 }
 
 
+
 densCols <- function(x, y=NULL,
                      nbin=128,
                      bandwidth,
@@ -168,18 +169,18 @@ densCols <- function(x, y=NULL,
   map  <- .smoothScatterCalcDensity(x, nbin, bandwidth)
 
   ## bin x-values
-  dx   <- diff(range(x[,1])) / (length(map$x1)-1)
-  xbin <- floor(1 + (x[,1] - min(x[,1])) / dx)
+  xbin <- cut(x[,1], map$x1-(diff(range(map$x1))/(length(map$x1)-1)/2),
+              labels=FALSE)
 
   ## bin y-values
-  dy   <- diff(range(x[,2])) / (length(map$x2)-1)
-  ybin <- floor(1 + (x[,2] - min(x[,2])) / dy)
+  ybin <- cut(x[,2], map$x2-(diff(range(map$x2))/(length(map$x2)-1)/2),
+              labels=FALSE)
     
   dens <- map$fhat[xbin + nrow(map$fhat) * (ybin-1)]
   dens[is.na(dens)]<- 0
 
   ## transform densities to colors
-  colpal <- as.integer(1 + (length(dens)-1) * dens/max(dens))
+  colpal <- cut(dens, length(dens), labels=FALSE)
   cols   <- rep(as.character(NA), nrow(x))
   cols[select] <- colramp(length(dens))[colpal]
     
