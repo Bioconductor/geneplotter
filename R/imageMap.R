@@ -17,7 +17,7 @@ setMethod("imageMap",
                  nrow(object),").", sep=""))
 
   mapname <- paste("map", gsub(" |/|#", "_", imgname), sep="_")
-  base::writeLines(paste("<IMG SRC=\"", imgname, "\" USEMAP=\"#", mapname, "\" BORDER=0>", 
+  base::writeLines(paste("<IMG SRC=\"", imgname, "\" USEMAP=\"#", mapname, "\" BORDER=0/>", 
                    "<MAP NAME=\"", mapname, "\">", sep=""), con)
   for(i in 1:nrow(object)) {
     out = paste("<AREA SHAPE=\"rect\" COORDS=\"", paste(object[i,], collapse=","),
@@ -27,6 +27,6 @@ setMethod("imageMap",
     out = paste(out, ">", sep="")
     base::writeLines(out, con)
   }
-
-} ## end of defintion
+  base::writeLines("</MAP>", con)
+} ## end of definition
 ) ## end of setMethod
