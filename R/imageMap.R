@@ -24,7 +24,7 @@ setMethod("imageMap",
                 "\"", sep="")
     for(t in seq(along=tags))
       out = paste(out, " ", names(tags)[t], "=\"", tags[[t]][i], "\"", sep="")
-    out = paste(out, "\">", sep="")
+    out = paste(out, ">", sep="")
     base::writeLines(out, con)
   }
 

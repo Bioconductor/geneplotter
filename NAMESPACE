@@ -3,7 +3,7 @@ export("alongChrom", "cColor", "cPlot", "cScale", "dChip.colors",
        "plotExpressionGraph", "make.chromOrd", 
        "savepng", "savepdf", "saveeps", "savetiff",
        "smoothScatter", "densCols", "histStack", 
-       "openHtmlPage", "closeHtmlPage", panel.smoothScatter,
+       "openHtmlPage", "closeHtmlPage", "panel.smoothScatter",
        "multiecdf", "multidensity")
 
 exportMethods("Makesense", "imageMap")

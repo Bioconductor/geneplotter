@@ -9,8 +9,7 @@
 %\VignettePackage{geneplotter}
 \documentclass[12pt]{article}
 
-\usepackage{amsmath,pstricks}
-\usepackage[authoryear,round]{natbib}
+\usepackage{amsmath}
 \usepackage{hyperref}
 
 \newcommand{\Rfunction}[1]{{\texttt{#1}}}

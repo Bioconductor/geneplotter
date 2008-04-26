@@ -8,8 +8,9 @@
 % \VignetteDepends{geneplotter, hgu95av2.db}
 % \VignetteKeywords{Expression Analysis}
 %\VignettePackage{geneplotter}
-\documentclass{article}
+\documentclass[12pt]{article}
 
+\usepackage{amsmath}
 \usepackage{hyperref}
 
 \newcommand{\Rfunction}[1]{{\texttt{#1}}}
