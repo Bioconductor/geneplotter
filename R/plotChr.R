@@ -102,9 +102,11 @@ plotChr <- function(chrN, senseObj,
                               env=get(paste(senseObj$lib,"CHRLOC",sep="")),
                               ifnotfound=NA))
 	lineXs <- abs(lineXs)
-	if(any(is.na(lineXs))) stop("wrong probe names")
-        if (xloc=="equispaced") lineXs <-
-		approx(sort(X[uX])[ind.seq],repGx, xout=lineXs)$y
+	if(any(is.na(lineXs)))
+            warning("wrong probe names: ",
+                    paste(names(lineXs)[is.na(lineXs)]))
+        if (xloc=="equispaced")
+            lineXs <- approx(sort(X[uX])[ind.seq],repGx, xout=lineXs)$y
     	abline(v=lineXs, col=lines.col)
     }
 }
