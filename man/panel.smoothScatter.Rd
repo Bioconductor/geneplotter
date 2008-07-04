@@ -17,6 +17,7 @@ panel.smoothScatter(x, y = NULL,
                     transformation = function(x) x^0.25,
                     pch = ".",
                     cex = 1, col="black",
+                    range.x,
                     ...,
                     subscripts)
 }
@@ -43,6 +44,7 @@ panel.smoothScatter(x, y = NULL,
   \item{transformation}{Function that maps the density scale to the color scale.}
   \item{pch, cex}{ graphical parameters for the \code{nrpoints}
     \dQuote{outlying} points shown in the display }
+  \item{range.x}{see  \code{\link[KernSmooth::bkde2D]{bkde2D}} for details.}
   \item{col}{\code{\link{points}} color parameter}
   \item{\dots}{Further arguments that are passed on to
     \code{\link[lattice]{panel.levelplot}}.}

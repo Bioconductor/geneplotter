@@ -12,6 +12,7 @@ panel.smoothScatter <-
               transformation = function(x) x^0.25,
               pch = ".",
               cex = 1, col="black",
+              range.x,
               ...,
               subscripts)
 
@@ -32,7 +33,7 @@ panel.smoothScatter <-
         stop("'nrpoints' should be numeric scalar with value >= 0.")
     xy <- xy.coords(x, y)
     x <- cbind(xy$x, xy$y)[!(is.na(xy$x) | is.na(xy$y)), ]
-    map <- .smoothScatterCalcDensity(x, nbin, bandwidth)
+    map <- .smoothScatterCalcDensity(x, nbin, bandwidth, range.x)
     xm <- map$x1
     ym <- map$x2
     dens <- map$fhat
@@ -60,7 +61,7 @@ panel.smoothScatter <-
 }
 
 
-.smoothScatterCalcDensity <- function(x, nbin, bandwidth) {
+.smoothScatterCalcDensity <- function(x, nbin, bandwidth, range.x) {
   
   if (length(nbin) == 1)
     nbin <- c(nbin, nbin)
@@ -73,9 +74,11 @@ panel.smoothScatter <-
     if(!is.numeric(bandwidth))
       stop("'bandwidth' must be numeric")
   }
-
   ## create density map
-  rv <- bkde2D(x, gridsize=nbin, bandwidth=bandwidth)
+  if(missing(range.x))
+     rv <- bkde2D(x, gridsize=nbin, bandwidth=bandwidth)
+  else
+     rv <- bkde2D(x, gridsize=nbin, bandwidth=bandwidth, range.x=range.x) 
   rv$bandwidth <- bandwidth
   return(rv)
 }
