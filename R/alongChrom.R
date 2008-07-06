@@ -341,7 +341,7 @@ dispACXaxis <- function(xPoints, dataEnv, xloc="equispaced",
     dispXPoints <- cullACXPoints(xPoints)
     dispPointLocs <- match(dispXPoints,xPoints)
 
-    if (any(dup))
+    if (length(dup)>0)
         highlightACDups(dispXPoints, chromExprs, dup, xloc)
 
     if (plotFormat == "cumulative") {
@@ -410,7 +410,7 @@ fixACPhysPoints <- function(xPoints, dup) {
     ## !!! needs to be smarter
     ## !!!!!!
 
-    if (any(dup)) {
+    if (length(dup)>0) {
         dupDiff <- c(1,diff(dup),2)
         tmpDup <- NULL
         for (i in 1:(length(dup)+1)) {
