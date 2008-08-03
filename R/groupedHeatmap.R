@@ -14,7 +14,7 @@ groupedHeatmap = function(
     x0 = max(convertUnit(stringWidth(s), "mm"))
     wx = unit(1, "npc") - x0
     gapsize = 0.5
-    dx = wx* ( 1 / (nlevels(g)*gapsize + length(g)) )
+    dx = wx* ( 1 / (nlevels(g)*gapsize + length(g) -0.5) )
     return(list(
       pos = x0 + ((0L:(length(g)-1L))+(as.integer(g)-1L)*gapsize+0.5) * dx,
       delta = dx) )           
