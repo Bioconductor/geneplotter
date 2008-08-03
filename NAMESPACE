@@ -2,7 +2,7 @@ export("alongChrom", "cColor", "cPlot", "cScale", "dChip.colors",
        "greenred.colors", "GetColor", "plotChr",
        "plotExpressionGraph", "make.chromOrd", 
        "savepng", "savepdf", "saveeps", "savetiff",
-       "smoothScatter", "densCols", "histStack", 
+       "smoothScatter", "densCols", "histStack", "groupedHeatmap",
        "openHtmlPage", "closeHtmlPage", "panel.smoothScatter",
        "multiecdf", "multidensity")
 
@@ -18,4 +18,5 @@ S3method("multidensity", "default")
 
 importFrom("KernSmooth", "bkde2D")
 importFrom("RColorBrewer", "brewer.pal")
+import("grid")
 import("AnnotationDbi")
