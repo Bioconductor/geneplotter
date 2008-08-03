@@ -10,8 +10,8 @@ groupedHeatmap = function(
   ##    *other* coordinate axis
   ## g: a factor with groups
   makecoords = function(s, g) {
-    stopifnot(is.factor(g), is.character(s))
-    x0 = max(convertUnit(stringWidth(s), "mm"))
+    stopifnot(is.factor(g))
+    x0 = if(is.null(s)) unit(0, "npc") else max(convertUnit(stringWidth(s), "mm"))
     wx = unit(1, "npc") - x0
     gapsize = 0.5
     dx = wx* ( 1 / (nlevels(g)*gapsize + length(g) -0.5) )
@@ -46,9 +46,9 @@ groupedHeatmap = function(
     z = z[, o]
     fcol = fcol[o]
   }
-  
-  textx = paste(colnames(z), "", sep=" ")
-  texty = paste(rownames(z), "", sep=" ")
+
+  textx = if(is.null(colnames(z))) NULL else paste(colnames(z), "", sep=" ")
+  texty = if(is.null(rownames(z))) NULL else paste(rownames(z), "", sep=" ")
   
   cx = makecoords(s=texty, g=fcol)  
   cy = makecoords(s=textx, g=frow)
@@ -58,6 +58,7 @@ groupedHeatmap = function(
   grid.rect(x = x[rep(seq(along=x), each  =length(y))], width  = cx$delta, 
             y = y[rep(seq(along=y), times =length(x))], height = cy$delta,
             just = c(0.5,0.5), gp = do.call(gpar, colourMap(z)))
-  grid.text(textx, x=x, y=y[1]-0.5*cy$delta, just=c("right", "center"), rot=90)
-  grid.text(texty, x=x[1]-0.5*cx$delta, y=y, just=c("right", "center"))
+  
+  if(!is.null(textx)) grid.text(textx, x=x, y=y[1]-0.5*cy$delta, just=c("right", "center"), rot=90)
+  if(!is.null(texty)) grid.text(texty, x=x[1]-0.5*cx$delta, y=y, just=c("right", "center"))
 }
