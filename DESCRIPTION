@@ -1,12 +1,12 @@
 Package: geneplotter
 Title: Grapics related functions for Bioconductor
-Version: 1.19.4
+Version: 1.19.5
 Author: R. Gentleman, Biocore
 Description: Some basic functions for plotting genetic data
 Maintainer: Biocore Team c/o BioC user list <bioconductor@stat.math.ethz.ch>
-Depends: Biobase, methods, lattice, annotate
+Depends: Biobase, methods, lattice, annotate, graphics
 Suggests: hgu95av2.db, hu6800.db, hgu133a.db, fibroEset, Rgraphviz, annotate
-Imports: KernSmooth, RColorBrewer, AnnotationDbi
+Imports: KernSmooth, RColorBrewer, AnnotationDbi, graphics
 Uses: hgu133a.db
 License: Artistic-2.0
 biocViews: Visualization
