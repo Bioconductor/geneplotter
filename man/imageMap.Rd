@@ -72,7 +72,7 @@ f1  = paste(tempfile(), ".html", sep="")
 f2  = paste(tempfile(), ".html", sep="")
 fpng = tempfile()
 
-if(capabilities()["png"] && interactive()) {
+if(capabilities()["png"]) {
   ## create the image
   colors = c("#E41A1C","#377EB8","#4DAF4A","#984EA3","#FF7F00","#FFFF33","#A65628","#F781BF","#999999")
   width  = 512

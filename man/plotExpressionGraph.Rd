@@ -72,16 +72,16 @@ plotExpressionGraph(graph, nodeEGmap, exprs, ENTREZIDenvir, mapFun, log = FALSE,
 \author{Jeff Gentry}
 \seealso{\code{\link[Rgraphviz]{plot.graph}}, \code{integrinMediatedCellAdhesion}}
 \examples{
-   if ((require("Rgraphviz")) && (require("hgu95av2.db")) &&
-        (require("fibroEset")) && (interactive())) {     
-            data(integrinMediatedCellAdhesion)
-	    data(IMCAEntrezLink)
-            data(fibroEset)
-            attrs=getDefaultAttrs()
-            attrs$graph$rankdir <- "LR"
-            plotExpressionGraph(IMCAGraph, IMCAEntrezLink,
-                                exprs(fibroEset)[,1],
-                                hgu95av2ENTREZID, attrs=attrs)
+   if (require("Rgraphviz") && require("hgu95av2.db") &&
+       require("fibroEset")) {
+       data(integrinMediatedCellAdhesion)
+	   data(IMCAEntrezLink)
+       data(fibroEset)
+       attrs <- getDefaultAttrs()
+       attrs$graph$rankdir <- "LR"
+       plotExpressionGraph(IMCAGraph, IMCAEntrezLink,
+                           exprs(fibroEset)[,1],
+                           hgu95av2ENTREZID, attrs = attrs)
    }
 }
 \keyword{utilities}

@@ -1,6 +1,7 @@
 plotExpressionGraph <- function(graph, nodeEGmap, exprs, ENTREZIDenvir,
                                 mapFun, log=FALSE, nodeAttrs=list(), ...) {
     require("Rgraphviz") || stop("Requires Rgraphviz to continue")
+    .plot.graph <- selectMethod("plot", "graph")
 
     envll <- unlist(contents(ENTREZIDenvir))
     graphEGs <- unlist(lapply(nodeEGmap, function(x){x[1]}))
@@ -18,7 +19,7 @@ plotExpressionGraph <- function(graph, nodeEGmap, exprs, ENTREZIDenvir,
     names(cols) <- colSyms
     nodeAttrs$fillcolor <- cols
 
-    plot(graph, nodeAttrs=nodeAttrs, ...)
+    .plot.graph(graph, nodeAttrs=nodeAttrs, ...)
 }
 
 

@@ -82,7 +82,6 @@ See examples for how to use this function together withn \code{\link{pairs}}.
 \keyword{hplot}
 
 \examples{
-if(interactive()) {
   x1  <- matrix(rnorm(1e4), ncol=2)
   x2  <- matrix(rnorm(1e4, mean=3, sd=1.5), ncol=2)
   x   <- rbind(x1,x2)
@@ -102,7 +101,6 @@ if(interactive()) {
   pairs(y, panel=function(...) {par(new=TRUE);smoothScatter(..., nrpoints=0)})
 
   par(oldpar)
-}
 }
 
 
