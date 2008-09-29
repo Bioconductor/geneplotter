@@ -2,8 +2,8 @@
 \alias{groupedHeatmap}
 
 \title{Heatmap of a matrix with grouped rows and columns}
-\description{The function uses \code{\link{grid.rect}}
-  and \code{\link{grid.rect}} to draw a heatmap with grouped rows and columns.
+\description{The function uses \code{\link[grid]{grid.rect}}
+  and \code{\link[grid]{grid.rect}} to draw a heatmap with grouped rows and columns.
 }
 
 \usage{
@@ -36,7 +36,7 @@ groupedHeatmap(z, frow, fcol,
 \value{The function is called for its side effect, drawing text and
   rectangles on the current viewport.}
 
-\seealso{\code{\link{grid.text}}, \code{\link{grid.rect}}}
+\seealso{\code{\link{grid.text}}, \code{\link[grid]{grid.rect}}}
 
 \author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 
