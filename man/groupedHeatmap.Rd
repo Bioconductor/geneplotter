@@ -36,7 +36,7 @@ groupedHeatmap(z, frow, fcol,
 \value{The function is called for its side effect, drawing text and
   rectangles on the current viewport.}
 
-\seealso{\code{\link{grid.text}}, \code{\link[grid]{grid.rect}}}
+\seealso{\code{\link[grid]{grid.text}}, \code{\link[grid]{grid.rect}}}
 
 \author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 
