@@ -6,14 +6,14 @@ make.chromOrd <- function(genome, gnames) {
     require("annotate") || stop("need the annotate package")
 
     clname <- paste(genome, "chroloc", sep="")
-    do.call("data", list(clname))
+    do.call(data, list(clname))
     allGcrloc <- mget(gnames, env=get(clname), ifnotfound=NA)
     myfun <- function(x) min(as.numeric(x))
     allGcloc <- sapply(allGcrloc, myfun)
 
     dname <- paste(genome, "chrom", sep="")
     if( !exists(dname, mode="environment") )
-        do.call("data", list(dname))
+        do.call(data, list(dname))
     whichChrom <- unlist(mget(gnames, env=get(dname), ifnotfound=NA))
     byChr.cloc <- split(allGcloc, whichChrom)
     nchrom <- length(byChr.cloc)
@@ -34,7 +34,7 @@ amplicon.plot <- function(ESET, FUN, genome="hgu95A" ) {
 
     dname <- paste(genome, "chrom", sep="")
     if( !exists(dname, mode="environment") )
-        do.call("data", list(dname))
+        do.call(data, list(dname))
 
     whichChrom <- unlist(mget(featureNames(ESET), env=get(dname),
                                   ifnotfound=NA))
@@ -52,7 +52,7 @@ amplicon.plot <- function(ESET, FUN, genome="hgu95A" ) {
     #for plotting
     chromNames <- paste(genome, "chromNames", sep="")
     if( !exists(chromNames, mode="environment") )
-        do.call("data", list(chromNames))
+        do.call(data, list(chromNames))
     geneOrd <- get(chromNames)
 
     chromOrd <- chromOrd[geneOrd]

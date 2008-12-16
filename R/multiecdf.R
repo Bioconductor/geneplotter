@@ -85,7 +85,7 @@ multiecdf.default = function(x,
   for(j in seq(along=ef)[-1]) {
     mycol = col[1+((j-1)%%length(col))]
     args = c(list(x=ef[[j]], col.hor=mycol, col.vert=mycol, do.points=do.points), m$...)
-    do.call("lines", args)
+    do.call(lines, args)
 
   }
   invisible(ef)
@@ -124,7 +124,7 @@ multidensity.default = function(x,
   for(j in seq(along=ef)[-1]) {
     args = c(list(x=ef[[j]]), col=col[1+((j-1)%%length(col))],
                                lty=lty[1+((j-1)%%length(lty))], m$...)
-    do.call("lines", args)
+    do.call(lines, args)
   }
   invisible(ef)
 }
