@@ -33,6 +33,7 @@ cColor(probes, color, plotChroms, scale=c("relative","max"), glen=0.4)
 \examples{
   if(match("hgu95av2.db", .packages(all = TRUE), nomatch=0)) {
     library("hgu95av2.db")
+    library("annotate")
     z <- buildChromLocation("hgu95av2")
     cPlot(z)
     probes <- c("266_s_at", "31411_at", "610_at", "failExample")

@@ -1,23 +1,100 @@
-export("alongChrom", "cColor", "cPlot", "cScale", "dChip.colors",
-       "greenred.colors", "GetColor", "plotChr",
-       "plotExpressionGraph", "make.chromOrd", 
-       "savepng", "savepdf", "saveeps", "savetiff",
-       "smoothScatter", "densCols", "histStack", "groupedHeatmap",
-       "openHtmlPage", "closeHtmlPage", "panel.smoothScatter",
-       "multiecdf", "multidensity")
+import(graphics)
+import(grDevices)
 
-exportMethods("Makesense", "imageMap")
-exportClasses("file", "connection")
-S3method("multiecdf", "formula")
-S3method("multiecdf", "matrix")
-S3method("multiecdf", "default")
-S3method("multidensity", "formula")
-S3method("multidensity", "matrix")
-S3method("multidensity", "default")
+importClassesFrom(Biobase,
+                  ExpressionSet)
 
+importClassesFrom(methods,
+                  character,
+                  list,
+                  matrix,
+                  missing,
+                  oldClass)
 
-importFrom("KernSmooth", "bkde2D")
-importFrom("RColorBrewer", "brewer.pal")
-import("grid")
-import("AnnotationDbi")
-import("graphics")
+importMethodsFrom(AnnotationDbi,
+                  colnames,
+                  exists,
+                  get,
+                  mget,
+                  ncol,
+                  nrow,
+                  sample)
+
+importMethodsFrom(Biobase,
+                  annotation,
+                  contents,
+                  esApply,
+                  exprs,
+                  featureNames)
+
+importMethodsFrom(annotate,
+                  chromLengths,
+                  chromLocs,
+                  chromNames,
+                  geneSymbols,
+                  organism,
+                  probesToChrom)
+
+importFrom(Biobase,
+           addVigs2WinMenu,
+           multiassign)
+
+importFrom(KernSmooth,
+           bkde2D)
+
+importFrom(RColorBrewer,
+           brewer.pal)
+
+importFrom(annotate,
+           getAnnMap,
+           usedChromGenes)
+
+importFrom(grid,
+           convertUnit,
+           gpar,
+           grid.rect,
+           grid.text,
+           stringWidth,
+           unit)
+
+importFrom(lattice,
+           panel.levelplot,
+           panel.points,
+	   xyplot)
+
+importFrom(methods,
+           selectMethod)
+
+importFrom(stats,
+           approx,
+           density,
+           ecdf,
+           lowess,
+           mad,
+           median,
+           quantile,
+           sd)
+
+export(alongChrom, 
+       cColor, cPlot, cScale, 
+       dChip.colors, densCols,
+       greenred.colors, GetColor, 
+       plotChr, plotExpressionGraph, 
+       make.chromOrd, 
+       savepng, savepdf, saveeps, savetiff, smoothScatter,
+       histStack, groupedHeatmap,
+       openHtmlPage, closeHtmlPage, panel.smoothScatter,
+       multiecdf, multidensity)
+
+exportMethods(Makesense, imageMap)
+
+exportClasses(file, connection)
+
+S3method(multiecdf, formula)
+S3method(multiecdf, matrix)
+S3method(multiecdf, default)
+
+S3method(multidensity, formula)
+S3method(multidensity, matrix)
+S3method(multidensity, default)
+

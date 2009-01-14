@@ -5,7 +5,7 @@
 
 
 % \VignetteIndexEntry{Visualization of Microarray Data}
-% \VignetteDepends{geneplotter, hgu95av2.db}
+% \VignetteDepends{Biobase, annotate, geneplotter, hgu95av2.db}
 % \VignetteKeywords{Expression Analysis}
 %\VignettePackage{geneplotter}
 \documentclass[12pt]{article}
@@ -38,6 +38,8 @@ translocations or amplifications these will not be detected by
 microarray analyses.
 
 <<getl>>=
+library(Biobase)
+library(annotate)
 library(geneplotter)
 @
 

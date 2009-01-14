@@ -66,6 +66,7 @@ panel.smoothScatter(x, y = NULL,
 \seealso{ \code{\link{smoothScatter}}}
 \examples{
 
+library(lattice)
 ddf <- as.data.frame(matrix(rnorm(40000), ncol = 4) + 3 * rnorm(10000))
 ddf[, c(2,4)] <- (-ddf[, c(2,4)])
 xyplot(V1 ~ V2 + V3, ddf, outer = TRUE,

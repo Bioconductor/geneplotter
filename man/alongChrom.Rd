@@ -74,6 +74,8 @@
 }
 \author{Jeff Gentry}
 \examples{
+   library(Biobase)
+   library(annotate)
    data(sample.ExpressionSet)
    ## A bit of a hack to not have a package dependency on hgu95av2
    ## but need to fiddle w/ the warn level to not fail the example anyways.
