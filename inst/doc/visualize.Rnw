@@ -38,8 +38,6 @@ translocations or amplifications these will not be detected by
 microarray analyses.
 
 <<getl>>=
-library(Biobase)
-library(annotate)
 library(geneplotter)
 @
 

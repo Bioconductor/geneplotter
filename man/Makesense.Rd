@@ -53,9 +53,10 @@ use.  Optional if \code{expr} is an \code{ExpressionSet}.}
 \author{Robert Gentleman and Xiaochun Li}
 \seealso{ \code{\link{plotChr}}}
 \examples{
-  library("hgu133a.db")
-  data(expressionSet133a)
-  esetobj <- Makesense(exprs(expressionSet133a), "hgu133a")
-  esetobj2 <- Makesense(expressionSet133a[1:200, ])
+  if (require("hgu133a.db")) {
+    data(expressionSet133a)
+    esetobj <- Makesense(exprs(expressionSet133a), "hgu133a")
+    esetobj2 <- Makesense(expressionSet133a[1:200, ])
+  }
 }
 \keyword{dplot}

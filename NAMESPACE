@@ -59,8 +59,7 @@ importFrom(grid,
 
 importFrom(lattice,
            panel.levelplot,
-           panel.points,
-	   xyplot)
+           panel.points)
 
 importFrom(methods,
            selectMethod)
@@ -74,6 +73,9 @@ importFrom(stats,
            median,
            quantile,
            sd)
+
+importFrom(utils,
+           data)
 
 export(alongChrom, 
        cColor, cPlot, cScale, 

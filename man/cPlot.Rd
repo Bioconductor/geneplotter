@@ -44,7 +44,6 @@ cPlot(plotChroms, useChroms=chromNames(plotChroms),
    curWarn <- options(warn=0)
    on.exit(options(warn=curWarn), add=TRUE)
    if (require("hgu95av2.db")) {
-       library(annotate)
        z <- buildChromLocation("hgu95av2")
 
        if (interactive()) {

@@ -33,7 +33,6 @@ cScale(points, cLengths, method=c("max", "relative"), chrom)
    curWarn <- options(warn=0)
    on.exit(options(warn=curWarn), add=TRUE)
    if (require("hgu95av2.db")) {
-      library(annotate)
       z <- buildChromLocation("hgu95av2")
 
      for (sc in c("max","relative"))
