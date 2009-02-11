@@ -17,7 +17,7 @@ multiecdf.formula = function(formula, data = NULL,
   if(is.matrix(eval(m$data, parent.frame())))
     m$data = as.data.frame(data)
   m$... = m$xlab = NULL
-  m$na.action = na.action # force use of default for this method
+  m$na.action = na.action ## force use of default for this method
   m[[1]] = as.name("model.frame")
   mf = eval(m, parent.frame())
   response = attr(attr(mf, "terms"), "response")
@@ -37,7 +37,7 @@ multidensity.formula = function(formula, data = NULL,
   if(is.matrix(eval(m$data, parent.frame())))
     m$data = as.data.frame(data)
   m$... = m$xlab = NULL
-  m$na.action = na.action # force use of default for this method
+  m$na.action = na.action ## force use of default for this method
   m[[1]] = as.name("model.frame")
   mf = eval(m, parent.frame())
   response = attr(attr(mf, "terms"), "response")
@@ -58,47 +58,58 @@ multidensity.matrix = function(x, xlab, ...) {
 }
 
 
-multiecdf.default = function(x,
+multiecdf.list = function(x,
   xlim,
   col = brewer.pal(9, "Set1"),
-  main = "multiecdf",
+  main = "ecdf",
   xlab,
   do.points = FALSE,
-  subsample = TRUE, ...) {
+  subsample = 1000L,
+  legend = list(x = "right", legend = names(x), fill = col),
+  ...) {
   
   if(missing(xlab))
      xlab = deparse(substitute(x))
 
-  stopifnot(length(x)>=1)
-  if(subsample)
+  stopifnot(length(x)>=1, length(subsample)==1)
+  
+  if(is.logical(subsample))
+    subsample = if(subsample) 1000L else 0L
+  stopifnot(is.numeric(subsample))
+  if( (!is.na(subsample)) && (subsample>0) )
     for(i in seq(along=x))
-      if(length(x[[i]])>1000)
-        x[[i]] = x[[i]][sample(1:length(x[[i]]), 1000)]
+      if(length(x[[i]])>subsample)
+        x[[i]] = x[[i]][sample(1:length(x[[i]]), subsample)]
   
   ef = lapply(x, ecdf)
   if(missing(xlim))
     xlim = range(unlist(x), na.rm=TRUE)
-  plot(ef[[1]], xlim=xlim, xlab=xlab, main=main, col.hor=col[1], col.vert=col[1], do.points=do.points, ...)
+  plot(ef[[1]], xlim=xlim, xlab=xlab, main=main, col=col[1], do.points=do.points, ...)
   m = match.call(expand.dots = FALSE) # avoid warnings for invalid arguments
   m$... = m$...[!names(m$...) %in% c("main", "xlab", "ylab", "ylim")]  
 
   for(j in seq(along=ef)[-1]) {
     mycol = col[1+((j-1)%%length(col))]
-    args = c(list(x=ef[[j]], col.hor=mycol, col.vert=mycol, do.points=do.points), m$...)
+    args = c(list(x=ef[[j]], col=mycol, do.points=do.points), m$...)
     do.call(lines, args)
-
   }
+
+  if(is.list(legend))
+    do.call(graphics::legend, legend)
+  
   invisible(ef)
 }
 
-multidensity.default = function(x,
-  bw="nrd0",
+multidensity.list = function(x,
+  bw   = "nrd0",
   xlim,
   ylim,
   col  = brewer.pal(9, "Set1"),
-  main = "multidensity",
+  main = if(length(x)==1) "density" else "densities",
   xlab,
-  lty  = 1L , ...) {
+  lty  = 1L ,
+  legend = list(x = "topright", legend = names(x), fill = col),
+  ...) {
 
   if(missing(xlab))
      xlab = deparse(substitute(x))
@@ -126,6 +137,10 @@ multidensity.default = function(x,
                                lty=lty[1+((j-1)%%length(lty))], m$...)
     do.call(lines, args)
   }
+
+  if(is.list(legend))
+    do.call(graphics::legend, legend)
+
   invisible(ef)
 }
 
