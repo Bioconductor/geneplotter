@@ -65,7 +65,10 @@ multiecdf.list = function(x,
   xlab,
   do.points = FALSE,
   subsample = 1000L,
-  legend = list(x = "right", legend = names(x), fill = col),
+  legend = list(
+    x = "right",
+    legend = if(is.null(names(x))) paste(seq(along=x)) else names(x),
+    fill = col),
   ...) {
   
   if(missing(xlab))
@@ -108,7 +111,10 @@ multidensity.list = function(x,
   main = if(length(x)==1) "density" else "densities",
   xlab,
   lty  = 1L ,
-  legend = list(x = "topright", legend = names(x), fill = col),
+  legend = list(
+    x = "topright",
+    legend = if(is.null(names(x))) paste(seq(along=x)) else names(x),
+    fill = col),
   ...) {
 
   if(missing(xlab))
