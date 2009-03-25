@@ -74,6 +74,7 @@ panel.smoothScatter <-
     if(!is.numeric(bandwidth))
       stop("'bandwidth' must be numeric")
   }
+  bandwidth[bandwidth==0] <- 1
   ## create density map
   if(missing(range.x))
      rv <- bkde2D(x, gridsize=nbin, bandwidth=bandwidth)
