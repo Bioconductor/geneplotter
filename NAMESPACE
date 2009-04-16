@@ -1,91 +1,46 @@
-import(graphics)
-import(grDevices)
+importClassesFrom(Biobase, ExpressionSet)
 
-importClassesFrom(Biobase,
-                  ExpressionSet)
+importClassesFrom(methods, character, list, matrix, missing, oldClass)
 
-importClassesFrom(methods,
-                  character,
-                  list,
-                  matrix,
-                  missing,
-                  oldClass)
+importMethodsFrom(annotate, chromLengths, chromLocs, chromNames,
+                  geneSymbols, organism, probesToChrom)
 
-importMethodsFrom(AnnotationDbi,
-                  colnames,
-                  exists,
-                  get,
-                  mget,
-                  ncol,
-                  nrow,
-                  sample)
+importMethodsFrom(AnnotationDbi, colnames, exists, get, mget, ncol,
+                  nrow, sample)
 
-importMethodsFrom(Biobase,
-                  annotation,
-                  contents,
-                  esApply,
-                  exprs,
+importMethodsFrom(Biobase, annotation, contents, esApply, exprs,
                   featureNames)
 
-importMethodsFrom(annotate,
-                  chromLengths,
-                  chromLocs,
-                  chromNames,
-                  geneSymbols,
-                  organism,
-                  probesToChrom)
+importFrom(annotate, getAnnMap, usedChromGenes)
 
-importFrom(Biobase,
-           addVigs2WinMenu,
-           multiassign)
+importFrom(Biobase, addVigs2WinMenu, multiassign)
 
-importFrom(KernSmooth,
-           bkde2D)
+importFrom(graphics, abline, axis, barplot, boxplot, bxp, hist, image,
+           lines, matplot, mtext, par, plot, plot.new, segments,
+           strheight, title)
 
-importFrom(RColorBrewer,
-           brewer.pal)
+importFrom(grDevices, colorRampPalette, dev.copy, dev.off, pdf, png,
+           postscript, rgb)
 
-importFrom(annotate,
-           getAnnMap,
-           usedChromGenes)
+importFrom(grid, convertUnit, gpar, grid.rect, grid.text, stringWidth, unit)
 
-importFrom(grid,
-           convertUnit,
-           gpar,
-           grid.rect,
-           grid.text,
-           stringWidth,
-           unit)
+importFrom(methods, selectMethod)
 
-importFrom(lattice,
-           panel.levelplot,
-           panel.points)
+importFrom(RColorBrewer, brewer.pal)
 
-importFrom(methods,
-           selectMethod)
+importFrom(stats, approx, density, ecdf, lowess, mad, median, quantile, sd)
 
-importFrom(stats,
-           approx,
-           density,
-           ecdf,
-           lowess,
-           mad,
-           median,
-           quantile,
-           sd)
-
-importFrom(utils,
-           data)
+importFrom(utils, data)
 
 export(alongChrom, 
        cColor, cPlot, cScale, 
-       dChip.colors, densCols,
+       dChip.colors,
        greenred.colors, GetColor, 
        plotChr, plotExpressionGraph, 
        make.chromOrd, 
-       savepng, savepdf, saveeps, savetiff, smoothScatter,
+       savepng, savepdf, saveeps, savetiff,
        histStack, groupedHeatmap,
-       openHtmlPage, closeHtmlPage, panel.smoothScatter,
+       openHtmlPage, closeHtmlPage,
        multiecdf, multidensity)
 
 exportMethods(Makesense, imageMap)
@@ -99,4 +54,3 @@ S3method(multiecdf, list)
 S3method(multidensity, formula)
 S3method(multidensity, matrix)
 S3method(multidensity, list)
-
