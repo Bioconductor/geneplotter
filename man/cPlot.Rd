@@ -42,12 +42,13 @@ cPlot(plotChroms, useChroms=chromNames(plotChroms),
    ## but need to fiddle w/ the warn level to not fail the example anyways.
 
    curWarn <- options(warn=0)
-   on.exit(options(warn=curWarn), add=TRUE)
+   on.exit(options(curWarn), add=TRUE)
    if (require("hgu95av2.db")) {
        z <- buildChromLocation("hgu95av2")
 
        if (interactive()) {
-           par(ask=TRUE)
+           curPar <- par(ask=TRUE)
+           on.exit(par(curPar), add=TRUE)
        }
 
        for (sc in c("max","relative"))

@@ -31,7 +31,7 @@ cScale(points, cLengths, method=c("max", "relative"), chrom)
    ## A bit of a hack to not have a package dependency on hgu95av2
    ## but need to fiddle w/ the warn level to not fail the example anyways.
    curWarn <- options(warn=0)
-   on.exit(options(warn=curWarn), add=TRUE)
+   on.exit(options(warn), add=TRUE)
    if (require("hgu95av2.db")) {
       z <- buildChromLocation("hgu95av2")
 
