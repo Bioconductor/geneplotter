@@ -17,8 +17,6 @@
 
 \value{For \code{openHtmlPage}, a \code{\link[base::connection]{connection}}. }
 
-\seealso{}
-
 \author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
 \keyword{IO}
 \examples{
