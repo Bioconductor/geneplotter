@@ -1,6 +1,6 @@
 ## cPlot.R
 .plotData <- function(chromNum, locs, xPoints, chromLens, fg,
-                      scale = c("relative","max"),glen=0.4)
+                      scale = c("relative","max"),glen=0.4, ...)
 {
     ## Get the scaling factor
     scale <- match.arg(scale)
@@ -22,7 +22,7 @@
         ytop <- ifelse(locs>0, ypos+glen, ypos-glen)
 
         ## Plot
-        segments(abs(locs), ypos, abs(locs), ytop, col=fg)
+        segments(abs(locs), ypos, abs(locs), ytop, col=fg, ...)
 
         ## Drawn last to ensure that that the lines are actually displayed
     }
@@ -35,7 +35,7 @@
 }
 
 cColor <- function(probes, color, plotChroms,
-                   scale=c("relative","max"), glen=0.4) {
+                   scale=c("relative","max"), glen=0.4, ...) {
     ## Passed a vector of probe names, a color and an instance of a
     ## chromLocation class.  Will recolor the specific probes in the
     ## cPlot created plot to match the specified color.  Scale should
@@ -45,8 +45,8 @@ cColor <- function(probes, color, plotChroms,
 
     gc <- unlist(mget(probes,env=probesToChrom(plotChroms), ifnotfound=NA))
     gchr <- split(names(gc),gc)
-
-    gchr[["NA"]] <- NULL
+    cchr <- split(color[rep(seq_along(color), len=length(gc))],  gc)
+    gchr[["NA"]] <- cchr[["NA"]] <- NULL
 
     ## Look up the locations of these probes in each chromosome,
     ## plotting any results.
@@ -66,7 +66,7 @@ cColor <- function(probes, color, plotChroms,
         locs <- as.numeric(locs[!is.na(locs)])
         if (length(locs) > 0) {
             .plotData(cName, locs, xPoints, lens,
-                      color, scale, glen)
+                      fg=cchr[[cName]], scale, glen, ...)
         }
     }
 }
@@ -75,7 +75,7 @@ cColor <- function(probes, color, plotChroms,
 cPlot <- function(plotChroms, useChroms=chromNames(plotChroms),
                   scale=c("relative", "max"), fg="white",
                   bg="lightgrey", glen=0.4, xlab="", ylab="Chromosome",
-                  main = organism(plotChroms)) {
+                  main = organism(plotChroms), ...) {
     ## Passed an instance of a chromLocation class, and the number of
     ## points to represent on the X axis, will utilize that data
     ## to plot a set of genes on their proper chromosome locations.
@@ -104,7 +104,7 @@ cPlot <- function(plotChroms, useChroms=chromNames(plotChroms),
 
     for (cName in labs) {
         .plotData(cName,byChroms[[cName]], xPoints,
-                  lens, fg, scale,glen);
+                  lens, fg, scale, glen, ...)
     }
 }
 

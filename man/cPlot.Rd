@@ -8,7 +8,8 @@
 \usage{
 cPlot(plotChroms, useChroms=chromNames(plotChroms),
       scale=c("relative","max"), fg="white", bg="lightgrey", 
-      glen=0.4, xlab="", ylab="Chromosome",  main = organism(plotChroms))
+      glen=0.4, xlab="", ylab="Chromosome",
+      main = organism(plotChroms), ...)
 }
 \arguments{
   \item{plotChroms}{An object of type chromLocation which contains all
@@ -26,6 +27,8 @@ cPlot(plotChroms, useChroms=chromNames(plotChroms),
   \item{xlab}{A label for the x axis.}
   \item{ylab}{A label for the y axis.}
   \item{main}{A main label for the plot.}
+  \item{...}{Additional graphics arguments, passed to \code{segments},
+	which is used to draw the vertical ticks.}
 }
 \details{
   This function will first use the lengths of the chromosomes, stored in

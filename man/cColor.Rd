@@ -6,16 +6,20 @@
   a plot which has already been created via the function cPlot().
 }
 \usage{
-cColor(probes, color, plotChroms, scale=c("relative","max"), glen=0.4)
+cColor(probes, color, plotChroms, scale=c("relative","max"), glen=0.4,
+       ...)
 }
 \arguments{
   \item{probes}{The probes that are being highlighted.}
-  \item{color}{The color to highlight the probes.}
+  \item{color}{A vector of colors, recycled as necessary, to highlight
+	the probes.}
   \item{plotChroms}{An object of type \code{chromLocation} which contains all
     the gene information to be plotted.}
   \item{scale}{Whether to plot the graph scaled absolutely or relative
     by chromosome.  Default is absolute.}
   \item{glen}{The length of the gene line plotted.}
+  \item{...}{Additional graphics arguments, passed to \code{segments},
+	which is used to draw the vertical ticks.}
 }
 \details{
   It is important to call the function \code{cPlot()} first.  This function
