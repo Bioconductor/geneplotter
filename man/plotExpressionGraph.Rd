@@ -60,7 +60,8 @@ plotExpressionGraph(graph, nodeEGmap, exprs, ENTREZIDenvir, mapFun, log = FALSE,
 
   The \code{nodeAttrs} list can be specified if any other node
   attributes are desired to be set by the user.  Please see the
-  \code{\link[Rgraphviz]{plot.graph}} man page for more information on this.  The
+  \code{\link[Rgraphviz:plot-methods]{plot.graph}} man page for more
+  information on this.  The 
   other attribute list (\code{attrs} and \code{edgeAttrs}) can be passed
   in via the \code{...} parameter.
   
@@ -70,7 +71,8 @@ plotExpressionGraph(graph, nodeEGmap, exprs, ENTREZIDenvir, mapFun, log = FALSE,
    (in graph package) to Entrez identifiers.
 }
 \author{Jeff Gentry}
-\seealso{\code{\link[Rgraphviz]{plot.graph}}, \code{integrinMediatedCellAdhesion}}
+\seealso{\code{\link[Rgraphviz:plot-methods]{plot.graph}},
+   \code{integrinMediatedCellAdhesion}} 
 \examples{
    if (require("Rgraphviz") && require("hgu95av2.db") &&
        require("fibroEset")) {

@@ -15,7 +15,7 @@
 
 \details{See example.}
 
-\value{For \code{openHtmlPage}, a \code{\link[base::connection]{connection}}. }
+\value{For \code{openHtmlPage}, a \code{\link[base]{connections}}. }
 
 \author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
 \keyword{IO}

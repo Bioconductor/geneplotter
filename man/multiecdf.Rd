@@ -75,21 +75,23 @@ multidensity(x, \dots)
    the ecdf for those elements of \code{x} with more than that number of
    observations. If logical and \code{TRUE}, a value of 1000 is used for
    the subsample size.}
-  \item{legend}{a list of arguments that is passed to the function \code{\link[graphics::legend]{legend}}.}
+  \item{legend}{a list of arguments that is passed to the function
+  \code{\link[graphics]{legend}}.} 
   \item{...}{Further arguments that get passed on to the \code{plot} functions.}
 }
 
 \seealso{
-  \code{\link[graphics::boxplot]{boxplot}},
-  \code{\link[stats::ecdf]{ecdf}},
-  \code{\link[stats::density]{density}}
+  \code{\link[graphics]{boxplot}},
+  \code{\link[stats]{ecdf}},
+  \code{\link[stats]{density}}
 }
 
 \details{The usefulness of \code{multidensity} can vary,
   depending on the data and because of smoothing
   artifacts. \code{multiecdf} will in many cases be preferable.}
 
-\value{For the \code{multidensity} functions, a list of \code{\link{density}} objects.}
+\value{For the \code{multidensity} functions, a list of
+  \code{\link{density}} objects.} 
 
 \author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 

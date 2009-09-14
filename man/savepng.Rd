@@ -51,7 +51,8 @@
 
 \author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
 
-\seealso{\code{\link[grDevices]{dev.copy}}, \code{\link[grDevices]{pdf}}, \code{\link[grDevices]{png}},
+\seealso{\code{\link[grDevices:dev2]{dev.copy}},
+  \code{\link[grDevices]{pdf}}, \code{\link[grDevices]{png}}, 
   \code{\link[grDevices]{postscript}}}
 
 \examples{
