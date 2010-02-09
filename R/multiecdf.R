@@ -57,6 +57,17 @@ multidensity.matrix = function(x, xlab, ...) {
   multidensity(x~col(x), xlab=xlab, ...)
 }
 
+multiecdf.data.frame = function(x, xlab, ...) {
+  if(missing(xlab))
+     xlab = deparse(substitute(x))
+  multiecdf.list(x, xlab=xlab, ...)
+}
+
+multidensity.data.frame = function(x, xlab, ...) {
+  if(missing(xlab))
+     xlab = deparse(substitute(x))
+  multidensity.list(x, xlab=xlab, ...)
+}
 
 multiecdf.list = function(x,
   xlim,
