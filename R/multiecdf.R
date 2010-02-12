@@ -48,13 +48,17 @@ multidensity.formula = function(formula, data = NULL,
 multiecdf.matrix = function(x, xlab, ...) {
   if(missing(xlab))
      xlab = deparse(substitute(x))
-  multiecdf(x~col(x), xlab=xlab, ...)
+  l = lapply(seq_len(ncol(x)), function(j) x[,j])
+  names(l) = colnames(x)
+  multiecdf(l, xlab=xlab, ...)
 }
 
 multidensity.matrix = function(x, xlab, ...) {
   if(missing(xlab))
      xlab = deparse(substitute(x))
-  multidensity(x~col(x), xlab=xlab, ...)
+  l = lapply(seq_len(ncol(x)), function(j) x[,j])
+  names(l) = colnames(x)
+  multidensity(l, xlab=xlab, ...)
 }
 
 multiecdf.data.frame = function(x, xlab, ...) {
