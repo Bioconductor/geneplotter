@@ -1,6 +1,6 @@
 Package: geneplotter
 Title: Graphics related functions for Bioconductor
-Version: 1.28.0
+Version: 1.29.0
 Author: R. Gentleman, Biocore
 Description: Some basic functions for plotting genetic data
 Maintainer: Biocore Team c/o BioC user list <bioconductor@stat.math.ethz.ch>
