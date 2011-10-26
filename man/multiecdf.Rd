@@ -11,7 +11,11 @@
 \title{Multiple empirical cumulative distribution functions (ecdf) and densities}
 
 \description{Plot multiple empirical cumulative distribution functions (ecdf)
-  and densities with user interface similar to that of \code{\link{boxplot}}.}
+  and densities with a user interface similar to that of \code{\link{boxplot}}.
+  The usefulness of \code{multidensity} is variable, depending on the data and because of smoothing
+  artifacts. \code{multiecdf} will in many cases be preferable. Please
+  see Details.
+}
 
 \usage{
 multiecdf(x, \dots)
@@ -48,7 +52,7 @@ multidensity(x, \dots)
              \dots)
 }
 
-\arguments{
+\arguments{ 
   \item{formula}{a formula, such as \code{y ~ grp}, where \code{y} is a
     numeric vector of data values to be split into groups according to
     the grouping variable \code{grp} (usually a factor).}
@@ -57,11 +61,12 @@ multidensity(x, \dots)
   \item{na.action}{a function which indicates what should happen
     when the data contain \code{NA}s.  The default is to ignore missing
     values in either the response or the group.}
-  \item{x}{a list of numeric vectors.}
+  \item{x}{methods exist for: \code{formula}, \code{matrix}, \code{data.frame}, \code{list} of numeric vectors.}
   \item{bw}{the smoothing bandwidth, see the manual page for
-    \code{\link{density}}. If \code{bw} is a character string specifying a rule to choose
-    the bandwidth, this rule is applied to \code{x[[1]]} and then
-    the same numerical value of \code{bw} is used throughout.}    
+    \code{\link{density}}. The length of \code{bw} needs to be either 1
+    (in which case the same is used for all groups)
+    or the same as the number of groups in \code{x} (in which case the
+  corresponding value of \code{bw} is used for each group).}
   \item{xlim}{Range of the x axis. If missing, the data range is used.}
   \item{ylim}{Range of the y axis. If missing, the range of the density
     estimates is used.}
@@ -86,14 +91,17 @@ multidensity(x, \dots)
   \code{\link[stats]{density}}
 }
 
-\details{The usefulness of \code{multidensity} can vary,
-  depending on the data and because of smoothing
-  artifacts. \code{multiecdf} will in many cases be preferable.}
+\details{The choice of the smoothing bandwidths in \code{multidensity}
+  can be problematic, in particular, if the different groups vary with
+  respect to range and/or number of data points. If curves look
+  excessively wiggly or overly smooth, try varying the arguments
+  \code{xlim} and \code{bw}; note that the argument \code{bw} can be a
+  vector, in which case it is expect to align with the groups.}
 
 \value{For the \code{multidensity} functions, a list of
   \code{\link{density}} objects.} 
 
-\author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
+\author{Wolfgang Huber}
 
 \examples{
   words = strsplit(packageDescription("geneplotter")$Description, " ")[[1]]

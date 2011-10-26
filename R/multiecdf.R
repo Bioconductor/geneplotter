@@ -127,25 +127,30 @@ multidensity.list = function(x,
   xlab,
   lty  = 1L ,
   legend = list(
-    x = "topright",
+    x = "topright",    
     legend = if(is.null(names(x))) paste(seq(along=x)) else names(x),
-    fill = col),
+    fill = col),     
   ...) {
 
+  ## process argument 'xlab'
   if(missing(xlab))
      xlab = deparse(substitute(x))
   
+  ## process argument 'bw': 
+  if(length(bw)==1)
+    bw = rep(bw, length(x))
+  if(length(bw)!=length(x))
+    stop("'length(bw)' needs to be either 1 or the same as 'length(x)'.")
+  
+  ## process argument 'x'
   stopifnot(length(x)>=1)
   if(missing(xlim))
     xlim = range(unlist(x), na.rm=TRUE)
-
   x = lapply(x, function(z) z[(z>=xlim[1]) & (z<=xlim[2])])
   
   ef = vector(mode="list", length=length(x))
-  ef[[1]] = density(x[[1]], na.rm=TRUE, bw=bw)
-  bw = ef[[1]]$bw
-  for(j in seq(along=x)[-1])
-    ef[[j]] = density(x[[j]], na.rm=TRUE, bw=bw)
+  for(j in seq(along=x))
+    ef[[j]] = density(x[[j]], na.rm=TRUE, bw=bw[j])
   
   if(missing(ylim))
     ylim = range(unlist(lapply(ef, "[[", "y")), na.rm=TRUE)
