@@ -45,8 +45,6 @@ export(alongChrom,
 
 exportMethods(Makesense, imageMap)
 
-exportClasses(file, connection)
-
 S3method(multiecdf, formula)
 S3method(multiecdf, matrix)
 S3method(multiecdf, list)

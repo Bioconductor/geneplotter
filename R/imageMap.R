@@ -2,7 +2,6 @@ setGeneric("imageMap", function(object, con, tags, imgname, ...)
            standardGeneric("imageMap"))
 
 
-setOldClass(c("file", "connection"))
 setMethod("imageMap",
   signature=signature(object="matrix", con="connection", tags="list",
     imgname="character"),
