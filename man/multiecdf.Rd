@@ -96,12 +96,15 @@ multidensity(x, \dots)
 
 \details{\emph{Density estimates}: \code{multidensity} uses the function
   \code{\link[stats]{density}}. If the density of the data-generating
-  process is smooth, then the output from this function tends to produce
+  process is smooth on the real axis, then the output from this function tends to produce
   results that are good approximations of the true density. If,
   however, the true density has steps (this is in particular the case
-  for quantities such as p-values and correlation coefficients), then
+  for quantities such as p-values and correlation coefficients, or for
+  some distributions that have weight only on the posititve numbers, or
+  only on integer numbers), then
   the output of this function tends to be misleading. In that case, please
-  either use \code{multiecdf} or histograms, or set the \code{density}
+  either use \code{multiecdf} or histograms, or try to improve the
+  density estimate by setting the \code{density}
   argument (\code{from}, \code{to}, \code{kernel}).
 
   \emph{Bandwidths}: the choice of the smoothing bandwidths in \code{multidensity}
