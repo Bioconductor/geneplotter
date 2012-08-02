@@ -495,7 +495,7 @@ limitACXRange <- function(xlim, usedGenes) {
 }
 
 getACGeneSyms <- function(affys, chrObj) {
-    syms <- mget(affys, env=geneSymbols(chrObj), ifnotfound=NA)
+    syms <- mget(affys, envir=geneSymbols(chrObj), ifnotfound=NA)
     syms[is.na(syms)] <- affys[is.na(syms)]
     return(as.character(syms))
 }

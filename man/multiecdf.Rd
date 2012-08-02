@@ -12,9 +12,9 @@
 
 \description{Plot multiple empirical cumulative distribution functions (ecdf)
   and densities with a user interface similar to that of \code{\link{boxplot}}.
-  The usefulness of \code{multidensity} is variable, depending on the data and because of smoothing
-  artifacts. \code{multiecdf} will in many cases be preferable. Please
-  see Details.
+  The usefulness of \code{multidensity} is variable, depending on the
+  data and the smoothing kernel.
+  \code{multiecdf} will in many cases be preferable. Please see Details.
 }
 
 \usage{
@@ -49,6 +49,7 @@ multidensity(x, \dots)
                x = "topright",
                legend = if(is.null(names(x))) paste(seq(along=x)) else names(x),
                fill = col),
+             density = NULL,
              \dots)
 }
 
@@ -63,7 +64,7 @@ multidensity(x, \dots)
     values in either the response or the group.}
   \item{x}{methods exist for: \code{formula}, \code{matrix}, \code{data.frame}, \code{list} of numeric vectors.}
   \item{bw}{the smoothing bandwidth, see the manual page for
-    \code{\link{density}}. The length of \code{bw} needs to be either 1
+    \code{\link[stats]{density}}. The length of \code{bw} needs to be either 1
     (in which case the same is used for all groups)
     or the same as the number of groups in \code{x} (in which case the
   corresponding value of \code{bw} is used for each group).}
@@ -81,8 +82,10 @@ multidensity(x, \dots)
    observations. If logical and \code{TRUE}, a value of 1000 is used for
    the subsample size.}
   \item{legend}{a list of arguments that is passed to the function
-  \code{\link[graphics]{legend}}.} 
-  \item{...}{Further arguments that get passed on to the \code{plot} functions.}
+    \code{\link[graphics]{legend}}.}
+  \item{density}{a list of arguments that is passed to the function
+     \code{\link[stats]{density}}.}
+  \item{...}{Further arguments that get passed to the \code{plot} functions.}
 }
 
 \seealso{
@@ -91,7 +94,17 @@ multidensity(x, \dots)
   \code{\link[stats]{density}}
 }
 
-\details{The choice of the smoothing bandwidths in \code{multidensity}
+\details{\emph{Density estimates}: \code{multidensity} uses the function
+  \code{\link[stats]{density}}. If the density of the data-generating
+  process is smooth, then the output from this function tends to produce
+  results that are good approximations of the true density. If,
+  however, the true density has steps (this is in particular the case
+  for quantities such as p-values and correlation coefficients), then
+  the output of this function tends to be misleading. In that case, please
+  either use \code{multiecdf} or histograms, or set the \code{density}
+  argument (\code{from}, \code{to}, \code{kernel}).
+
+  \emph{Bandwidths}: the choice of the smoothing bandwidths in \code{multidensity}
   can be problematic, in particular, if the different groups vary with
   respect to range and/or number of data points. If curves look
   excessively wiggly or overly smooth, try varying the arguments
@@ -99,7 +112,7 @@ multidensity(x, \dots)
   vector, in which case it is expect to align with the groups.}
 
 \value{For the \code{multidensity} functions, a list of
-  \code{\link{density}} objects.} 
+  \code{\link[stats]{density}} objects.} 
 
 \author{Wolfgang Huber}
 

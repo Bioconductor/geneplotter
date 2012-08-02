@@ -129,7 +129,8 @@ multidensity.list = function(x,
   legend = list(
     x = "topright",    
     legend = if(is.null(names(x))) paste(seq(along=x)) else names(x),
-    fill = col),     
+    fill = col),
+  density = NULL, 
   ...) {
 
   ## process argument 'xlab'
@@ -150,7 +151,7 @@ multidensity.list = function(x,
   
   ef = vector(mode="list", length=length(x))
   for(j in seq(along=x))
-    ef[[j]] = density(x[[j]], na.rm=TRUE, bw=bw[j])
+    ef[[j]] = do.call(stats::density, c(list(x=x[[j]], na.rm=TRUE, bw=bw[j]), density))
   
   if(missing(ylim))
     ylim = range(unlist(lapply(ef, "[[", "y")), na.rm=TRUE)
@@ -160,7 +161,7 @@ multidensity.list = function(x,
   m$... = m$...[!names(m$...) %in% c("main", "xlab", "ylab", "ylim")]  
   for(j in seq(along=ef)[-1]) {
     args = c(list(x=ef[[j]]), col=col[1+((j-1)%%length(col))],
-                               lty=lty[1+((j-1)%%length(lty))], m$...)
+                              lty=lty[1+((j-1)%%length(lty))], m$...)
     do.call(lines, args)
   }
 

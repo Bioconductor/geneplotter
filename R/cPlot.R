@@ -43,7 +43,7 @@ cColor <- function(probes, color, plotChroms,
     scale <- match.arg(scale)
     xPoints <- 1000
 
-    gc <- unlist(mget(probes,env=probesToChrom(plotChroms), ifnotfound=NA))
+    gc <- unlist(mget(probes,envir=probesToChrom(plotChroms), ifnotfound=NA))
     gchr <- split(names(gc),gc)
     cchr <- split(color[rep(seq_along(color), len=length(gc))],  gc)
     gchr[["NA"]] <- cchr[["NA"]] <- NULL

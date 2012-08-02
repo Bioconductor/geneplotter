@@ -93,13 +93,13 @@ plotChr <- function(chrN, senseObj,
     # label representative genes:
     labs <- probes
     if(geneSymbols) labs <- unlist(mget(labs,
-	env=get(paste(senseObj$lib,"SYMBOL",sep="")), ifnotfound=NA))
+	envir=get(paste(senseObj$lib,"SYMBOL",sep="")), ifnotfound=NA))
     axis(1, at=repGx, labels=labs,las=3, cex.axis=.7)
     for(i in 1:length(ans2))
         linesStrand(ans2[[i]][[chrN]], cols[i], log, smX=smX)
     if (!is.null(lines.at)) {
 	lineXs <- unlist(mget(lines.at,
-                              env=get(paste(senseObj$lib,"CHRLOC",sep="")),
+                              envir=get(paste(senseObj$lib,"CHRLOC",sep="")),
                               ifnotfound=NA))
 	lineXs <- abs(lineXs)
 	if(any(is.na(lineXs)))
