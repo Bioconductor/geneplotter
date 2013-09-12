@@ -54,3 +54,5 @@ S3method(multidensity, formula)
 S3method(multidensity, matrix)
 S3method(multidensity, list)
 S3method(multidensity, data.frame)
+
+S3method(plotMA, data.frame)
