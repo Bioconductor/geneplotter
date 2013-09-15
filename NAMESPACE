@@ -11,6 +11,8 @@ importMethodsFrom(AnnotationDbi, colnames, exists, get, mget, ncol,
 importMethodsFrom(Biobase, annotation, contents, esApply, exprs,
                   featureNames)
 
+importMethodsFrom(BiocGenerics, plotMA)
+
 importFrom(annotate, getAnnMap, usedChromGenes)
 
 importFrom(Biobase, addVigs2WinMenu, multiassign)
@@ -43,7 +45,7 @@ export(alongChrom,
        openHtmlPage, closeHtmlPage,
        multiecdf, multidensity)
 
-exportMethods(Makesense, imageMap)
+exportMethods(imageMap, Makesense, plotMA)
 
 S3method(multiecdf, formula)
 S3method(multiecdf, matrix)
@@ -55,4 +57,4 @@ S3method(multidensity, matrix)
 S3method(multidensity, list)
 S3method(multidensity, data.frame)
 
-S3method(plotMA, data.frame)
+
