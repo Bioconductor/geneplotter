@@ -1,3 +1,5 @@
+import(methods)
+
 importClassesFrom(Biobase, ExpressionSet)
 
 importClassesFrom(methods, character, list, matrix, missing, oldClass)
@@ -25,8 +27,6 @@ importFrom(grDevices, colorRampPalette, dev.copy, dev.off, pdf, png,
            postscript, rgb)
 
 importFrom(grid, convertUnit, gpar, grid.rect, grid.text, stringWidth, unit)
-
-importFrom(methods, selectMethod)
 
 importFrom(RColorBrewer, brewer.pal)
 
