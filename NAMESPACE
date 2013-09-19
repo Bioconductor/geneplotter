@@ -1,8 +1,8 @@
-import(methods)
+
+## import(methods)
+importClassesFrom(methods, character, list, matrix, missing, oldClass)
 
 importClassesFrom(Biobase, ExpressionSet)
-
-importClassesFrom(methods, character, list, matrix, missing, oldClass)
 
 importMethodsFrom(annotate, chromLengths, chromLocs, chromNames,
                   geneSymbols, organism, probesToChrom)
