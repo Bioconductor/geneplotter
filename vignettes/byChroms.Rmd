@@ -2,7 +2,6 @@
 title: "geneplotter:Graphics related functions for Bioconductor"
 author:
 - name: Robert Gentleman
-  affiliation: "Biocore Team"
 - name: Rohit Satyam
   affiliation: "Vignette translation from Sweave to Rmarkdown / HTML"
 
@@ -49,18 +48,21 @@ table(lens)
 wh2 = mget(names(lens)[lens==2], env = hu6800CHR)
 wh2[1]
 ```
+
 So somehow `r length(wh2)` of the genes are mapped to two
-different chromosomes.  Based on (OMIM)[https://www.omim.org/] the these genes
+different chromosomes.  Based on [OMIM](https://www.omim.org/) the these genes
 are localized to the so called *pseudoautosomal region* where the X and Y
 chromosomes are similar and there is actual recombination going on
 between them. So, we will take the expedient measure of assigning each of them 
 to just one chromosome.
+
 ```{r fixdata}
 chrs2 <- unlist(eapply(hu6800CHR, function(x) x[1]))
 chrs2 <- factor(chrs2)
 length(chrs2)
 table(unlist(chrs2))
 ```
+
 Now we are ready to obtain the chromosome location data and
 orientation.  The chromosome location data tells us the (approximate)
 location of the gene on the chromosome.  The positions for both the
@@ -77,15 +79,17 @@ splits <- split(strand, chrs2)
 length(splits)
 names(splits)
 ```
+
 Now we have processed the data and are ready to construct a new
 `chromLocation` object.
 
 ```{r chrloc}
  newChrClass <- buildChromLocation("hu6800")
 ```
+
 And finally we can test it by calling `cPlot`.
+
 ```{r cPlot, fig=TRUE}
   library(geneplotter)
   cPlot(newChrClass)
 ```
-
