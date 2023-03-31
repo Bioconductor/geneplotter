@@ -62,7 +62,6 @@ chrs2 <- factor(chrs2)
 length(chrs2)
 table(unlist(chrs2))
 ```
-
 Now we are ready to obtain the chromosome location data and
 orientation.  The chromosome location data tells us the (approximate)
 location of the gene on the chromosome.  The positions for both the
@@ -79,7 +78,6 @@ splits <- split(strand, chrs2)
 length(splits)
 names(splits)
 ```
-
 Now we have processed the data and are ready to construct a new
 `chromLocation` object.
 
@@ -88,7 +86,6 @@ Now we have processed the data and are ready to construct a new
 ```
 
 And finally we can test it by calling `cPlot`.
-
 ```{r cPlot, fig=TRUE}
   library(geneplotter)
   cPlot(newChrClass)
