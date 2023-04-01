@@ -16,9 +16,14 @@ output:
 
 #   Overview
 
-In this document we present a brief overview of the visualization methods that are available in Bioconductor project. To make use of these tools you will need the packages: `r Biocpkg("Biobase")`, `r Biocpkg("annotate")`, and `r Biocpkg("geneplotter")`. These must be installed in your version of R and when you start R you must load them with the `library` command.
-
-A quick word of warning regarding the interpretation of these plots. We can only plot where the gene is supposed to be. If there are translocations or amplifications these will not be detected by microarray analyses.
+In this document we present a brief overview of the visualization methods that
+are available in Bioconductor project. To make use of these tools you will need
+the packages: `r Biocpkg("Biobase")`, `r Biocpkg("annotate")`, and `r
+Biocpkg("geneplotter")`. These must be installed in your version of R and when
+you start R you must load them with the `library` command.
+A quick word of warning regarding the interpretation of these plots. We can only
+plot where the gene is supposed to be. If there are translocations or
+amplifications these will not be detected by microarray analyses.
 
 ```{r get1, message=FALSE}
 library(geneplotter)
@@ -26,15 +31,22 @@ library(geneplotter)
 
 #   Whole Genome Plots
 
-The functions `cPlot` and `cColor` allow the user to associate microarray expression data with chromosomal location. The plots can include any subset (by default all chromosomes are shown) of chromosomes for the organism being considered.
-
-To make these plots we use the complete reference set of genes for the organism being studied. We must then obtain the chromosomal location (in bases) and orientation (which strand) the gene is on. Chromosomes are represented by straight lines parallel to the $x$--axis. Genes are represented by short perpendicular lines. All genes for the experiment (i.e. for an Affymetrix U95A analysis we show all genes on the chips).
-
-The user can then change the color of different sets of the genes according to their needs.
-
-The original setup is done using `cPlot`. The subsequent coloring is done using `cColor`.
-
-We will use the example data in `sample.ExpressionSet` to show how this function might be used.
+The functions `cPlot` and `cColor` allow the user to associate microarray
+expression data with chromosomal location. The plots can include any subset (by
+default all chromosomes are shown) of chromosomes for the organism being
+considered.
+To make these plots we use the complete reference set of genes for the organism
+being studied. We must then obtain the chromosomal location (in bases) and
+orientation (which strand) the gene is on. Chromosomes are represented by
+straight lines parallel to the $x$--axis. Genes are represented by short
+perpendicular lines. All genes for the experiment (i.e. for an Affymetrix U95A
+analysis we show all genes on the chips).
+The user can then change the color of different sets of the genes according to
+their needs.
+The original setup is done using `cPlot`. The subsequent coloring is done using
+`cColor`.
+We will use the example data in `sample.ExpressionSet` to show how this function
+might be used.
 
 ```{r start}
 data(sample.ExpressionSet)
@@ -54,7 +66,10 @@ s2class <- cut(s2means, deciles)
 names(s2class) <- names(s2means)
 ```
 
-Next we need to set up the graphics output. We do this in a rather complicated way. In the plot below we can compare the mean expression levels for genes in Group 1 with those in Group 2. The Group 1 values are in the left--hand plot and the Group 2 values are in the right--hand plot.
+Next we need to set up the graphics output. We do this in a rather complicated
+way. In the plot below we can compare the mean expression levels for genes in
+Group 1 with those in Group 2. The Group 1 values are in the left--hand plot and
+the Group 2 values are in the right--hand plot.
 
 ```{r message=FALSE, fig.show='hide'}
 cols <- dChip.colors(10)
@@ -86,10 +101,17 @@ par(def.par)
 
 #   Single Chromosome Plots
 
-A different view of the variation in expression level can be obtained by plotting characteristics of expression levels over contiguous regions of a chromosome. For these plots cumulative expression or per--gene expressions can be plotted. 
-There are some issues of interpretation here (as in most places) -- expression is not likely to be controlled too much by chromosomal locality. However these plots may be helpful in detecting deletions (of both chromatids) or amplifications, or other interesting features of the genome.
+A different view of the variation in expression level can be obtained by
+plotting characteristics of expression levels over contiguous regions of a
+chromosome. For these plots cumulative expression or per--gene expressions can
+be plotted. There are some issues of interpretation here (as in most places) --
+expression is not likely to be controlled too much by chromosomal locality.
+However these plots may be helpful in detecting deletions (of both chromatids)
+or amplifications, or other interesting features of the genome.
 
-In this section we will show how one can explore a particular chromosome for an amplicon. The data arise from a study of breast cancer in the Iglehart Laboratory.
+In this section we will show how one can explore a particular chromosome for an
+amplicon. The data arise from a study of breast cancer in the Iglehart
+Laboratory.
 
 ```{r f22, echo=FALSE, fig.height=6, fig.width=6, fig=TRUE}
 par(mfrow=c(1,1)) 
