@@ -1,12 +1,17 @@
 Package: geneplotter
 Title: Graphics related functions for Bioconductor
 Version: 1.77.0
-Author: R. Gentleman, Biocore
+Authors@R: c(
+    person("Robert", "Gentleman", role = "aut"),
+    person("Sope", "Adeniji", role = "ctb",
+        comment = "Converted visualize vignette from Sweave to RMarkdown / HTML."),
+    person("Bioconductor Package Maintainer",
+        email = "maintainer@bioconductor.org", role = "cre"))
 Description: Functions for plotting genomic data
-Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
 Depends: R (>= 2.10), methods, Biobase, BiocGenerics, lattice, annotate
 Imports: AnnotationDbi, graphics, grDevices, grid, RColorBrewer, stats, utils
-Suggests: Rgraphviz, fibroEset, hgu95av2.db, hu6800.db, hgu133a.db
+Suggests: BiocStyle, knitr, Rgraphviz, fibroEset, hgu95av2.db, hu6800.db, hgu133a.db
 License: Artistic-2.0
 biocViews: Visualization
 LazyLoad: yes
+VignetteBuilder: knitr
