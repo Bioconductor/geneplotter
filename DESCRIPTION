@@ -4,7 +4,7 @@ Version: 1.77.0
 Authors@R: c(
     person("Robert", "Gentleman", role = "aut"),
     person("Rohit", "Satyam", role = "ctb",
-        comment = "Converted YOUR_VIGNETTE_NAME vignette from Sweave to RMarkdown / HTML."),
+        comment = "Converted geneplotter vignette from Sweave to RMarkdown / HTML."),
     person("Bioconductor Package Maintainer",
         email = "maintainer@bioconductor.org", role = "cre"))
 Description: Functions for plotting genomic data
