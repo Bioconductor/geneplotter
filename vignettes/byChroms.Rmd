@@ -1,35 +1,33 @@
 ---
-title: "geneplotter:Graphics related functions for Bioconductor"
+title: "How to Assemble a chromLocation Object"
 author:
 - name: Robert Gentleman
 - name: Rohit Satyam
   affiliation: "Vignette translation from Sweave to Rmarkdown / HTML"
 
 clean: false
-date: "`r Sys.Date()`"
+date: "`r format(Sys.Date(), '%d %B, %Y')`"
 package: geneplotter
       
 vignette: >
- %VignetteIndexEntry{geneplotter:Graphics related functions for Bioconductor}
- %VignetteEngine{knitr::rmarkdown}
- %VignetteEncoding{UTF-8}  
- %VignetteDepends{annotate, hu6800.db}
- %VignetteKeywords{chromosomes}
- %VignettePackage{geneplotter}
- %VignetteAuthor{Robert Gentleman}
+  %VignetteIndexEntry{How to Assemble a chromLocation Object}
+  %VignetteEngine{knitr::rmarkdown}
+  %VignetteEncoding{UTF-8}  
+  %VignetteDepends{annotate, hu6800.db}
+  %VignetteKeywords{chromosomes}
+  %VignettePackage{geneplotter}
+  %VignetteAuthor{Robert Gentleman}
 
-output: 
-    BiocStyle::html_document:
-      toc_float: true
-    BiocStyle::pdf_document: default
+output:
+  BiocStyle::html_document
 ---
+
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,eval = T)
 ```
 
-# How to Assemble a chromLocation Object
 In order to use the various `geneplotter` functions you will
 need to assemble an object of class `chromLocation`.
 This is relatively straightforward if you have access to a Bioconductor
@@ -60,6 +58,7 @@ chrs2 <- factor(chrs2)
 length(chrs2)
 table(unlist(chrs2))
 ```
+
 Now we are ready to obtain the chromosome location data and
 orientation.  The chromosome location data tells us the (approximate)
 location of the gene on the chromosome.  The positions for both the
@@ -76,6 +75,7 @@ splits <- split(strand, chrs2)
 length(splits)
 names(splits)
 ```
+
 Now we have processed the data and are ready to construct a new
 `chromLocation` object.
 
@@ -84,7 +84,11 @@ Now we have processed the data and are ready to construct a new
 ```
 
 And finally we can test it by calling `cPlot`.
+
 ```{r cPlot, fig=TRUE}
-  library(geneplotter)
-  cPlot(newChrClass)
+library(geneplotter)
+## Reorder Chromosomes
+newChrClass@chromLocs <- newChrClass@chromLocs[order(as.numeric(names(newChrClass@chromLocs)))]
+newChrClass@chromInfo <- newChrClass@chromInfo[order(as.numeric(names(newChrClass@chromInfo)))]
+cPlot(newChrClass,useChroms = as.character(c(names(splits),"X","Y","M")))
 ```
