@@ -10,13 +10,13 @@ date: "`r format(Sys.Date(), '%d %B, %Y')`"
 package: geneplotter
       
 vignette: >
-  %VignetteIndexEntry{How to Assemble a chromLocation Object}
-  %VignetteEngine{knitr::rmarkdown}
-  %VignetteEncoding{UTF-8}  
-  %VignetteDepends{annotate, hu6800.db}
-  %VignetteKeywords{chromosomes}
-  %VignettePackage{geneplotter}
-  %VignetteAuthor{Robert Gentleman}
+  %\VignetteIndexEntry{How to Assemble a chromLocation Object}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}  
+  %\VignetteDepends{annotate, hu6800.db}
+  %\VignetteKeywords{chromosomes}
+  %\VignettePackage{geneplotter}
+  %\VignetteAuthor{Robert Gentleman}
 
 output:
   BiocStyle::html_document
