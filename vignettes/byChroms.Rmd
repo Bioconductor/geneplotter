@@ -24,8 +24,7 @@ output:
 
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,eval = T)
+knitr::opts_chunk$set(collapse=TRUE)
 ```
 
 In order to use the various `geneplotter` functions you will

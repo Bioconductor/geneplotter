@@ -1,6 +1,6 @@
 Package: geneplotter
 Title: Graphics related functions for Bioconductor
-Version: 1.79.0
+Version: 1.79.1
 Authors@R: c(
     person("Robert", "Gentleman", role = "aut"),
     person("Rohit", "Satyam", role = "ctb",
