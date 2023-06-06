@@ -1,12 +1,12 @@
 Package: geneplotter
 Title: Graphics related functions for Bioconductor
-Version: 1.77.0
+Version: 1.79.0
 Authors@R: c(
     person("Robert", "Gentleman", role = "aut"),
     person("Rohit", "Satyam", role = "ctb",
-        comment = "Converted geneplotter vignette from Sweave to RMarkdown / HTML."),
-    person("Bioconductor Package Maintainer",
-        email = "maintainer@bioconductor.org", role = "cre"))
+            comment = "Converted geneplotter vignette from Sweave to RMarkdown / HTML."),
+    person("Bioconductor Package Maintainer", role = "cre",
+            email = "maintainer@bioconductor.org"))
 Description: Functions for plotting genomic data
 Depends: R (>= 2.10), methods, Biobase, BiocGenerics, lattice, annotate
 Imports: AnnotationDbi, graphics, grDevices, grid, RColorBrewer, stats, utils
